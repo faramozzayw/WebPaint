@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import color from './store/reducers/color.js';
+import penProperty from './store/reducers/penProperty.js';
 
 const rootReducer = combineReducers({
-	"color": color
+	"penProperty": penProperty
 });
 
 export default rootReducer;
