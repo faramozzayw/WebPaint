@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { devToolsEnhancer } from 'redux-devtools-extension';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, compose, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
@@ -10,9 +10,15 @@ import App from './components/App';
 import './css/index.css';
 
 import * as serviceWorker from './serviceWorker';
+import rootReducer from './rootReducer';
 
-//import * as reducers from './store/reducers';
-const store = createStore(/*combineReducers(reducers),*/ applyMiddleware(thunk), devToolsEnhancer()) 
+const store = createStore(
+	rootReducer,
+	compose(
+		applyMiddleware(thunk), 
+		devToolsEnhancer()
+	)
+);
 
 
 ReactDOM.render(
