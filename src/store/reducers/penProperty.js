@@ -7,6 +7,11 @@ export default (state = penProperty, action) => {
 				...state,
 				color: action.payload
 			}
+		case 'CHANGE_THICKNESS':
+			return {
+				...state,
+				thickness:action.payload
+			}
 		default:
 			return state;
 	}
