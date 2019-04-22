@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types'
 
-export default class Canvas extends Component {
+class Canvas extends Component {
 	state = {
 		isDrawing: false,
 		lastX: 0,
@@ -73,3 +75,17 @@ export default class Canvas extends Component {
 		);
 	}
 }
+
+Canvas.propTypes = {
+	color: PropTypes.string.isRequired,
+	thickness: PropTypes.string.isRequired
+}
+
+const mapStateToProps = state => {
+	return {
+		color: state.penProperty.color,
+		thickness: state.penProperty.thickness
+	}
+}
+
+export default connect(mapStateToProps)(Canvas);
