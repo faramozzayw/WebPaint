@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "04797446bff6da727e8a",
-    "url": "/WebPaint/static/css/main.708fbd5d.chunk.css"
+    "revision": "152597099f8f7add237d",
+    "url": "/WebPaint/static/css/main.18c8a42a.chunk.css"
   },
   {
-    "revision": "04797446bff6da727e8a",
-    "url": "/WebPaint/static/js/main.b5284128.chunk.js"
+    "revision": "152597099f8f7add237d",
+    "url": "/WebPaint/static/js/main.39e31a48.chunk.js"
   },
   {
     "revision": "fb0429021aaccacedb0e",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/WebPaint/static/js/2.df92c016.chunk.js"
   },
   {
-    "revision": "3d8899d1ac71c4407120dec2f6066c8e",
+    "revision": "2ce100731ce66e2b2a370febd2fdd592",
     "url": "/WebPaint/index.html"
   }
 ];
