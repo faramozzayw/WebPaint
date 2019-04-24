@@ -14,3 +14,21 @@ body {
 	overflow: hidden;
  	height: inherit;
 }
+
+.cursor {
+	top: 0;
+	left: 0;
+	width: 16px;
+	height: 16px;
+	border: 3px solid orange;
+	border-radius: 50%;
+	position: absolute;
+	z-index: 1010;
+	pointer-events: none;
+	position: fixed;
+}
+
+#draw {
+	z-index: 100;
+	cursor: none;
+}

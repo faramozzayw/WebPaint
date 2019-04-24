@@ -4,9 +4,7 @@ import { bindActionCreators } from 'redux';
 import { changeColor }  from './../../store/actions/colorActions';
 
 class ColorPicker extends Component {
-	handleChange = event => {
-		this.props.changeColor(event.target.value);
-	}
+	handleChange = event => this.props.changeColor(event.target.value);
 
 	render() {
 		return (

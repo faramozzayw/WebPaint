@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux';
+import { clearCanvas }  from './../store/actions/clearCanvas';
 
 class Canvas extends Component {
 	state = {
@@ -9,13 +11,11 @@ class Canvas extends Component {
 		lastY: 0
 	}
 
-	getCanvas = () => {
-		return this.refs.canvas;
-	}
+	getCanvas = () => this.refs.canvas
 
-	getCanvasContext = () => {
-		return this.getCanvas().getContext('2d');
-	}
+	getCanvasContext = () => this.getCanvas().getContext('2d')
+
+	getCursor = () => document.querySelector('.cursor');
 
 	componentDidMount() {
 		const canvas = this.getCanvas();
@@ -24,18 +24,42 @@ class Canvas extends Component {
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight;
 
-		ctx.strokeStyle = "orange";
+		ctx.strokeStyle = this.props.color;
 		ctx.lineJoin = "round";
 		ctx.lineCap = "round";
-		ctx.lineWidth = 10;
+		ctx.lineWidth = this.props.thickness;
+	}
+
+	componentDidUpdate() {
+		if (this.props.clear) {
+			const ctx = this.getCanvasContext();
+			ctx.clearRect(0,0, window.innerWidth, window.innerHeight);
+			this.props.clearCanvas(false);
+		}
+	}
+
+	cursor = e => {
+		const cursor = this.getCursor();
+
+		cursor.style.width = `${this.props.thickness + 5}px`;
+		cursor.style.height = `${this.props.thickness + 2}px`;
+
+		cursor.style.top = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
+		cursor.style.bottom = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
+		cursor.style.left = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
+		cursor.style.right = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
+		cursor.style.borderColor  = `${this.props.color}`;
 	}
 
 	draw = e => {
+		this.cursor(e);
+
 		const ctx = this.getCanvasContext();
+		ctx.lineWidth = this.props.thickness;
 
 		if (this.state.isDrawing) {
 			ctx.beginPath();
-			ctx.strokeStyle = 'orange';
+			ctx.strokeStyle = this.props.color;
 			ctx.moveTo(this.state.lastX, this.state.lastY);
 			ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 			ctx.stroke();
@@ -49,7 +73,10 @@ class Canvas extends Component {
 
 	render() {
 		return (
-				<canvas 
+			<div>
+			<div className="cursor"></div>
+				<canvas
+					id="draw"
 					ref="canvas" 
 					className="uk-width-1-1"
 					onMouseMove={this.draw.bind(this)}
@@ -58,8 +85,8 @@ class Canvas extends Component {
 							isDrawing: true,
 							lastX: e.nativeEvent.offsetX,
 							lastY: e.nativeEvent.offsetY
-						})}
-					}
+						})
+					}}
 					onMouseUp={e => {
 						this.setState({
 							isDrawing: false
@@ -72,20 +99,29 @@ class Canvas extends Component {
 					}}
 					>
 				</canvas>
+			</div>
 		);
 	}
 }
 
 Canvas.propTypes = {
 	color: PropTypes.string.isRequired,
-	thickness: PropTypes.string.isRequired
+	thickness: PropTypes.number.isRequired,
+	clear: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => {
 	return {
 		color: state.penProperty.color,
-		thickness: state.penProperty.thickness
+		thickness: state.penProperty.thickness,
+		clear: state.canvasState.clear
 	}
 }
 
-export default connect(mapStateToProps)(Canvas);
+const mapDispatchToProps = dispatch => {
+	return bindActionCreators({
+		clearCanvas: clearCanvas
+	}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

@@ -6,10 +6,10 @@ import Canvas from './Canvas';
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Panel />
-        <Canvas />
-      </div>
+			<div className="App">
+				<Panel />
+				<Canvas />
+			</div>
     );
   }
 }

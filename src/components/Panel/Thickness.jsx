@@ -12,17 +12,26 @@ class Thickness extends Component {
 			<div>
 				<label>Толщина шрифта:
 					<select className="uk-select" onChange={this.handleChange.bind(this)}>
-						<option value="6px">
-							6px
+						<option value="1">
+							1
 						</option>
-						<option value="12px">
-							12px
+						<option value="2">
+							2
 						</option>
-						<option value="18px">
-							18px
+						<option value="4">
+							4
 						</option>
-						<option value="24px">
-							24px
+						<option value="8">
+							8
+						</option>
+						<option value="16">
+							16
+						</option>
+						<option value="32">
+							32
+						</option>
+						<option value="64">
+							64
 						</option>
 					</select>
 				</label>

@@ -1,6 +1,6 @@
 const penProperty = {
-	color: '#ffffff',
-	thickness: '6px'
+	color: '#000000',
+	thickness: 1
 }
 
 export default penProperty;
