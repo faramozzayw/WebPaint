@@ -42,13 +42,13 @@ class Canvas extends Component {
 		const cursor = this.getCursor();
 
 		cursor.style.width = `${this.props.thickness + 5}px`;
-		cursor.style.height = `${this.props.thickness + 2}px`;
+		cursor.style.height = `${this.props.thickness + 5}px`;
 
 		cursor.style.top = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
 		cursor.style.bottom = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
 		cursor.style.left = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
 		cursor.style.right = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
-		cursor.style.borderColor  = `${this.props.color}`;
+		cursor.style.backgroundColor  = `${this.props.color}`;
 	}
 
 	draw = e => {
