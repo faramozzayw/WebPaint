@@ -9,7 +9,7 @@ class App extends Component {
   	const app = !(window.innerWidth < 768) ? (<div className="App">
 			<Panel />
 			<Canvas /> 
-		</div>): <DisplayError />;
+		</div>) : <DisplayError />;
 
     return (
     	<div>

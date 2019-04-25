@@ -7,7 +7,7 @@ class SaveButton extends Component {
 		this.props.ctx.save();
 
 		let link = this.refs.link;
-		link.href = this.props.canvas.toDataURL('image/png');
+		link.href = document.querySelector('#draw').toDataURL('image/png');
 		link.download = 'canvasImage.png';
 		link.click();
 
@@ -20,9 +20,10 @@ class SaveButton extends Component {
 				<a
 					ref="link"
 					id="saveButton" 
-					className="uk-button uk-button-danger" 
+					className="uk-icon-link uk-icon-button"
+					uk-icon="download"  
 					onClick={this.saveCanvasAsImg.bind(this)}
-				>Сохранить холст</a>
+				></a>
 			</div>
 		);
 	}
@@ -30,14 +31,12 @@ class SaveButton extends Component {
 
 const mapStateToProps = state => {
 	return {
-		canvas: state.canvasState.canvas,
 		ctx: state.canvasState.ctx
 	}
 }
 
 SaveButton.propTypes = {
-	ctx: PropTypes.object,
-	canvas: PropTypes.object
+	ctx: PropTypes.object
 }
 
 export default connect(mapStateToProps)(SaveButton);

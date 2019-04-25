@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
-import { setCanvas, setContext }  from './../store/actions/canvasActions';
+import { setContext, updatePipetting }  from './../store/actions/canvasActions';
+import { changeColor } from './../store/actions/penActions';
 
 class Canvas extends Component {
 	state = {
 		isDrawing: false,
 		lastX: 0,
-		lastY: 0
+		lastY: 0,
+		color: null
 	};
 
 	getCanvas = () => this.refs.canvas;
@@ -22,7 +24,6 @@ class Canvas extends Component {
 		const ctx = this.getCanvasContext();
 
 		this.props.setContext(ctx);
-		this.props.setCanvas(canvas);
 
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight - document.querySelector('.uk-navbar-container').clientHeight;
@@ -64,6 +65,19 @@ class Canvas extends Component {
 		}
 	}
 
+	pickColor = e => {
+		if (this.props.pipettingColor) {
+			const x = e.nativeEvent.offsetX;
+			const y = e.nativeEvent.offsetY;
+	
+			const imgData = this.props.ctx.getImageData(x, y, 1, 1);
+			console.log("imgData", imgData);
+			const pix = imgData.data;
+			this.props.changeColor(`rgba(${pix.join(',')})`);
+			this.props.updatePipetting(false);
+		}
+	}
+
 	render() {
 		return (
 			<div>
@@ -90,6 +104,7 @@ class Canvas extends Component {
 							isDrawing: false
 						})
 					}}
+					onClick={this.pickColor.bind(this)}
 					>
 				</canvas>
 			</div>
@@ -97,31 +112,30 @@ class Canvas extends Component {
 	}
 }
 
-Canvas.propTypes = {
-	color: PropTypes.string.isRequired,
-	thickness: PropTypes.number.isRequired,
-	setContext: PropTypes.func.isRequired,
-	setCanvas: PropTypes.func.isRequired,
-	ctx: PropTypes.object,
-	canvas: PropTypes.object,
-	isDrawing: PropTypes.bool.isRequired
-}
-
 const mapStateToProps = state => {
 	return {
 		color: state.penProperty.color,
 		thickness: state.penProperty.thickness,
 		ctx: state.canvasState.ctx,
-		canvas: state.canvasState.canvas,
-		isDrawing: state.canvasState.isDrawing
+		pipettingColor: state.canvasState.pipettingColor
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
 		setContext: setContext,
-		setCanvas: setCanvas
+		changeColor: changeColor,
+		updatePipetting: updatePipetting
 	}, dispatch);
+}
+
+Canvas.propTypes = {
+	color: PropTypes.string.isRequired,
+	thickness: PropTypes.number.isRequired,
+	setContext: PropTypes.func.isRequired,
+	ctx: PropTypes.object,
+	changeColor: PropTypes.func.isRequired,
+	updatePipetting: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

@@ -10,7 +10,12 @@ class ClearButton extends Component {
 	render() {
 		return (
 			<div className="uk-margin-small-top">
-				<button id="clearButton" className="uk-button uk-button-danger" onClick={this.handleClick.bind(this)}>Очистить холст!</button>
+				<span 
+					id="clearButton" 
+					className="uk-icon-link uk-icon-button" 
+					uk-icon="trash" 
+					onClick={this.handleClick.bind(this)}
+				></span>
 			</div>
 		);
 	}

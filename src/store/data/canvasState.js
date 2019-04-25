@@ -1,7 +1,6 @@
 const canvasState = {
-	canvas: {},
 	ctx: {},
-	isDrawing: false
+	pipettingColor: false
 }
 
 export default canvasState;

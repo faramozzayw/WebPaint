@@ -3,6 +3,7 @@ import Thickness from './Panel/Thickness';
 import ColorPicker from './Panel/ColorPicker';
 import ClearButton from './Panel/ClearButton';
 import SaveButton from './Panel/SaveButton';
+import Pipette from './Panel/Pipette';
 
 export default class Panel extends Component {
 	render() {
@@ -22,6 +23,9 @@ export default class Panel extends Component {
 							</li>
 							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
 								<SaveButton />
+							</li>
+							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right" title="Пипетка">
+								<Pipette />
 							</li>
 						</ul>
 					</div>
