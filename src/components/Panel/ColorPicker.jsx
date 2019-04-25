@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { changeColor }  from './../../store/actions/colorActions';
+import { changeColor }  from './../../store/actions/penActions';
 
 class ColorPicker extends Component {
 	handleChange = event => this.props.changeColor(event.target.value);

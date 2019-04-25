@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { changeThickness }  from './../../store/actions/thicknessChange';
+import { changeThickness }  from './../../store/actions/penActions';
 
 class Thickness extends Component {
 	handleChange = event => this.props.changeThickness(event.target.value);

@@ -1,6 +1,7 @@
 const canvasState = {
 	canvas: {},
-	ctx: {}
+	ctx: {},
+	isDrawing: false
 }
 
 export default canvasState;

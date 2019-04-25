@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
-import { getCanvas }  from './../store/actions/getCanvas';
-import { getContext }  from './../store/actions/getContext';
+import { setCanvas, setContext }  from './../store/actions/canvasActions';
 
 class Canvas extends Component {
 	state = {
@@ -22,8 +21,8 @@ class Canvas extends Component {
 		const canvas = this.getCanvas();
 		const ctx = this.getCanvasContext();
 
-		this.props.getContext(ctx);
-		this.props.getCanvas(canvas);
+		this.props.setContext(ctx);
+		this.props.setCanvas(canvas);
 
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight - document.querySelector('.uk-navbar-container').clientHeight;
@@ -101,10 +100,11 @@ class Canvas extends Component {
 Canvas.propTypes = {
 	color: PropTypes.string.isRequired,
 	thickness: PropTypes.number.isRequired,
-	getContext: PropTypes.func.isRequired,
-	getCanvas: PropTypes.func.isRequired,
+	setContext: PropTypes.func.isRequired,
+	setCanvas: PropTypes.func.isRequired,
 	ctx: PropTypes.object,
-	canvas: PropTypes.object
+	canvas: PropTypes.object,
+	isDrawing: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => {
@@ -112,14 +112,15 @@ const mapStateToProps = state => {
 		color: state.penProperty.color,
 		thickness: state.penProperty.thickness,
 		ctx: state.canvasState.ctx,
-		canvas: state.canvasState.canvas
+		canvas: state.canvasState.canvas,
+		isDrawing: state.canvasState.isDrawing
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
-		getContext: getContext,
-		getCanvas: getCanvas
+		setContext: setContext,
+		setCanvas: setCanvas
 	}, dispatch);
 }
 
