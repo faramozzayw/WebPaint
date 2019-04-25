@@ -1,5 +1,6 @@
 const canvasState = {
-	clear: false
+	canvas: {},
+	ctx: {}
 }
 
 export default canvasState;

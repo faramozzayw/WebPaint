@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Thickness from './Panel/Thickness';
 import ColorPicker from './Panel/ColorPicker';
 import ClearButton from './Panel/ClearButton';
+import SaveButton from './Panel/SaveButton';
 
 export default class Panel extends Component {
 	render() {
@@ -18,6 +19,9 @@ export default class Panel extends Component {
 							</li>
 							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
 								<ClearButton />
+							</li>
+							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
+								<SaveButton />
 							</li>
 						</ul>
 					</div>

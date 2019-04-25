@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { clearCanvas }  from './../../store/actions/clearCanvas';
+import PropTypes from 'prop-types'
 
 class ClearButton extends Component {
-	handleClick = event => this.props.clearCanvas(true);
+	handleClick = () => {
+		this.props.ctx.clearRect(0,0, window.innerWidth, window.innerHeight);
+	};
 
 	render() {
 		return (
@@ -17,14 +18,14 @@ class ClearButton extends Component {
 
 const mapStateToProps = state => {
 	return {
-		clear: state.canvasState.clear
+		clear: state.canvasState.clear,
+		ctx: state.canvasState.ctx
 	}
 }
 
-const mapDispatchToProps = dispatch => {
-	return bindActionCreators({
-		clearCanvas: clearCanvas
-	}, dispatch);
+ClearButton.propTypes = {
+	ctx: PropTypes.object,
+	canvas: PropTypes.object
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClearButton);
+export default connect(mapStateToProps)(ClearButton);
