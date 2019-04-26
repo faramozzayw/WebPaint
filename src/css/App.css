@@ -37,6 +37,13 @@ body {
 	background-repeat: no-repeat;
 }
 
+.eraser {
+	background-image: url(../img/eraser.png);
+	background-position: center; 
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
 #draw {
 	z-index: 100;
 	cursor: none;

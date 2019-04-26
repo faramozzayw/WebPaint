@@ -48,6 +48,8 @@ class Canvas extends Component {
 			cursor.style.backgroundColor  = `${this.props.color}`;
 		} else if (this.props.penType === 'pipette') {
 			cursor.style.backgroundColor  = `${this.props.pipetteColor}`;
+		} else if (this.props.penType === 'eraser') {
+			cursor.style.backgroundColor = '#ffffff';
 		}
 	};
 
@@ -69,6 +71,17 @@ class Canvas extends Component {
 		} else if (this.state.isDrawing && this.props.penType === 'pipette') {
 			this.props.ctx.beginPath();
 			this.props.ctx.strokeStyle = this.props.pipetteColor;
+			this.props.ctx.moveTo(this.state.lastX, this.state.lastY);
+			this.props.ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+			this.props.ctx.stroke();
+
+			this.setState({
+				lastX: e.nativeEvent.offsetX,
+				lastY: e.nativeEvent.offsetY
+			})
+		} else if (this.state.isDrawing && this.props.penType === 'eraser') {
+			this.props.ctx.beginPath();
+			this.props.ctx.strokeStyle = '#ffffff';
 			this.props.ctx.moveTo(this.state.lastX, this.state.lastY);
 			this.props.ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 			this.props.ctx.stroke();

@@ -5,14 +5,12 @@ import { bindActionCreators } from 'redux';
 import { changePenType }  from './../../store/actions/canvasActions';
 
 class Pipette extends Component {
-	handleClick = () => this.props.changePenType('pipette');
-
 	render() {
 		return (
 			<div className="uk-margin-small-top">
 				<span 
 					className="uk-margin-small-right uk-icon uk-icon-button uk-icon-image pipette" 
-					onClick={this.handleClick.bind(this)}
+					onClick={() => this.props.changePenType('pipette')}
 				></span>
 			</div>
 		);

@@ -5,6 +5,7 @@ import ClearButton from './Panel/ClearButton';
 import SaveButton from './Panel/SaveButton';
 import Pipette from './Panel/Pipette';
 import Pen from './Panel/Pen';
+import Eraser from './Panel/Eraser';
 
 export default class Panel extends Component {
 	render() {
@@ -19,11 +20,14 @@ export default class Panel extends Component {
 							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
 								<Thickness />
 							</li>
-							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right" title="Пипетка">
+							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
 								<Pen />
 							</li>
-							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right" title="Пипетка">
+							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
 								<Pipette />
+							</li>
+							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
+								<Eraser />
 							</li>
 							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
 								<ClearButton />

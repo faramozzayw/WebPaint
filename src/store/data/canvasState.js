@@ -9,4 +9,5 @@ export default canvasState;
 	penType:
 		pencil
 		pipette
+		eraser
 */
