@@ -1,6 +1,12 @@
 const canvasState = {
 	ctx: {},
-	pipettingColor: false
+	penType: 'pencil'
 }
 
 export default canvasState;
+
+/*
+	penType:
+		pencil
+		pipette
+*/

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
-import { setContext, updatePipetting }  from './../store/actions/canvasActions';
-import { changeColor } from './../store/actions/penActions';
+import { setContext }  from './../store/actions/canvasActions';
+import { changeColor, changePipetteColor } from './../store/actions/penActions';
 
 class Canvas extends Component {
 	state = {
@@ -44,16 +44,31 @@ class Canvas extends Component {
 		cursor.style.bottom = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
 		cursor.style.left = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
 		cursor.style.right = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
-		cursor.style.backgroundColor  = `${this.props.color}`;
+		if (this.props.penType === 'pencil') {
+			cursor.style.backgroundColor  = `${this.props.color}`;
+		} else if (this.props.penType === 'pipette') {
+			cursor.style.backgroundColor  = `${this.props.pipetteColor}`;
+		}
 	};
 
 	draw = e => {
 		this.cursor(e);
 		this.props.ctx.lineWidth = this.props.thickness;
 
-		if (this.state.isDrawing) {
+		if (this.state.isDrawing && this.props.penType === 'pencil') {
 			this.props.ctx.beginPath();
 			this.props.ctx.strokeStyle = this.props.color;
+			this.props.ctx.moveTo(this.state.lastX, this.state.lastY);
+			this.props.ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+			this.props.ctx.stroke();
+
+			this.setState({
+				lastX: e.nativeEvent.offsetX,
+				lastY: e.nativeEvent.offsetY
+			})
+		} else if (this.state.isDrawing && this.props.penType === 'pipette') {
+			this.props.ctx.beginPath();
+			this.props.ctx.strokeStyle = this.props.pipetteColor;
 			this.props.ctx.moveTo(this.state.lastX, this.state.lastY);
 			this.props.ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 			this.props.ctx.stroke();
@@ -66,15 +81,13 @@ class Canvas extends Component {
 	}
 
 	pickColor = e => {
-		if (this.props.pipettingColor) {
+		if (this.props.penType === 'pipette') {
 			const x = e.nativeEvent.offsetX;
 			const y = e.nativeEvent.offsetY;
 	
 			const imgData = this.props.ctx.getImageData(x, y, 1, 1);
-			console.log("imgData", imgData);
 			const pix = imgData.data;
-			this.props.changeColor(`rgba(${pix.join(',')})`);
-			this.props.updatePipetting(false);
+			this.props.changePipetteColor(`rgba(${pix.join(',')})`);
 		}
 	}
 
@@ -117,7 +130,8 @@ const mapStateToProps = state => {
 		color: state.penProperty.color,
 		thickness: state.penProperty.thickness,
 		ctx: state.canvasState.ctx,
-		pipettingColor: state.canvasState.pipettingColor
+		pipetteColor: state.penProperty.pipetteColor,
+		penType: state.canvasState.penType
 	}
 }
 
@@ -125,7 +139,7 @@ const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
 		setContext: setContext,
 		changeColor: changeColor,
-		updatePipetting: updatePipetting
+		changePipetteColor: changePipetteColor
 	}, dispatch);
 }
 
@@ -135,7 +149,7 @@ Canvas.propTypes = {
 	setContext: PropTypes.func.isRequired,
 	ctx: PropTypes.object,
 	changeColor: PropTypes.func.isRequired,
-	updatePipetting: PropTypes.func.isRequired
+	changePipetteColor: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

@@ -12,6 +12,11 @@ export default (state = penProperty, action) => {
 				...state,
 				thickness: Number(action.payload)
 			}
+		case 'CHANGE_PIPETTE_COLOR':
+			return {
+				...state,
+				pipetteColor: action.payload
+			}
 		default:
 			return state;
 	}

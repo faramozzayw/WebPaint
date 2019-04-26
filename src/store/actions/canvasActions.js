@@ -5,9 +5,9 @@ export const setContext = value => {
 	}
 }
 
-export const updatePipetting = value => {
+export const changePenType = value => {
 	return {
-		type: 'UPDATE_PIPETTING',
+		type: 'CHANGE_PEN_TYPE',
 		payload: value
 	}
 }

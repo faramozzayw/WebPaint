@@ -7,10 +7,10 @@ export default (state = canvasState, action) => {
 				...state,
 				ctx: action.payload
 			}
-		case 'UPDATE_PIPETTING':
+		case 'CHANGE_PEN_TYPE': 
 			return {
 				...state,
-				pipettingColor: action.payload
+				penType: action.payload
 			}
 		default:
 			return state;

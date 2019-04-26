@@ -10,7 +10,11 @@ class ColorPicker extends Component {
 		return (
 			<div className="uk-flex uk-flex-column">
 				<label htmlFor="colorPicker">Цвет:</label>
-				<input type="color" id="colorPicker" onChange={this.handleChange.bind(this)} />
+				<input 
+					type="color" 
+					id="colorPicker" 
+					onChange={this.handleChange.bind(this)} 
+				/>
 			</div>
 		);
 	}

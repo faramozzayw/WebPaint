@@ -4,14 +4,15 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
 import { changePenType }  from './../../store/actions/canvasActions';
 
-class Pipette extends Component {
-	handleClick = () => this.props.changePenType('pipette');
+class Pen extends Component {
+	handleClick = () => this.props.changePenType('pencil');
 
 	render() {
 		return (
 			<div className="uk-margin-small-top">
 				<span 
-					className="uk-margin-small-right uk-icon uk-icon-button uk-icon-image pipette" 
+					className="uk-margin-small-right uk-icon uk-icon-button" 
+					uk-icon="pencil" 
 					onClick={this.handleClick.bind(this)}
 				></span>
 			</div>
@@ -31,8 +32,8 @@ const mapDispatchToProps = dispatch => {
 	}, dispatch);
 }
 
-Pipette.propTypes = {
+Pen.propTypes = {
 	changePenType: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Pipette);
+export default connect(mapStateToProps, mapDispatchToProps)(Pen);
