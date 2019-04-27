@@ -6,6 +6,7 @@ import SaveButton from './Panel/SaveButton';
 import Pipette from './Panel/Pipette';
 import Pen from './Panel/Pen';
 import Eraser from './Panel/Eraser';
+import UploadButton from './Panel/UploadButton'
 
 export default class Panel extends Component {
 	render() {
@@ -34,6 +35,9 @@ export default class Panel extends Component {
 							</li>
 							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
 								<SaveButton />
+							</li>
+							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
+								<UploadButton />
 							</li>
 						</ul>
 					</div>
