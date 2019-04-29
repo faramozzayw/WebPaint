@@ -9,7 +9,7 @@ class Pen extends Component {
 		return (
 			<div className="uk-margin-small-top">
 				<span 
-					className="uk-margin-small-right uk-icon uk-icon-button" 
+					className="uk-icon uk-icon-button" 
 					uk-icon="pencil" 
 					onClick={() => this.props.changePenType('pencil')}
 				></span>

@@ -9,7 +9,7 @@ class Pipette extends Component {
 		return (
 			<div className="uk-margin-small-top">
 				<span 
-					className="uk-margin-small-right uk-icon uk-icon-button uk-icon-image pipette" 
+					className="uk-icon uk-icon-button uk-icon-image pipette" 
 					onClick={() => this.props.changePenType('pipette')}
 				></span>
 			</div>

@@ -9,7 +9,7 @@ class Eraser extends Component {
 		return (
 			<div className="uk-margin-small-top">
 				<span 
-					className="uk-margin-small-right uk-icon uk-icon-button uk-icon-image eraser" 
+					className="uk-icon uk-icon-button uk-icon-image eraser" 
 					onClick={() => this.props.changePenType('eraser')}
 				></span>
 			</div>

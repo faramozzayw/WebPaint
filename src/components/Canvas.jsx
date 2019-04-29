@@ -55,7 +55,7 @@ class Canvas extends Component {
 		cursor.style.top = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
 		cursor.style.left = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
 
-		if (this.props.penType === 'pencil') {
+		if (this.props.penType === 'pencil' || this.props.penType === 'paint-bucket') {
 			cursor.style.backgroundColor  = `${this.props.color}`;
 		} else if (this.props.penType === 'pipette') {
 			cursor.style.backgroundColor  = `${this.props.pipetteColor}`;
@@ -112,7 +112,6 @@ class Canvas extends Component {
 	
 		const imgData = this.props.ctx.getImageData(x, y, 1, 1);
 		const pix = imgData.data;
-		console.log(`rgba(${pix.join(',')})`);
 		this.props.changePipetteColor(`rgba(${pix.join(',')})`);
 	};
 
@@ -132,7 +131,6 @@ class Canvas extends Component {
 			g: imgData.data[1],
 			b: imgData.data[2]
 		}
-		console.log(backgroundColor);
 
 		while (stack.length > 0) {   
 			pixel = stack.pop();
