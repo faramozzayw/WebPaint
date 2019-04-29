@@ -10,4 +10,5 @@ export default canvasState;
 		pencil
 		pipette
 		eraser
+		paint-bucket
 */

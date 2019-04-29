@@ -7,6 +7,7 @@ import Pipette from './Panel/Pipette';
 import Pen from './Panel/Pen';
 import Eraser from './Panel/Eraser';
 import UploadButton from './Panel/UploadButton'
+import FloodFill from './Panel/FloodFill';
 
 export default class Panel extends Component {
 	render() {
@@ -29,6 +30,9 @@ export default class Panel extends Component {
 							</li>
 							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
 								<Eraser />
+							</li>
+							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
+								<FloodFill />
 							</li>
 							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
 								<ClearButton />
