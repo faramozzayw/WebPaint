@@ -40,6 +40,7 @@ class Canvas extends Component {
 		ctx.lineJoin = "round";
 		ctx.lineCap = "round";
 		ctx.lineWidth = this.props.thickness;
+		ctx.miterLimit = 1.0;
 	}
 
 	cursor = e => {
@@ -114,7 +115,6 @@ class Canvas extends Component {
 
 	floodFill = e => {
 		let color = hexToRGB(this.props.color);
-		console.log("color", color);
 		let imageData = this.props.ctx.getImageData(0, 0, this.getCanvas().width, this.getCanvas().height);
 		let [width, height] = [imageData.width, imageData.height];
 		let [x, y] = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
@@ -122,6 +122,14 @@ class Canvas extends Component {
 		let stack = [[x, y]];
 		let pixel;
 		let [red, green, blue] = [0, 0, 0];
+
+		const imgData = this.props.ctx.getImageData(x, y, 1, 1)
+		const backgroundColor = {
+			r: imgData.data[0],
+			g: imgData.data[1],
+			b: imgData.data[2]
+		}
+		console.log(backgroundColor);
 
 		while (stack.length > 0) {   
 			pixel = stack.pop();
@@ -138,7 +146,8 @@ class Canvas extends Component {
 				b: imageData.data[blue]
 			}
 
-			if (pointColor.r !== color.r || pointColor.g !== color.g || pointColor.b !== color.b) {
+			if ((pointColor.r !== color.r || pointColor.g !== color.g || pointColor.b !== color.b)
+				&& (pointColor.r === backgroundColor.r && pointColor.g === backgroundColor.g && pointColor.b === backgroundColor.b)) {
 				imageData.data[red] = color.r;
 				imageData.data[green] = color.g;
 				imageData.data[blue] = color.b;
