@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "a7c49acf916dc8d47d24",
+    "revision": "a89bbf83d26a2bd7e145",
     "url": "/WebPaint/static/css/main.dae53096.chunk.css"
   },
   {
-    "revision": "a7c49acf916dc8d47d24",
-    "url": "/WebPaint/static/js/main.c0c2b727.chunk.js"
+    "revision": "a89bbf83d26a2bd7e145",
+    "url": "/WebPaint/static/js/main.c56a4311.chunk.js"
   },
   {
     "revision": "fb0429021aaccacedb0e",
@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/WebPaint/static/media/eraser.83122748.png"
   },
   {
-    "revision": "4bfac95a8c540db26b7b22f7732fb335",
+    "revision": "a43a642b672fccf57351236ee7b6328a",
     "url": "/WebPaint/index.html"
   }
 ];
