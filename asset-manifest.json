@@ -1,14 +1,14 @@
 {
-  "main.css": "/WebPaint/static/css/main.dae53096.chunk.css",
-  "main.js": "/WebPaint/static/js/main.c56a4311.chunk.js",
-  "main.js.map": "/WebPaint/static/js/main.c56a4311.chunk.js.map",
+  "main.css": "/WebPaint/static/css/main.76bb11dd.chunk.css",
+  "main.js": "/WebPaint/static/js/main.ed8e73e6.chunk.js",
+  "main.js.map": "/WebPaint/static/js/main.ed8e73e6.chunk.js.map",
   "runtime~main.js": "/WebPaint/static/js/runtime~main.e73fb69d.js",
   "runtime~main.js.map": "/WebPaint/static/js/runtime~main.e73fb69d.js.map",
-  "static/js/2.73c070b4.chunk.js": "/WebPaint/static/js/2.73c070b4.chunk.js",
-  "static/js/2.73c070b4.chunk.js.map": "/WebPaint/static/js/2.73c070b4.chunk.js.map",
+  "static/js/2.71c1eb0a.chunk.js": "/WebPaint/static/js/2.71c1eb0a.chunk.js",
+  "static/js/2.71c1eb0a.chunk.js.map": "/WebPaint/static/js/2.71c1eb0a.chunk.js.map",
   "index.html": "/WebPaint/index.html",
-  "precache-manifest.1dae35949724114bd72f6c5c1630e934.js": "/WebPaint/precache-manifest.1dae35949724114bd72f6c5c1630e934.js",
+  "precache-manifest.2819395b0db059e5dacad981e087db0e.js": "/WebPaint/precache-manifest.2819395b0db059e5dacad981e087db0e.js",
   "service-worker.js": "/WebPaint/service-worker.js",
-  "static/css/main.dae53096.chunk.css.map": "/WebPaint/static/css/main.dae53096.chunk.css.map",
+  "static/css/main.76bb11dd.chunk.css.map": "/WebPaint/static/css/main.76bb11dd.chunk.css.map",
   "static/media/App.css": "/WebPaint/static/media/pipette.18863c6d.png"
 }

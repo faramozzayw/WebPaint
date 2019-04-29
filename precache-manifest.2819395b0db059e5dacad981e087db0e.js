@@ -1,19 +1,19 @@
 self.__precacheManifest = [
   {
-    "revision": "a89bbf83d26a2bd7e145",
-    "url": "/WebPaint/static/css/main.dae53096.chunk.css"
+    "revision": "f4e236bd3d6ddbb64ead",
+    "url": "/WebPaint/static/css/main.76bb11dd.chunk.css"
   },
   {
-    "revision": "a89bbf83d26a2bd7e145",
-    "url": "/WebPaint/static/js/main.c56a4311.chunk.js"
+    "revision": "f4e236bd3d6ddbb64ead",
+    "url": "/WebPaint/static/js/main.ed8e73e6.chunk.js"
   },
   {
     "revision": "fb0429021aaccacedb0e",
     "url": "/WebPaint/static/js/runtime~main.e73fb69d.js"
   },
   {
-    "revision": "2f862fcd6f1da2cf4d95",
-    "url": "/WebPaint/static/js/2.73c070b4.chunk.js"
+    "revision": "1d0d2f961fcb0dae1f87",
+    "url": "/WebPaint/static/js/2.71c1eb0a.chunk.js"
   },
   {
     "revision": "18863c6d327044a4ed1b52fbc83bd432",
@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/WebPaint/static/media/eraser.83122748.png"
   },
   {
-    "revision": "a43a642b672fccf57351236ee7b6328a",
+    "revision": "586f8c9b6eef28643af329d666681362",
     "url": "/WebPaint/index.html"
   }
 ];
