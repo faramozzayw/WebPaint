@@ -17,8 +17,7 @@ class Canvas extends Component {
 	state = {
 		isDrawing: false,
 		lastX: 0,
-		lastY: 0,
-		color: null
+		lastY: 0
 	};
 
 	getCanvas = () => this.refs.canvas;
