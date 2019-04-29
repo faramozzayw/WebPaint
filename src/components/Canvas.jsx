@@ -41,6 +41,9 @@ class Canvas extends Component {
 		ctx.lineCap = "round";
 		ctx.lineWidth = this.props.thickness;
 		ctx.miterLimit = 1.0;
+		ctx.rect(0, 0, canvas.width, canvas.height);
+		ctx.fillStyle = '#ffffff';
+		ctx.fill()
 	}
 
 	cursor = e => {
