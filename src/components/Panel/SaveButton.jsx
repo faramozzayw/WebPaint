@@ -1,17 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { resetCanvasActions }  from './../../store/actions/canvasActions';
 
 class SaveButton extends Component {
 	saveCanvasAsImg = e => {
-		this.props.ctx.save();
-
 		let link = this.refs.link;
-		link.href = document.querySelector('#draw').toDataURL('image/png');
-		link.download = 'canvasImage.png';
-		link.click();
+		this.props.resetCanvasActions(true);
 
-		this.props.ctx.restore();
+		if (!this.props.isSelecting) {
+			link.href = document.querySelector('#draw').toDataURL('image/png');
+
+		} else if (this.props.isSelecting) {
+			let canvas = document.createElement('canvas');
+			let ctx = canvas.getContext('2d');
+
+			canvas.width = Math.abs(this.props.selectedObject.width);
+			canvas.height = this.props.selectedObject.height;
+			
+			let imageDate = this.props.ctx.getImageData(
+				this.props.selectedObject.startX,
+				this.props.selectedObject.startY,
+				this.props.selectedObject.width,
+				this.props.selectedObject.height
+			);
+
+			let link = this.refs.link;
+			ctx.putImageData(imageDate, 0, 0);
+			link.href = canvas.toDataURL('image/png');
+		}
+		link.download = 'canvasImage.png';
 	};
 
 	render() {
@@ -31,12 +50,22 @@ class SaveButton extends Component {
 
 const mapStateToProps = state => {
 	return {
-		ctx: state.canvasState.ctx
+		ctx: state.canvasState.ctx,
+		isSelecting: state.canvasState.isSelecting,
+		selectedObject: state.canvasState.selectedObject
 	}
 }
 
-SaveButton.propTypes = {
-	ctx: PropTypes.object
+const mapDispatchToProps = dispatch => {
+	return bindActionCreators({
+		resetCanvasActions: resetCanvasActions
+	}, dispatch);
 }
 
-export default connect(mapStateToProps)(SaveButton);
+SaveButton.propTypes = {
+	ctx: PropTypes.object,
+	isSelecting: PropTypes.bool.isRequired,
+	selectedObject: PropTypes.object.isRequired
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SaveButton);

@@ -19,6 +19,21 @@ export default (state = canvasState, action) => {
 				penType: action.payload ? 'none' : 'pencil',
 				isSelecting: action.payload
 			}
+		case 'CHANGE_IS_DRAGING': 
+			return {
+				...state,
+				isDraging: action.payload
+			}
+		case 'UPDATE_SELECTED_OBJECT': 
+			return {
+				...state,
+				selectedObject: Object.assign(action.payload)
+			}
+		case 'RESET_CANVAS':
+			return {
+				...state,
+				resetCanvas: action.payload
+			}
 		default:
 			return state;
 	}

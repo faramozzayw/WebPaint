@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
-import { setContext, changeIsSelecting }  from './../store/actions/canvasActions';
+import { 
+	setContext, 
+	changeIsSelecting, 
+	updateSelectedObject, 
+	resetCanvasActions
+	} from './../store/actions/canvasActions';
 import { changeColor, changePipetteColor } from './../store/actions/penActions';
 import { hexToRGB } from './../modules/Tools';
 
@@ -15,6 +20,7 @@ class Canvas extends Component {
 		selectStartY: undefined,
 		beforeImageData: undefined,
 		selectStart: false,
+		selectObject: {}
 	};
 
 	getCanvas = () => this.refs.canvas;
@@ -32,7 +38,9 @@ class Canvas extends Component {
 
 		this.setState({
 			beforeImageData: ctx.getImageData(0, 0, canvas.width, canvas.height)
-		})
+		});
+
+
 
 		ctx.strokeStyle = this.props.color;
 		ctx.lineJoin = "round";
@@ -176,6 +184,11 @@ class Canvas extends Component {
 	}
 
 	render() {
+		if (this.props.resetCanvas) {
+			this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
+			this.props.resetCanvasActions(false);
+		}
+
 		return (
 			<div id="draw-container">
 				<div className="cursor"></div>
@@ -184,7 +197,9 @@ class Canvas extends Component {
 					ref="canvas" 
 					className="uk-width-1-1"
 
-					onMouseMove={this.props.isSelecting ? this.selectingDraw.bind(this) : this.draw.bind(this)}
+					onMouseMove={e => {
+						this.props.isSelecting ? this.selectingDraw(e) : this.draw(e);
+					}}
 
 					onMouseDown={e => {
 						let canvas = this.getCanvas();
@@ -207,12 +222,26 @@ class Canvas extends Component {
 
 					onMouseUp={e => {
 						if (this.props.isSelecting) {
+							let width = this.state.lastX - this.state.selectStartX;
+							let height = this.state.lastY - this.state.selectStartY;
+							let selectObject = {
+								width: width,
+								height: height,
+								startX: this.state.selectStartX,
+								lastX: this.state.lastX,
+								startY: this.state.selectStartY,
+								lastY: this.state.lastY,
+							}
+							this.props.updateSelectedObject(selectObject);
+							this.props.ctx.setLineDash([4, 4]);
+							this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
+							this.props.ctx.strokeRect(this.state.selectStartX, this.state.selectStartY, width, height);
+
 							this.setState({
 								selectStartX: undefined,
 								selectStartY: undefined,
-								selectStart: false
+								selectStart: false,
 							});
-							this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
 						} else {
 							this.setState({
 								isDrawing: false
@@ -223,7 +252,7 @@ class Canvas extends Component {
 					onMouseOut={e => {
 						this.setState({
 							isDrawing: false
-						})
+						});
 					}}
 
 					onClick={this.onClickHandle.bind(this)}
@@ -241,7 +270,8 @@ const mapStateToProps = state => {
 		ctx: state.canvasState.ctx,
 		pipetteColor: state.penProperty.pipetteColor,
 		penType: state.canvasState.penType,
-		isSelecting: state.canvasState.isSelecting
+		isSelecting: state.canvasState.isSelecting,
+		resetCanvas: state.canvasState.resetCanvas
 	}
 }
 
@@ -250,7 +280,9 @@ const mapDispatchToProps = dispatch => {
 		setContext: setContext,
 		changeColor: changeColor,
 		changePipetteColor: changePipetteColor,
-		changeIsSelecting: changeIsSelecting
+		changeIsSelecting: changeIsSelecting,
+		updateSelectedObject: updateSelectedObject,
+		resetCanvasActions: resetCanvasActions
 	}, dispatch);
 }
 

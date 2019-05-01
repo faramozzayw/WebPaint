@@ -1,7 +1,10 @@
 const canvasState = {
 	ctx: {},
 	penType: 'pencil',
-	isSelecting: false
+	isSelecting: false,
+	isDraging: false,
+	selectedObject: {},
+	resetCanvas: false
 }
 
 export default canvasState;

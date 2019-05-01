@@ -18,3 +18,24 @@ export const changeIsSelecting = value => {
 		payload: value
 	}
 }
+
+export const changeIsDraging = value => {
+	return {
+		type: 'CHANGE_IS_DRAGING',
+		payload: value
+	}
+}
+
+export const updateSelectedObject = value => {
+	return {
+		type: 'UPDATE_SELECTED_OBJECT',
+		payload: value
+	}
+}
+
+export const resetCanvasActions = value => {
+	return {
+		type: 'RESET_CANVAS',
+		payload: value
+	}
+}
