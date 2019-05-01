@@ -11,3 +11,10 @@ export const changePenType = value => {
 		payload: value
 	}
 }
+
+export const changeIsSelecting = value => {
+	return {
+		type: 'CHANGE_IS_SELECTING',
+		payload: value
+	}
+}

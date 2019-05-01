@@ -2,28 +2,23 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
-import { setContext }  from './../store/actions/canvasActions';
+import { setContext, changeIsSelecting }  from './../store/actions/canvasActions';
 import { changeColor, changePipetteColor } from './../store/actions/penActions';
-
-const hexToRGB = hex => {
-    return {
-        r: Number.parseInt(hex.slice(1, 3), 16),
-        g: Number.parseInt(hex.slice(3, 5), 16),
-        b: Number.parseInt(hex.slice(5, 7), 16)
-    }
-}
+import { hexToRGB } from './../modules/Tools';
 
 class Canvas extends Component {
 	state = {
 		isDrawing: false,
 		lastX: 0,
-		lastY: 0
+		lastY: 0,
+		selectStartX: undefined,
+		selectStartY: undefined,
+		beforeImageData: undefined,
+		selectStart: false,
 	};
 
 	getCanvas = () => this.refs.canvas;
-
 	getCanvasContext = () => this.getCanvas().getContext('2d');
-
 	getCursor = () => document.querySelector('.cursor');
 
 	componentDidMount() {
@@ -35,11 +30,14 @@ class Canvas extends Component {
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight - document.querySelector('.uk-navbar-container').clientHeight;
 
+		this.setState({
+			beforeImageData: ctx.getImageData(0, 0, canvas.width, canvas.height)
+		})
+
 		ctx.strokeStyle = this.props.color;
 		ctx.lineJoin = "round";
 		ctx.lineCap = "round";
 		ctx.lineWidth = this.props.thickness;
-		ctx.miterLimit = 1.0;
 		ctx.rect(0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = '#ffffff';
 		ctx.fill()
@@ -63,46 +61,28 @@ class Canvas extends Component {
 		}
 	};
 
-	
-
 	draw = e => {
 		this.cursor(e);
 		this.props.ctx.lineWidth = this.props.thickness;
-		if (this.state.isDrawing) {
-			if (this.props.penType === 'pencil') {
-				this.props.ctx.beginPath();
+		if (this.state.isDrawing && this.props.penType !== 'paint-bucket') {
+			this.props.ctx.beginPath();
+			this.props.ctx.setLineDash([0]);
+
+			if (this.props.penType === 'pencil')
 				this.props.ctx.strokeStyle = this.props.color;
-				this.props.ctx.moveTo(this.state.lastX, this.state.lastY);
-				this.props.ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-				this.props.ctx.stroke();
-
-				this.setState({
-					lastX: e.nativeEvent.offsetX,
-					lastY: e.nativeEvent.offsetY
-				})
-			} else if (this.props.penType === 'pipette') {
-				this.props.ctx.beginPath();
+			else if (this.props.penType === 'pipette')
 				this.props.ctx.strokeStyle = this.props.pipetteColor;
-				this.props.ctx.moveTo(this.state.lastX, this.state.lastY);
-				this.props.ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-				this.props.ctx.stroke();
-
-				this.setState({
-					lastX: e.nativeEvent.offsetX,
-					lastY: e.nativeEvent.offsetY
-				})
-			} else if (this.props.penType === 'eraser') {
-				this.props.ctx.beginPath();
+			else if (this.props.penType === 'eraser')
 				this.props.ctx.strokeStyle = '#ffffff';
-				this.props.ctx.moveTo(this.state.lastX, this.state.lastY);
-				this.props.ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-				this.props.ctx.stroke();
 
-				this.setState({
-					lastX: e.nativeEvent.offsetX,
-					lastY: e.nativeEvent.offsetY
-				})
-			}
+			this.props.ctx.moveTo(this.state.lastX, this.state.lastY);
+			this.props.ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+			this.props.ctx.stroke();
+			
+			this.setState({
+				lastX: e.nativeEvent.offsetX,
+				lastY: e.nativeEvent.offsetY
+			})
 		}
 	};
 
@@ -122,7 +102,7 @@ class Canvas extends Component {
 		
 		let stack = [[x, y]];
 		let pixel;
-		let [red, green, blue] = [0, 0, 0];
+		let red, green, blue = 0;
 
 		const imgData = this.props.ctx.getImageData(x, y, 1, 1)
 		const backgroundColor = {
@@ -170,7 +150,7 @@ class Canvas extends Component {
 				]);
 			}
     }
-		this.props.ctx.putImageData(imageData, 0, 0)
+		this.props.ctx.putImageData(imageData, 0, 0);
 	};
 
 	onClickHandle = e => {
@@ -178,32 +158,74 @@ class Canvas extends Component {
 		else if (this.props.penType === 'paint-bucket') this.floodFill(e);
 	};
 
+	selectingDraw = e => {
+		this.cursor(e)
+		if (this.state.selectStart) {
+			this.setState({
+				lastX: e.nativeEvent.offsetX,
+				lastY: e.nativeEvent.offsetY
+			}, () => {
+				let width = this.state.lastX - this.state.selectStartX;
+				let height = this.state.lastY - this.state.selectStartY;
+				this.props.ctx.setLineDash([4, 4]);
+  			this.props.ctx.lineDashOffset = 0;
+				this.props.ctx.strokeRect(this.state.selectStartX, this.state.selectStartY, width, height);
+			});
+			this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
+		}
+	}
+
 	render() {
 		return (
-			<div>
-			<div className="cursor"></div>
+			<div id="draw-container">
+				<div className="cursor"></div>
 				<canvas
 					id="draw"
 					ref="canvas" 
 					className="uk-width-1-1"
-					onMouseMove={this.draw.bind(this)}
+
+					onMouseMove={this.props.isSelecting ? this.selectingDraw.bind(this) : this.draw.bind(this)}
+
 					onMouseDown={e => {
-						this.setState({
-							isDrawing: true,
-							lastX: e.nativeEvent.offsetX,
-							lastY: e.nativeEvent.offsetY
-						})
+						let canvas = this.getCanvas();
+						let imageData = this.props.ctx.getImageData(0, 0, canvas.width, canvas.height);
+						if (this.props.isSelecting) {
+							this.setState({
+								selectStartX: this.state.selectStartX === undefined ? e.nativeEvent.offsetX : this.state.selectStartX,
+								selectStartY: this.state.selectStartY === undefined ? e.nativeEvent.offsetY : this.state.selectStartY,
+								beforeImageData: !this.state.selectStart ? imageData : this.state.beforeImageData,
+								selectStart: true
+							});
+						} else {
+							this.setState({
+								isDrawing: this.state.isSelecting ? false : true,
+								lastX: e.nativeEvent.offsetX,
+								lastY: e.nativeEvent.offsetY,
+							});
+						}
 					}}
+
 					onMouseUp={e => {
-						this.setState({
-							isDrawing: false
-						})
+						if (this.props.isSelecting) {
+							this.setState({
+								selectStartX: undefined,
+								selectStartY: undefined,
+								selectStart: false
+							});
+							this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
+						} else {
+							this.setState({
+								isDrawing: false
+							});
+						}
 					}}
+
 					onMouseOut={e => {
 						this.setState({
 							isDrawing: false
 						})
 					}}
+
 					onClick={this.onClickHandle.bind(this)}
 					>
 				</canvas>
@@ -218,7 +240,8 @@ const mapStateToProps = state => {
 		thickness: state.penProperty.thickness,
 		ctx: state.canvasState.ctx,
 		pipetteColor: state.penProperty.pipetteColor,
-		penType: state.canvasState.penType
+		penType: state.canvasState.penType,
+		isSelecting: state.canvasState.isSelecting
 	}
 }
 
@@ -226,7 +249,8 @@ const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
 		setContext: setContext,
 		changeColor: changeColor,
-		changePipetteColor: changePipetteColor
+		changePipetteColor: changePipetteColor,
+		changeIsSelecting: changeIsSelecting
 	}, dispatch);
 }
 
@@ -234,9 +258,10 @@ Canvas.propTypes = {
 	color: PropTypes.string.isRequired,
 	thickness: PropTypes.number.isRequired,
 	setContext: PropTypes.func.isRequired,
-	ctx: PropTypes.object,
+	ctx: PropTypes.object.isRequired,
 	changeColor: PropTypes.func.isRequired,
-	changePipetteColor: PropTypes.func.isRequired
+	changePipetteColor: PropTypes.func.isRequired,
+	isSelecting: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

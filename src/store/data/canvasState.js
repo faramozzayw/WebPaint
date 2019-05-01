@@ -1,6 +1,7 @@
 const canvasState = {
 	ctx: {},
-	penType: 'pencil'
+	penType: 'pencil',
+	isSelecting: false
 }
 
 export default canvasState;

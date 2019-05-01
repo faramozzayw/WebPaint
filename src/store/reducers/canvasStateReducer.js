@@ -10,7 +10,14 @@ export default (state = canvasState, action) => {
 		case 'CHANGE_PEN_TYPE': 
 			return {
 				...state,
-				penType: action.payload
+				penType: action.payload,
+				isSelecting: false
+			}
+		case 'CHANGE_IS_SELECTING': 
+			return {
+				...state,
+				penType: action.payload ? 'none' : 'pencil',
+				isSelecting: action.payload
 			}
 		default:
 			return state;

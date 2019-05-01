@@ -11,6 +11,7 @@ import Pen from './Panel/Pen';
 import Eraser from './Panel/Eraser';
 import UploadButton from './Panel/UploadButton'
 import FloodFill from './Panel/FloodFill';
+import Selection from './Panel/Selection';
 
 class Panel extends Component {
 	render() {
@@ -37,13 +38,16 @@ class Panel extends Component {
 							<li className={`uk-active uk-margin-top uk-margin-bottom uk-margin-left ${this.props.penType === 'paint-bucket' && 'active'}`}>
 								<FloodFill />
 							</li>
+							<li className={`uk-active uk-margin-top uk-margin-bottom uk-margin-left ${this.props.isSelecting && 'active'}`}>
+								<Selection />
+							</li>
 							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
 								<ClearButton />
 							</li>
-							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
+							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
 								<SaveButton />
 							</li>
-							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
+							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
 								<UploadButton />
 							</li>
 						</ul>
@@ -56,7 +60,8 @@ class Panel extends Component {
 
 const mapStateToProps = state => {
 	return {
-		penType: state.canvasState.penType
+		penType: state.canvasState.penType,
+		isSelecting: state.canvasState.isSelecting
 	}
 }
 

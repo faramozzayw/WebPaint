@@ -4,11 +4,7 @@ import PropTypes from 'prop-types'
 
 class ClearButton extends Component {
 	handleClick = () => {
-		const canvas = document.querySelector('#draw');
 		this.props.ctx.clearRect(0,0, window.innerWidth, window.innerHeight);
-		this.props.ctx.rect(0, 0, canvas.width, canvas.height);
-		this.props.ctx.fillStyle = '#ffffff';
-		this.props.ctx.fill()
 	};
 
 	render() {
@@ -27,12 +23,14 @@ class ClearButton extends Component {
 
 const mapStateToProps = state => {
 	return {
+		clear: state.canvasState.clear,
 		ctx: state.canvasState.ctx
 	}
 }
 
 ClearButton.propTypes = {
-	ctx: PropTypes.object
+	ctx: PropTypes.object,
+	canvas: PropTypes.object
 }
 
 export default connect(mapStateToProps)(ClearButton);
