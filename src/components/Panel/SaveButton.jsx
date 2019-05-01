@@ -5,19 +5,17 @@ import { bindActionCreators } from 'redux';
 import { resetCanvasActions }  from './../../store/actions/canvasActions';
 
 class SaveButton extends Component {
-	saveCanvasAsImg = e => {
+	async saveCanvasAsImg(e) {
 		let link = this.refs.link;
-		this.props.resetCanvasActions(true);
-
 		if (!this.props.isSelecting) {
 			link.href = document.querySelector('#draw').toDataURL('image/png');
-
 		} else if (this.props.isSelecting) {
+			await this.props.resetCanvasActions(true);
 			let canvas = document.createElement('canvas');
 			let ctx = canvas.getContext('2d');
 
 			canvas.width = Math.abs(this.props.selectedObject.width);
-			canvas.height = this.props.selectedObject.height;
+			canvas.height = Math.abs(this.props.selectedObject.height);
 			
 			let imageDate = this.props.ctx.getImageData(
 				this.props.selectedObject.startX,
