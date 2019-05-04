@@ -11,18 +11,14 @@ export default (state = canvasState, action) => {
 			return {
 				...state,
 				penType: action.payload,
-				isSelecting: false
+				isSelecting: false,
+				resetCanvas: state.isSelecting ? true : false
 			}
 		case 'CHANGE_IS_SELECTING': 
 			return {
 				...state,
 				penType: action.payload ? 'none' : 'pencil',
 				isSelecting: action.payload
-			}
-		case 'CHANGE_IS_DRAGING': 
-			return {
-				...state,
-				isDraging: action.payload
 			}
 		case 'UPDATE_SELECTED_OBJECT': 
 			return {
@@ -32,7 +28,7 @@ export default (state = canvasState, action) => {
 		case 'RESET_CANVAS':
 			return {
 				...state,
-				resetCanvas: action.payload
+				resetCanvas: action.payload,
 			}
 		default:
 			return state;

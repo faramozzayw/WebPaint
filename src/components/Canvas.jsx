@@ -6,7 +6,7 @@ import {
 	setContext, 
 	changeIsSelecting, 
 	updateSelectedObject, 
-	resetCanvasActions
+	resetCanvasActions,
 	} from './../store/actions/canvasActions';
 import { changeColor, changePipetteColor } from './../store/actions/penActions';
 import { hexToRGB } from './../modules/Tools';
@@ -40,15 +40,13 @@ class Canvas extends Component {
 			beforeImageData: ctx.getImageData(0, 0, canvas.width, canvas.height)
 		});
 
-
-
 		ctx.strokeStyle = this.props.color;
 		ctx.lineJoin = "round";
 		ctx.lineCap = "round";
 		ctx.lineWidth = this.props.thickness;
 		ctx.rect(0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = '#ffffff';
-		ctx.fill()
+		ctx.fill();
 	}
 
 	cursor = e => {
@@ -96,10 +94,9 @@ class Canvas extends Component {
 
 	pickColor = e => {
 		const [x, y] = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
-	
 		const imgData = this.props.ctx.getImageData(x, y, 1, 1);
-		const pix = imgData.data;
-		this.props.changePipetteColor(`rgba(${pix.join(',')})`);
+		const pixel = imgData.data;
+		this.props.changePipetteColor(`rgba(${pixel.join(',')})`);
 	};
 
 	floodFill = e => {
@@ -199,12 +196,18 @@ class Canvas extends Component {
 
 					onMouseMove={e => {
 						this.props.isSelecting ? this.selectingDraw(e) : this.draw(e);
+						if (this.props.isSelecting) {
+							this.selectingDraw(e);
+						} else {
+							this.draw(e)
+						}
 					}}
 
 					onMouseDown={e => {
-						let canvas = this.getCanvas();
-						let imageData = this.props.ctx.getImageData(0, 0, canvas.width, canvas.height);
 						if (this.props.isSelecting) {
+							let canvas = this.getCanvas();
+							let imageData = this.props.ctx.getImageData(0, 0, canvas.width, canvas.height);
+
 							this.setState({
 								selectStartX: this.state.selectStartX === undefined ? e.nativeEvent.offsetX : this.state.selectStartX,
 								selectStartY: this.state.selectStartY === undefined ? e.nativeEvent.offsetY : this.state.selectStartY,
@@ -271,7 +274,8 @@ const mapStateToProps = state => {
 		pipetteColor: state.penProperty.pipetteColor,
 		penType: state.canvasState.penType,
 		isSelecting: state.canvasState.isSelecting,
-		resetCanvas: state.canvasState.resetCanvas
+		resetCanvas: state.canvasState.resetCanvas,
+		selectedObject: state.canvasState.selectedObject
 	}
 }
 

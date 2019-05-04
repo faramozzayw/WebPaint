@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
-import { changePenType, changeIsSelecting }  from './../../store/actions/canvasActions';
+import { changeIsSelecting, resetCanvasActions }  from './../../store/actions/canvasActions';
 
 class Selection extends Component {
+	handleClick = () => {
+		this.props.changeIsSelecting(true)
+		if (this.props.isSelecting) this.props.resetCanvasActions(true)
+	}
 	render() {
 		return (
 			<div className="uk-margin-small-top">
 				<span 
 					className="uk-icon uk-icon-button uk-icon-image selection" 
-					onClick={() => this.props.changeIsSelecting(true)}
+					onClick={this.handleClick.bind(this)}
 				></span>
 			</div>
 		);
@@ -20,12 +24,14 @@ class Selection extends Component {
 const mapStateToProps = state => {
 	return {
 		color: state.penProperty.color,
+		isSelecting: state.canvasState.isSelecting
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
-		changeIsSelecting: changeIsSelecting
+		changeIsSelecting: changeIsSelecting,
+		resetCanvasActions: resetCanvasActions
 	}, dispatch);
 }
 

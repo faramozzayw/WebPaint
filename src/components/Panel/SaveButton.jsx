@@ -61,7 +61,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 SaveButton.propTypes = {
-	ctx: PropTypes.object,
+	ctx: PropTypes.object.isRequired,
 	isSelecting: PropTypes.bool.isRequired,
 	selectedObject: PropTypes.object.isRequired
 }

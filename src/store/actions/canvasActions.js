@@ -19,13 +19,6 @@ export const changeIsSelecting = value => {
 	}
 }
 
-export const changeIsDraging = value => {
-	return {
-		type: 'CHANGE_IS_DRAGING',
-		payload: value
-	}
-}
-
 export const updateSelectedObject = value => {
 	return {
 		type: 'UPDATE_SELECTED_OBJECT',
