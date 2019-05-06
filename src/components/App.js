@@ -6,10 +6,13 @@ import DisplayError from './DisplayError';
 
 class App extends Component {
   render() {
-  	const app = !(window.innerWidth < 768) ? (<div className="App">
-			<Panel />
-			<Canvas /> 
-		</div>) : <DisplayError />;
+  	const app = !(window.innerWidth < 768) ? 
+    (
+      <div className="App">
+		  	<Panel />
+		  	<Canvas /> 
+		  </div>
+    ) : <DisplayError />;
 
     return (
     	<div>

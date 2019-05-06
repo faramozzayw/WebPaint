@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { resetCanvasActions }  from './../../store/actions/canvasActions';
+import { Vector2 } from './../../modules/Vector2';
 
 class SaveButton extends Component {
 	async saveCanvasAsImg(e) {
@@ -13,15 +14,17 @@ class SaveButton extends Component {
 			await this.props.resetCanvasActions(true);
 			let canvas = document.createElement('canvas');
 			let ctx = canvas.getContext('2d');
+			console.log('test');
 
-			canvas.width = Math.abs(this.props.selectedObject.width);
-			canvas.height = Math.abs(this.props.selectedObject.height);
+			let size = Vector2.getBoxSize(this.props.selectedObject.startVector, this.props.selectedObject.endVector);
+			canvas.width = Math.abs(size.width);
+			canvas.height = Math.abs(size.height);
 			
 			let imageDate = this.props.ctx.getImageData(
-				this.props.selectedObject.startX,
-				this.props.selectedObject.startY,
-				this.props.selectedObject.width,
-				this.props.selectedObject.height
+				this.props.selectedObject.startVector.x,
+				this.props.selectedObject.startVector.y,
+				size.width,
+				size.height
 			);
 
 			let link = this.refs.link;

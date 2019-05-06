@@ -10,6 +10,7 @@ import {
 	} from './../store/actions/canvasActions';
 import { changeColor, changePipetteColor } from './../store/actions/penActions';
 import { hexToRGB } from './../modules/Tools';
+import { Vector2 } from './../modules/Vector2';
 
 class Canvas extends Component {
 	state = {
@@ -19,8 +20,7 @@ class Canvas extends Component {
 		selectStartX: undefined,
 		selectStartY: undefined,
 		beforeImageData: undefined,
-		selectStart: false,
-		selectObject: {}
+		selectStart: false
 	};
 
 	getCanvas = () => this.refs.canvas;
@@ -228,12 +228,8 @@ class Canvas extends Component {
 							let width = this.state.lastX - this.state.selectStartX;
 							let height = this.state.lastY - this.state.selectStartY;
 							let selectObject = {
-								width: width,
-								height: height,
-								startX: this.state.selectStartX,
-								lastX: this.state.lastX,
-								startY: this.state.selectStartY,
-								lastY: this.state.lastY,
+								startVector: new Vector2(this.state.selectStartX, this.state.selectStartY),
+								endVector: new Vector2(this.state.lastX, this.state.lastY)
 							}
 							this.props.updateSelectedObject(selectObject);
 							this.props.ctx.setLineDash([4, 4]);

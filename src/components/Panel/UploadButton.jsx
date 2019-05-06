@@ -6,7 +6,6 @@ class UploadButton extends Component {
 	uploadImgAsCanvas = e => {
 		if (window.confirm("При загрузке фото холст будет очищен, вы уверены?")) {
 			alert("Да свершится предначертанное");
-			this.props.ctx.clearRect(0,0, window.innerWidth, window.innerHeight);
 			this.props.ctx.rect(0, 0, this.props.ctx.canvas.width, this.props.ctx.canvas.height);
 			this.props.ctx.fillStyle = '#ffffff';
 			this.props.ctx.fill();

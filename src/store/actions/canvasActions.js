@@ -19,16 +19,16 @@ export const changeIsSelecting = value => {
 	}
 }
 
-export const updateSelectedObject = value => {
+export const resetCanvasActions = value => {
 	return {
-		type: 'UPDATE_SELECTED_OBJECT',
+		type: 'RESET_CANVAS',
 		payload: value
 	}
 }
 
-export const resetCanvasActions = value => {
+export const updateSelectedObject = value => {
 	return {
-		type: 'RESET_CANVAS',
+		type: 'UPDATE_SELECTED_OBJECT',
 		payload: value
 	}
 }
