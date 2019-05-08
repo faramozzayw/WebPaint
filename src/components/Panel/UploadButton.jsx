@@ -1,22 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 class UploadButton extends Component {
-	uploadImgAsCanvas = e => {
+	async uploadImgAsCanvas(e) {
+		e.persist()
 		if (window.confirm("При загрузке фото холст будет очищен, вы уверены?")) {
-			alert("Да свершится предначертанное");
 			this.props.ctx.rect(0, 0, this.props.ctx.canvas.width, this.props.ctx.canvas.height);
 			this.props.ctx.fillStyle = '#ffffff';
-			this.props.ctx.fill();
+			await this.props.ctx.fill();
 
 			let file = e.target.files[0];
+			console.log("file", file);
 			let reader = new FileReader();
 			let image = new Image();
-
+			
 			reader.onload = e => {
 				image.src = e.target.result
-				this.props.ctx.drawImage(image, 0, 0);
+				console.log("image", image);
+				if (image.height <= window.innerHeight && image.width <= window.innerWidth) {
+					this.props.ctx.drawImage(image, 0, 0);
+				} else if (image.height > window.innerHeight) {
+					this.props.ctx.drawImage(image, 0, 0, image.width, window.innerHeight);
+				} else if (image.width > window.innerWidth) {
+					this.props.ctx.drawImage(image, 0, 0, window.innerWidth, image.height);
+				}
 			};
 
 			reader.readAsDataURL(file);
