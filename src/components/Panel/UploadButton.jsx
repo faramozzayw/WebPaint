@@ -11,13 +11,11 @@ class UploadButton extends Component {
 			await this.props.ctx.fill();
 
 			let file = e.target.files[0];
-			console.log("file", file);
 			let reader = new FileReader();
 			let image = new Image();
 			
 			reader.onload = e => {
 				image.src = e.target.result
-				console.log("image", image);
 				if (image.height <= window.innerHeight && image.width <= window.innerWidth) {
 					this.props.ctx.drawImage(image, 0, 0);
 				} else if (image.height > window.innerHeight) {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { changeThickness }  from './../../store/actions/penActions';
@@ -53,6 +53,11 @@ const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
 		changeThickness: changeThickness
 	}, dispatch);
+}
+
+Thickness.propTypes = {
+	thickness: PropTypes.number.isRequired,
+	changeThickness: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Thickness);

@@ -38,6 +38,7 @@ class SaveButton extends Component {
 		return (
 			<div className="uk-margin-small-top">
 				<a
+					href="canvasDownload"
 					ref="link"
 					id="saveButton" 
 					className="uk-icon-link uk-icon-button"

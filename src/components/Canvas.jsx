@@ -9,7 +9,7 @@ import {
 	resetCanvasActions,
 	} from './../store/actions/canvasActions';
 import { changeColor, changePipetteColor } from './../store/actions/penActions';
-import { hexToRGB } from './../modules/Tools';
+import { hexToRGB, floodFillImageData } from './../modules/Tools';
 import { Vector2 } from './../modules/Vector2';
 
 class Canvas extends Component {
@@ -52,18 +52,23 @@ class Canvas extends Component {
 	cursor = e => {
 		const cursor = this.getCursor();
 
-		cursor.style.width = `${this.props.thickness + 5}px`;
-		cursor.style.height = `${this.props.thickness + 5}px`;
-
-		cursor.style.top = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
-		cursor.style.left = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
-
-		if (this.props.penType === 'pencil' || this.props.penType === 'paint-bucket') {
-			cursor.style.backgroundColor  = `${this.props.color}`;
-		} else if (this.props.penType === 'pipette') {
-			cursor.style.backgroundColor  = `${this.props.pipetteColor}`;
-		} else if (this.props.penType === 'eraser') {
-			cursor.style.backgroundColor = '#ffffff';
+		if (this.props.penType !== 'none') {
+			cursor.style.display = 'block';
+			cursor.style.width = `${this.props.thickness + 5}px`;
+			cursor.style.height = `${this.props.thickness + 5}px`;
+	
+			cursor.style.top = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
+			cursor.style.left = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
+	
+			if (this.props.penType === 'pencil' || this.props.penType === 'paint-bucket') {
+				cursor.style.backgroundColor  = `${this.props.color}`;
+			} else if (this.props.penType === 'pipette') {
+				cursor.style.backgroundColor  = `${this.props.pipetteColor}`;
+			} else if (this.props.penType === 'eraser') {
+				cursor.style.backgroundColor = '#ffffff';
+			}
+		} else {
+			cursor.style.display = 'none';
 		}
 	};
 
@@ -102,60 +107,18 @@ class Canvas extends Component {
 	floodFill = e => {
 		let color = hexToRGB(this.props.color);
 		let imageData = this.props.ctx.getImageData(0, 0, this.getCanvas().width, this.getCanvas().height);
-		let [width, height] = [imageData.width, imageData.height];
-		let [x, y] = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
-		
-		let stack = [[x, y]];
-		let pixel;
-		let red, green, blue = 0;
-
-		const imgData = this.props.ctx.getImageData(x, y, 1, 1)
+		let startPoint = {
+			x: e.nativeEvent.offsetX,
+			y: e.nativeEvent.offsetY
+		}
+		const imgData = this.props.ctx.getImageData(startPoint.x, startPoint.y, 1, 1)
 		const backgroundColor = {
 			r: imgData.data[0],
 			g: imgData.data[1],
 			b: imgData.data[2]
 		}
-
-		while (stack.length > 0) {   
-			pixel = stack.pop();
-
-			if (pixel[0] < 0 || pixel[0] >= width) continue;
-			if (pixel[1] < 0 || pixel[1] >= height) continue;
-				
-			red = pixel[1] * 4 * width + pixel[0] * 4;
-			green = red + 1;
-			blue = green + 1;
-			const pointColor = {
-				r: imageData.data[red],
-				g: imageData.data[green],
-				b: imageData.data[blue]
-			}
-
-			if ((pointColor.r !== color.r || pointColor.g !== color.g || pointColor.b !== color.b)
-				&& (pointColor.r === backgroundColor.r && pointColor.g === backgroundColor.g && pointColor.b === backgroundColor.b)) {
-				imageData.data[red] = color.r;
-				imageData.data[green] = color.g;
-				imageData.data[blue] = color.b;
-				
-				stack.push([
-					pixel[0] - 1,
-					pixel[1]
-				  ]);
-				stack.push([
-					pixel[0] + 1,
-					pixel[1]
-				  ]);
-				stack.push([
-					pixel[0],
-					pixel[1] - 1
-				  ]);
-				stack.push([
-					pixel[0],
-					pixel[1] + 1
-				]);
-			}
-    }
-		this.props.ctx.putImageData(imageData, 0, 0);
+		
+		this.props.ctx.putImageData(floodFillImageData(imageData, color, startPoint, backgroundColor), 0, 0);
 	};
 
 	onClickHandle = e => {
@@ -164,7 +127,8 @@ class Canvas extends Component {
 	};
 
 	selectingDraw = e => {
-		this.cursor(e)
+		this.cursor(e);
+		this.props.ctx.lineWidth = 1;
 		if (this.state.selectStart) {
 			this.setState({
 				lastX: e.nativeEvent.offsetX,
@@ -195,11 +159,13 @@ class Canvas extends Component {
 					className="uk-width-1-1"
 
 					onMouseMove={e => {
-						this.props.isSelecting ? this.selectingDraw(e) : this.draw(e);
+						let canvas = this.getCanvas();
 						if (this.props.isSelecting) {
 							this.selectingDraw(e);
+							canvas.style.cursor = 'crosshair';
 						} else {
-							this.draw(e)
+							this.draw(e);
+							canvas.style.cursor = 'none';
 						}
 					}}
 

@@ -24,6 +24,7 @@ export default (state = canvasState, action) => {
 			return {
 				...state,
 				resetCanvas: action.payload,
+				selectedObject: {}
 			}
 		case 'UPDATE_SELECTED_OBJECT': 
 			return {

@@ -30,6 +30,10 @@ body {
 	border: 1px solid #000000;
 }
 
+canvas {
+	cursor: none;
+}
+
 .pipette {
 	background-image: url(../img/pipette.png);
 	background-position: center; 
