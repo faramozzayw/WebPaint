@@ -5,6 +5,11 @@ import PropTypes from 'prop-types';
 class UploadButton extends Component {
 	async uploadImgAsCanvas(e) {
 		e.persist()
+		if(!window.File || !window.FileReader || !window.FileList || !window.Blob){
+			alert("Ваш браузер не поддерживается :(");
+			return;
+		}
+
 		if (window.confirm("При загрузке фото холст будет очищен, вы уверены?")) {
 			this.props.ctx.rect(0, 0, this.props.ctx.canvas.width, this.props.ctx.canvas.height);
 			this.props.ctx.fillStyle = '#ffffff';
@@ -12,18 +17,29 @@ class UploadButton extends Component {
 
 			let file = e.target.files[0];
 			let reader = new FileReader();
-			let image = new Image();
 			
 			reader.onload = e => {
-				image.src = e.target.result
-				if (image.height <= window.innerHeight && image.width <= window.innerWidth) {
-					this.props.ctx.drawImage(image, 0, 0);
-				} else if (image.height > window.innerHeight) {
-					this.props.ctx.drawImage(image, 0, 0, image.width, window.innerHeight);
-				} else if (image.width > window.innerWidth) {
-					this.props.ctx.drawImage(image, 0, 0, window.innerWidth, image.height);
-				}
-			};
+				let dataUri = e.target.result;
+				let image = new Image();
+
+				image.onload = () => {
+					if (image.height <= window.innerHeight && image.width <= window.innerWidth) 
+						this.props.ctx.drawImage(image, 0, 0);
+
+					else if (image.height > window.innerHeight) 
+						this.props.ctx.drawImage(image, 0, 0, image.width, window.innerHeight);
+
+					else if (image.width > window.innerWidth) 
+						this.props.ctx.drawImage(image, 0, 0, window.innerWidth, image.height);
+					}
+
+				image.src = dataUri;
+			}
+
+			reader.onerror = e => {
+				console.log(`Error loading file. Code: ${e.target.error.code}`);
+				alert("При загрузке файла произошла ошибка, попробуйте снова.");
+			}
 
 			reader.readAsDataURL(file);
 		}

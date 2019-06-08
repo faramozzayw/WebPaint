@@ -2,14 +2,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
+
 import { 
 	setContext, 
 	changeIsSelecting, 
 	updateSelectedObject, 
 	resetCanvasActions,
-	} from './../store/actions/canvasActions';
-import { changeColor, changePipetteColor } from './../store/actions/penActions';
-import { hexToRGB, floodFillImageData } from './../modules/Tools';
+	resetSelectedObject
+} from './../store/actions/canvasActions';
+
+import { 
+	changeColor, 
+	changePipetteColor
+} from './../store/actions/penActions';
+
+import { 
+	hexToRGB,
+	floodFillImageData,
+	loadWebAssembly 
+} from './../modules/Tools';
 import { Vector2 } from './../modules/Vector2';
 
 class Canvas extends Component {
@@ -145,9 +156,12 @@ class Canvas extends Component {
 	}
 
 	render() {
-		if (this.props.resetCanvas) {
+		if (this.props.resetCanvas 
+			&& !(Object.entries(this.props.selectedObject).length === 0 
+			&& this.props.selectedObject.constructor === Object)) {
 			this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
 			this.props.resetCanvasActions(false);
+			this.props.resetSelectedObject();
 		}
 
 		return (
@@ -248,7 +262,8 @@ const mapDispatchToProps = dispatch => {
 		changePipetteColor: changePipetteColor,
 		changeIsSelecting: changeIsSelecting,
 		updateSelectedObject: updateSelectedObject,
-		resetCanvasActions: resetCanvasActions
+		resetCanvasActions: resetCanvasActions,
+		resetSelectedObject: resetSelectedObject
 	}, dispatch);
 }
 

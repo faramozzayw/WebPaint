@@ -55,3 +55,12 @@ export const floodFillImageData = (imageData, color, startPoint, backgroundColor
   }
   return imageData;
 }
+
+export const loadWebAssembly = fileName => {
+  return fetch(fileName)
+    .then(response => response.arrayBuffer())
+    .then(bits => {
+    	return WebAssembly.compile(bits)
+    })
+    .then(module => new WebAssembly.Instance(module));
+};

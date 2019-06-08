@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { resetCanvasActions }  from './../../store/actions/canvasActions';
+import { 
+	resetCanvasActions, 
+	resetSelectedObject 
+}  from './../../store/actions/canvasActions';
 import { Vector2 } from './../../modules/Vector2';
 
 class SaveButton extends Component {
@@ -14,13 +17,12 @@ class SaveButton extends Component {
 			await this.props.resetCanvasActions(true);
 			let canvas = document.createElement('canvas');
 			let ctx = canvas.getContext('2d');
-			console.log('test');
 
 			let size = Vector2.getBoxSize(this.props.selectedObject.startVector, this.props.selectedObject.endVector);
 			canvas.width = Math.abs(size.width);
 			canvas.height = Math.abs(size.height);
 			
-			let imageDate = this.props.ctx.getImageData(
+			let imageDate = await this.props.ctx.getImageData(
 				this.props.selectedObject.startVector.x,
 				this.props.selectedObject.startVector.y,
 				size.width,
@@ -30,6 +32,7 @@ class SaveButton extends Component {
 			let link = this.refs.link;
 			ctx.putImageData(imageDate, 0, 0);
 			link.href = canvas.toDataURL('image/png');
+			this.props.resetSelectedObject();
 		}
 		link.download = 'canvasImage.png';
 	};
@@ -60,7 +63,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
-		resetCanvasActions: resetCanvasActions
+		resetCanvasActions: resetCanvasActions,
+		resetSelectedObject: resetSelectedObject
 	}, dispatch);
 }
 
