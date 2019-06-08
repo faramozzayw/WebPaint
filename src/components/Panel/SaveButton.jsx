@@ -7,6 +7,7 @@ import {
 	resetSelectedObject 
 }  from './../../store/actions/canvasActions';
 import { Vector2 } from './../../modules/Vector2';
+import UIkit from 'uikit';
 
 class SaveButton extends Component {
 	async saveCanvasAsImg(e) {
@@ -35,6 +36,15 @@ class SaveButton extends Component {
 			this.props.resetSelectedObject();
 		}
 		link.download = 'canvasImage.png';
+		UIkit.notification({
+			message: `${
+				this.props.isSelecting ? 
+				"Фрагмент был сохранён на компьютер"
+				: "Холст был сохранён на компьютер"
+			}`,
+			pos: 'bottom-right',
+			timeout: 2500
+		});
 	};
 
 	render() {
@@ -44,8 +54,7 @@ class SaveButton extends Component {
 					href="canvasDownload"
 					ref="link"
 					id="saveButton" 
-					className="uk-icon-link uk-icon-button"
-					uk-icon="download"  
+					className="uk-icon-link uk-icon-button download"
 					onClick={this.saveCanvasAsImg.bind(this)}
 				></a>
 			</div>

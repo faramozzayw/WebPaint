@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import UIkit from 'uikit';
 
 class UploadButton extends Component {
 	async uploadImgAsCanvas(e) {
@@ -34,6 +35,11 @@ class UploadButton extends Component {
 					}
 
 				image.src = dataUri;
+				UIkit.notification({
+					message: `Файл был удачно загружен`,
+					pos: 'bottom-right',
+					timeout: 2000
+				});
 			}
 
 			reader.onerror = e => {
@@ -50,8 +56,7 @@ class UploadButton extends Component {
 			<div className="uk-margin-small-top">
 				<label 
 					htmlFor="uploadButton"
-					className="uk-icon-link uk-icon-button"
-					uk-icon="upload" 
+					className="uk-icon-link uk-icon-button upload"
 				></label>
 				<input
 					type="file"

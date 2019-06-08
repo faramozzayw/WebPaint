@@ -55,6 +55,41 @@ canvas {
 	background-repeat: no-repeat;
 }
 
+.pencil {
+	background-image: url(../img/pencil.svg);
+	background-position: center; 
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
+.upload {
+	background-image: url(../img/upload.svg);
+	background-position: center; 
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
+.trash {
+	background-image: url(../img/trash.svg);
+	background-position: center; 
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
+.paint-bucket {
+	background-image: url(../img/paint-bucket.svg);
+	background-position: center; 
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
+.download {
+	background-image: url(../img/download.svg);
+	background-position: center; 
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
 #draw {
 	z-index: 1;
 }

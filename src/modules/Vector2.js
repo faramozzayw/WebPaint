@@ -17,8 +17,6 @@ export class Vector2 {
 	}
 
 	static getBoxSize(VectorStart, VectorEnd) {
-		console.log(VectorStart);
-		console.log(VectorEnd);
 		return {
 			width: VectorEnd.x - VectorStart.x,
 			height: VectorEnd.y - VectorStart.y

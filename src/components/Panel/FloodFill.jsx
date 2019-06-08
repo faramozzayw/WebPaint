@@ -9,8 +9,7 @@ class FloodFill extends Component {
 		return (
 			<div className="uk-margin-small-top">
 				<span 
-					className="uk-icon uk-icon-button" 
-					uk-icon="paint-bucket" 
+					className="uk-icon uk-icon-button paint-bucket" 
 					onClick={() => this.props.changePenType('paint-bucket')}
 				></span>
 			</div>

@@ -14,8 +14,7 @@ class ClearButton extends Component {
 			<div className="uk-margin-small-top">
 				<span 
 					id="clearButton" 
-					className="uk-icon-link uk-icon-button" 
-					uk-icon="trash" 
+					className="uk-icon-link uk-icon-button trash" 
 					onClick={this.handleClick.bind(this)}
 				></span>
 			</div>

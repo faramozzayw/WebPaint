@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
+import UIkit from 'uikit';
 
 import { 
 	setContext, 
@@ -161,7 +162,8 @@ class Canvas extends Component {
 			&& this.props.selectedObject.constructor === Object)) {
 			this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
 			this.props.resetCanvasActions(false);
-			this.props.resetSelectedObject();
+		//	UIkit.notification({message: 'Notification message'});
+			//this.props.resetSelectedObject();
 		}
 
 		return (
