@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addModal }  from './../../store/actions/modalActions';
+import { enableModal }  from './../../store/actions/modalStorageActions';
 
 class Storage extends Component {
 	render() {
@@ -9,7 +9,7 @@ class Storage extends Component {
 			<div className="uk-margin-small-top">
 				<span 
 					className="uk-icon uk-icon-button storage"
-					onClick={() => this.props.addModal("storageModal")}
+					onClick={() => this.props.enableModal()}
 				></span>
 			</div>
 		);
@@ -24,7 +24,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
-		addModal: addModal
+		enableModal: enableModal
 	}, dispatch);
 }
 

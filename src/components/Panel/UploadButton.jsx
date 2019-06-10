@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import UIkit from 'uikit';
+//import UIkit from 'uikit';
 
 class UploadButton extends Component {
 	async uploadImgAsCanvas(e) {
@@ -35,20 +35,20 @@ class UploadButton extends Component {
 					}
 
 				image.src = dataUri;
-				UIkit.notification({
-					message: `Файл был удачно загружен`,
-					pos: 'bottom-right',
-					timeout: 2000
-				});
+				//UIkit.notification({
+				//	message: `Файл был удачно загружен`,
+				//	pos: 'bottom-right',
+				//	timeout: 2000
+				//});
 			}
 
 			reader.onerror = e => {
 				console.log(`Error loading file. Code: ${e.target.error.code}`);
-				UIkit.notification({
-					message: `При загрузке файла произошла ошибка, попробуйте снова.`,
-					pos: 'bottom-right',
-					timeout: 2000
-				});
+				//UIkit.notification({
+				//	message: `При загрузке файла произошла ошибка, попробуйте снова.`,
+				//	pos: 'bottom-right',
+				//	timeout: 2000
+				//});
 			}
 
 			reader.readAsDataURL(file);

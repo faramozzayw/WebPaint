@@ -26,6 +26,12 @@ export const resetCanvasActions = value => {
 	}
 }
 
+export const resetSelectedObject = () => {
+	return {
+		type: 'RESET_SELECT_OBJECT'
+	}
+}
+
 export const updateSelectedObject = value => {
 	return {
 		type: 'UPDATE_SELECTED_OBJECT',
