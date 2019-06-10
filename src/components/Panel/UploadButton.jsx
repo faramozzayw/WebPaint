@@ -44,7 +44,11 @@ class UploadButton extends Component {
 
 			reader.onerror = e => {
 				console.log(`Error loading file. Code: ${e.target.error.code}`);
-				alert("При загрузке файла произошла ошибка, попробуйте снова.");
+				UIkit.notification({
+					message: `При загрузке файла произошла ошибка, попробуйте снова.`,
+					pos: 'bottom-right',
+					timeout: 2000
+				});
 			}
 
 			reader.readAsDataURL(file);

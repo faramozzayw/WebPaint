@@ -12,8 +12,6 @@ import './css/index.css';
 import * as serviceWorker from './serviceWorker';
 import rootReducer from './rootReducer';
 
-localStorage.setItem('key', 'value');
-
 const store = createStore(
 	rootReducer,
 	compose(

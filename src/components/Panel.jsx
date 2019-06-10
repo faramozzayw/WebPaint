@@ -12,6 +12,7 @@ import Eraser from './Panel/Eraser';
 import UploadButton from './Panel/UploadButton'
 import FloodFill from './Panel/FloodFill';
 import Selection from './Panel/Selection';
+import Storage from './Panel/Storage';
 
 class Panel extends Component {
 	render() {
@@ -49,6 +50,9 @@ class Panel extends Component {
 							</li>
 							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
 								<UploadButton />
+							</li>
+							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
+								<Storage />
 							</li>
 						</ul>
 					</div>

@@ -20,22 +20,17 @@ export default (state = canvasState, action) => {
 				penType: action.payload ? 'none' : 'pencil',
 				isSelecting: action.payload
 			}
+		case 'RESET_CANVAS':
+			return {
+				...state,
+				resetCanvas: action.payload,
+				selectedObject: {}
+			}
 		case 'UPDATE_SELECTED_OBJECT': 
 			return {
 				...state,
 				selectedObject: Object.assign(action.payload)
 			}
-		case 'RESET_CANVAS':
-			return {
-				...state,
-				resetCanvas: action.payload,
-			}
-		case 'RESET_SELECTED_OBJECT': 
-			return {
-				...state,
-				selectedObject: {}
-			}
-		
 		default:
 			return state;
 	}

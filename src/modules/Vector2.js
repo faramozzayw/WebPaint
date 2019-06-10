@@ -17,10 +17,10 @@ export class Vector2 {
 	}
 
 	static getBoxSize(VectorStart, VectorEnd) {
-		return {
-			width: VectorEnd.x - VectorStart.x,
-			height: VectorEnd.y - VectorStart.y
-		}
+			return {
+				width: VectorEnd.x - VectorStart.x,
+				height: VectorEnd.y - VectorStart.y
+			}
 	}
 
 	updateVector2(x = this.x, y = this.y) {

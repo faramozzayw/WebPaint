@@ -90,6 +90,17 @@ canvas {
 	background-repeat: no-repeat;
 }
 
+.storage {
+	background-image: url(../img/database.svg);
+	background-position: center; 
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
+.storageModal {
+	z-index: 1000;
+}
+
 #draw {
 	z-index: 1;
 }

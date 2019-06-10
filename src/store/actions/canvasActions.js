@@ -32,9 +32,3 @@ export const updateSelectedObject = value => {
 		payload: value
 	}
 }
-
-export const resetSelectedObject = () => {
-	return {
-		type: 'RESET_SELECTED_OBJECT'
-	}
-}
