@@ -5,6 +5,8 @@ import { enableModal }  from './../../store/actions/modalStorageActions';
 import Modal from 'react-modal';
 import StorageModal from './Storage/StorageModal';
 
+Modal.setAppElement("#root");
+
 class Storage extends Component {
 	getCursor = () => document.querySelector('.cursor');
 

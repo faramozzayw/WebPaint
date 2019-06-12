@@ -9,3 +9,9 @@ export const disableModal = () => {
 		type: 'DISABLE_MODAL'
 	}
 }
+
+export const reRenderModal = () => {
+	return {
+		type: 'RE_RENDER_MODAL'
+	}
+}

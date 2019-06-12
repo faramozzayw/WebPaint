@@ -1,5 +1,6 @@
 const storageModal = {
-	isOpen: false
+	isOpen: false,
+	reRender: 0
 }
 
 export default storageModal;

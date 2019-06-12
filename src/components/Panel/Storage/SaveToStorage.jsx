@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
-// import { bindActionCreators } from 'redux';
+import UIkit from 'uikit';
 
 class SaveToStorage extends Component {
 	handleClick = () => {
 		let saveImg = this.props.ctx.canvas.toDataURL('image/png');
 		let name = `Name: Рисунок №${localStorage.length + 1}`;
 		let date = `Date: ${Date.now()}`;
-		console.log("date", date);
-		let key = name + date;
+		let size = `Size: ${this.props.ctx.canvas.width} x ${this.props.ctx.canvas.height}`
+		let key = name + date + size;
 		try {
 			localStorage.setItem(`${key}`, saveImg);
+			UIkit.notification({
+				message: 'Изображение было сохранено в хранилище.',
+				pos: 'bottom-right',
+				timeout: 2500
+			});
 		} catch(e) {
 			console.log("Storage failed: " + e);
 		}
@@ -34,12 +39,6 @@ const mapStateToProps = state => {
 		ctx: state.canvasState.ctx
 	}
 }
-
-/*const mapDispatchToProps = dispatch => {
-	return bindActionCreators({
-		changePenType: changePenType
-	}, dispatch);
-}*/
 
 SaveToStorage.propTypes = {
 	ctx: PropTypes.object.isRequired
