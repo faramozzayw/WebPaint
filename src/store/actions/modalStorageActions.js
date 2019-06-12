@@ -3,3 +3,9 @@ export const enableModal = () => {
 		type: 'ENABLE_MODAL'
 	}
 }
+
+export const disableModal = () => {
+	return {
+		type: 'DISABLE_MODAL'
+	}
+}

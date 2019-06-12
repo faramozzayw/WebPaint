@@ -13,6 +13,7 @@ import UploadButton from './Panel/UploadButton'
 import FloodFill from './Panel/FloodFill';
 import Selection from './Panel/Selection';
 import Storage from './Panel/Storage';
+import SaveToStorage from'./Panel/Storage/SaveToStorage';
 
 class Panel extends Component {
 	render() {
@@ -50,6 +51,9 @@ class Panel extends Component {
 							</li>
 							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
 								<UploadButton />
+							</li>
+							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
+								<SaveToStorage />
 							</li>
 							<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
 								<Storage />

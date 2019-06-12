@@ -6,6 +6,10 @@ export default (state = storageModal, action) => {
 			return {
 				isOpen: true
 			}
+		case 'DISABLE_MODAL':
+			return {
+				isOpen: false
+			}
 		default:
 			return state;
 	}

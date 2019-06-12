@@ -19,7 +19,7 @@ import {
 import { 
 	hexToRGB,
 	floodFillImageData,
-	loadWebAssembly 
+	/*loadWebAssembly*/ 
 } from './../modules/Tools';
 import { Vector2 } from './../modules/Vector2';
 
