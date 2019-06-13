@@ -108,6 +108,11 @@ canvas {
 	z-index: 1000;
 }
 
+.image-border {
+	border: 1px solid #c2c7ce;
+}
+
+
 #draw {
 	z-index: 1;
 }

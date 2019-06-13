@@ -34,17 +34,26 @@ class ImageCard extends PureComponent {
   		let info = this.parseKey(stringKey);
 
     	return (
-    	    <div className="uk-margin-bottom uk-margin-left uk-card uk-card-small uk-width-1-3 uk-flex-none uk-card-default">
-    	      <div className="uk-card-media-top uk-card-header">
-    	        <img src={imgData} alt="" ref="image"/>
-						</div>
-						<div className="uk-card-body">
-							<h4 className="uk-card-title">{info.name}</h4>
-							<span>Дата создания файла: <br/>{info.date}</span>
-							<br/>
-							<span>Размеры: {info.size}</span>
-    	      </div>
-    	      <div className="uk-button-group uk-width-1-1">
+    	    <div 
+    	    	className="uk-margin-bottom uk-margin-left uk-card uk-width-1-2@s uk-width-1-3 uk-width-1-4@xl uk-width-1-4@xl uk-flex-none uk-card-default uk-flex uk-flex-column uk-flex-between">
+    	    	<div>
+    	    		<div className="uk-card-media-top uk-card-header">
+    	      	  <img
+    	      	  	className="image-border"
+    	      	  	src={imgData}
+    	      	  	//width="250"
+    	      	  	alt="" 
+    	      	  	ref="image"
+    	      	  />
+							</div>
+							<div className="uk-card-body">
+								<h4 className="uk-card-title">{info.name}</h4>
+								<span>Дата создания файла: <br/>{info.date}</span>
+								<br/>
+								<span>Размеры: {info.size}</span>
+    	      	</div>
+    	    	</div>
+    	      <div className="uk-button-group uk-width-1-1 ">
     	      	<button 
     	      		className="uk-button uk-button-primary uk-width-1-2"
     	      		onClick={this.onCanvas.bind(this)}
