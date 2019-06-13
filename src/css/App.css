@@ -104,6 +104,20 @@ canvas {
 	background-repeat: no-repeat;
 }
 
+.close {
+	background-image: url(../img/close.svg);
+	background-position: center; 
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
+.check {
+	background-image: url(../img/check.svg);
+	background-position: center; 
+	background-size: 20px 20px;
+	background-repeat: no-repeat;
+}
+
 .storageModal {
 	z-index: 1000;
 }

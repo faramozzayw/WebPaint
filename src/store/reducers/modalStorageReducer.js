@@ -15,7 +15,7 @@ export default (state = storageModal, action) => {
 		case 'RE_RENDER_MODAL':
 			return {
 				...state,
-				reRender: Math.random() * 10
+				reRender: Math.random()
 			}
 		default:
 			return state;

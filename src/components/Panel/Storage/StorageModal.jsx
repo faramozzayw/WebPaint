@@ -4,8 +4,16 @@ import { bindActionCreators } from 'redux';
 import { enableModal, disableModal }  from './../../../store/actions/modalStorageActions';
 import UIkit from 'uikit';
 import ImageCard from './ImageCard';
+import { 
+	sortByDateNewOld, 
+	sortByDateOldNew 
+} from './../../../modules/Tools';
 
 class StorageModal extends Component {
+	state = {
+		sortBy: 'По дате(от новых к старым)'
+	}
+
 	getStorageElemsMap = () => {
 		let arr = [];
 		for (let i = 0; i < localStorage.length; i++) {
@@ -35,9 +43,17 @@ class StorageModal extends Component {
 			});
 	}
 
+	handleChange = event => this.setState({ sortBy: event.target.value })
+	
 
 	render() {
 		let listMap = this.getStorageElemsMap();
+
+		if (this.state.sortBy === 'По дате(от новых к старым)') 
+			listMap = listMap.sort(sortByDateNewOld);
+		else if(this.state.sortBy === 'По дате(от старых к новым)')
+			listMap = listMap.sort(sortByDateOldNew);
+
 		let list = listMap.map(item => (
 			<ImageCard
 				key={Math.floor(Math.random() * 100000000)}
@@ -53,6 +69,23 @@ class StorageModal extends Component {
 						<span>Сохранённые изображения</span>
 					</h2>
 					<h4>На данный момент сохранено {localStorage.length} {`${localStorage.length === 1? 'изображение' : 'изображений' }`}.</h4>
+				<div>
+					<form>
+						<fieldset class="uk-fieldset">
+							<legend class="uk-legend">Сортировать: </legend>
+							<div class="uk-margin">
+								<select
+									class="uk-select uk-width-medium"
+									onChange={this.handleChange.bind(this)}
+									value={this.state.sortBy}
+								>
+            		    <option value="По дате(от новых к старым)">По дате(от новых к старым)</option>
+            		    <option value="По дате(от старых к новым)">По дате(от старых к новым)</option>
+            		</select>
+        			</div>
+						</fieldset>
+					</form>
+				</div>
 				</div>
 				<div className="uk-padding uk-flex uk-flex-around uk-flex-row uk-flex-wrap uk-flex-wrap-stretch">
 					{list}

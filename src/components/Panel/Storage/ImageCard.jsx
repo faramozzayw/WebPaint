@@ -4,6 +4,9 @@ import { bindActionCreators } from 'redux';
 import { reRenderModal, disableModal }  from './../../../store/actions/modalStorageActions';
 
 class ImageCard extends PureComponent {
+	state = {
+		edit: false
+	}
 	parseKey = string => {
 		let regexName = /(?<=Name: ).*(?=Date)/g;
 		let name = string.match(regexName)[0];
@@ -29,25 +32,62 @@ class ImageCard extends PureComponent {
 		this.props.disableModal();
 	}
 
+	editName = e => {
+		let { stringKey } = this.props;
+		let date = localStorage.getItem(stringKey);
+
+		localStorage.removeItem(stringKey);
+
+		let regexName = /(?<=Name: ).*(?=Date)/g;
+		stringKey = stringKey.replace(regexName, this.refs.editInput.value);
+
+		localStorage.setItem(stringKey, date);
+		this.setState({
+			edit: false
+		}, this.props.reRenderModal());
+	}
+
 	render() {
   		let { stringKey, imgData } = this.props;
   		let info = this.parseKey(stringKey);
+  		let hidden = !this.state.edit ? "uk-hidden" : "";
+  		let hh = this.state.edit ? "uk-hidden" : "";
 
     	return (
     	    <div 
-    	    	className="uk-margin-bottom uk-margin-left uk-card uk-width-1-2@s uk-width-1-3 uk-width-1-4@xl uk-width-1-4@xl uk-flex-none uk-card-default uk-flex uk-flex-column uk-flex-between">
+    	    	className="uk-margin-bottom uk-margin-left uk-card uk-width-1-2@s uk-width-1-3@m uk-width-1-4@l uk-flex-none uk-card-default uk-flex uk-flex-column uk-flex-between">
     	    	<div>
     	    		<div className="uk-card-media-top uk-card-header">
     	      	  <img
     	      	  	className="image-border"
     	      	  	src={imgData}
-    	      	  	//width="250"
-    	      	  	alt="" 
+    	      	  	alt=""
     	      	  	ref="image"
     	      	  />
 							</div>
 							<div className="uk-card-body">
-								<h4 className="uk-card-title">{info.name}</h4>
+								<h4 
+									className="uk-card-title"
+									onClick={() => this.setState({ edit: true })}
+								>{info.name}</h4>
+								<div id="editBox" className={hidden}>
+									<input 
+										className="uk-input uk-form-width-small uk-form-small" 
+										type="text" 
+										defaultValue={info.name} 
+										ref="editInput"
+									/>
+									<div className="uk-button-group">
+									<span 
+										className="uk-icon uk-margin-left uk-icon-button check" 
+										onClick={this.editName.bind(this)}
+									></span>
+									<span 
+										className="uk-icon uk-margin-left uk-icon-button close" 
+										onClick={() => this.setState({ edit: false })}
+									></span>
+									</div>
+								</div>
 								<span>Дата создания файла: <br/>{info.date}</span>
 								<br/>
 								<span>Размеры: {info.size}</span>
