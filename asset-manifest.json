@@ -1,14 +1,14 @@
 {
-  "main.css": "/WebPaint/static/css/main.161f8113.chunk.css",
-  "main.js": "/WebPaint/static/js/main.4f8c5ee1.chunk.js",
-  "main.js.map": "/WebPaint/static/js/main.4f8c5ee1.chunk.js.map",
-  "runtime~main.js": "/WebPaint/static/js/runtime~main.e73fb69d.js",
-  "runtime~main.js.map": "/WebPaint/static/js/runtime~main.e73fb69d.js.map",
-  "static/js/2.52410499.chunk.js": "/WebPaint/static/js/2.52410499.chunk.js",
-  "static/js/2.52410499.chunk.js.map": "/WebPaint/static/js/2.52410499.chunk.js.map",
+  "main.css": "/WebPaint/static/css/main.99b3e931.chunk.css",
+  "main.js": "/WebPaint/static/js/main.5b66a182.chunk.js",
+  "main.js.map": "/WebPaint/static/js/main.5b66a182.chunk.js.map",
+  "runtime~main.js": "/WebPaint/static/js/runtime~main.43cb48d4.js",
+  "runtime~main.js.map": "/WebPaint/static/js/runtime~main.43cb48d4.js.map",
+  "static/js/2.382a21be.chunk.js": "/WebPaint/static/js/2.382a21be.chunk.js",
+  "static/js/2.382a21be.chunk.js.map": "/WebPaint/static/js/2.382a21be.chunk.js.map",
   "index.html": "/WebPaint/index.html",
-  "precache-manifest.732f3d562ba5694e87aae3e26f297061.js": "/WebPaint/precache-manifest.732f3d562ba5694e87aae3e26f297061.js",
+  "precache-manifest.c96e4545edb27f2b9abd7e8128da74fa.js": "/WebPaint/precache-manifest.c96e4545edb27f2b9abd7e8128da74fa.js",
   "service-worker.js": "/WebPaint/service-worker.js",
-  "static/css/main.161f8113.chunk.css.map": "/WebPaint/static/css/main.161f8113.chunk.css.map",
-  "static/media/App.css": "/WebPaint/static/media/selection.33b8977b.png"
+  "static/css/main.99b3e931.chunk.css.map": "/WebPaint/static/css/main.99b3e931.chunk.css.map",
+  "static/media/App.css": "/WebPaint/static/media/upload.b64b9dd6.svg"
 }
