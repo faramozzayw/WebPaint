@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { reRenderModal }  from './../../../store/actions/modalStorageActions';
+import { reRenderModal, disableModal }  from './../../../store/actions/modalStorageActions';
 
 class ImageCard extends PureComponent {
 	parseKey = string => {
@@ -24,6 +24,11 @@ class ImageCard extends PureComponent {
 		}
 	}
 
+	onCanvas = () => {
+		this.props.ctx.drawImage(this.refs.image, 0, 0);
+		this.props.disableModal();
+	}
+
 	render() {
   		let { stringKey, imgData } = this.props;
   		let info = this.parseKey(stringKey);
@@ -39,10 +44,13 @@ class ImageCard extends PureComponent {
 							<br/>
 							<span>Размеры: {info.size}</span>
     	      </div>
-    	      <div class="uk-button-group uk-width-1-1">
-    	      	<button class="uk-button uk-button-primary uk-width-1-2">На холст</button>
+    	      <div className="uk-button-group uk-width-1-1">
     	      	<button 
-    	      		class="uk-button uk-button-danger uk-width-1-2"
+    	      		className="uk-button uk-button-primary uk-width-1-2"
+    	      		onClick={this.onCanvas.bind(this)}
+    	      	>На холст</button>
+    	      	<button 
+    	      		className="uk-button uk-button-danger uk-width-1-2"
     	      		onClick={() => {
     	      			localStorage.removeItem(stringKey);
     	      			this.props.reRenderModal();
@@ -56,13 +64,15 @@ class ImageCard extends PureComponent {
 
 const mapStateToProps = state => {
 	return {
-		reRender: state.modalStorage.reRender
+		reRender: state.modalStorage.reRender,
+		ctx: state.canvasState.ctx
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
-		reRenderModal: reRenderModal
+		reRenderModal: reRenderModal,
+		disableModal: disableModal
 	}, dispatch);
 }
 

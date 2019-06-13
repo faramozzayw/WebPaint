@@ -38,12 +38,11 @@ class StorageModal extends Component {
 
 	render() {
 		let listMap = this.getStorageElemsMap();
-		console.log("listMap", listMap);
 		let list = listMap.map(item => (
 			<ImageCard
 				key={Math.floor(Math.random() * 100000000)}
-		  	stringKey={item.keys().next().value}
-		  	imgData={item.values().next().value}
+				stringKey={item.keys().next().value}
+				imgData={item.values().next().value}
 		  />
 		));
 
@@ -59,7 +58,7 @@ class StorageModal extends Component {
 					{list}
 				</div>
 				<div className="uk-flex uk-flex-around">
-					<div class="uk-button-group">
+					<div className="uk-button-group">
 						<button
 							onClick={this.clearHandle.bind(this)}
 							className="uk-button uk-margin-right uk-margin-bottom uk-button-danger"
