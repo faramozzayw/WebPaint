@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { enableModal }  from './../../store/actions/modalStorageActions';
 import Modal from 'react-modal';
 import StorageModal from './Storage/StorageModal';
+import PropTypes from 'prop-types';
 
 Modal.setAppElement("#root");
 
@@ -43,6 +44,11 @@ const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
 		enableModal: enableModal
 	}, dispatch);
+}
+
+Storage.propTypes = {
+	isOpen: PropTypes.bool.isRequired, 
+	enableModal: PropTypes.func.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Storage);

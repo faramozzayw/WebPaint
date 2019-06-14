@@ -7,31 +7,30 @@ class UploadButton extends Component {
 	async uploadImgAsCanvas(e) {
 		e.persist()
 		if(!window.File || !window.FileReader || !window.FileList || !window.Blob){
-			alert("Ваш браузер не поддерживается :(");
+			alert("Ваш браузер не поддерживает эту функцию :(");
 			return;
 		}
 
 		if (window.confirm("При загрузке фото холст будет очищен, вы уверены?")) {
-			this.props.ctx.rect(0, 0, this.props.ctx.canvas.width, this.props.ctx.canvas.height);
-			this.props.ctx.fillStyle = '#ffffff';
-			await this.props.ctx.fill();
+			let { ctx } = this.props;
+			ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+			ctx.fillStyle = '#ffffff';
+			await ctx.fill();
 
-			let file = e.target.files[0];
-			let reader = new FileReader();
+			let [ file, reader ] = [ e.target.files[0], new FileReader() ];
 			
 			reader.onload = e => {
-				let dataUri = e.target.result;
-				let image = new Image();
+				let [ dataUri, image ] = [ e.target.result, new Image()];
 
 				image.onload = () => {
 					if (image.height <= window.innerHeight && image.width <= window.innerWidth) 
-						this.props.ctx.drawImage(image, 0, 0);
+						ctx.drawImage(image, 0, 0);
 
 					else if (image.height > window.innerHeight) 
-						this.props.ctx.drawImage(image, 0, 0, image.width, window.innerHeight);
+						ctx.drawImage(image, 0, 0, image.width, window.innerHeight);
 
 					else if (image.width > window.innerWidth) 
-						this.props.ctx.drawImage(image, 0, 0, window.innerWidth, image.height);
+						ctx.drawImage(image, 0, 0, window.innerWidth, image.height);
 					}
 
 				image.src = dataUri;
@@ -81,7 +80,7 @@ const mapStateToProps = state => {
 }
 
 UploadButton.propTypes = {
-	ctx: PropTypes.object
+	ctx: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps)(UploadButton);

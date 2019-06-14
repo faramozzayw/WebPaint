@@ -1,29 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { enableModal, disableModal }  from './../../../store/actions/modalStorageActions';
+import PropTypes from 'prop-types'
+
+import { 
+	enableModal, 
+	disableModal 
+}  from './../../../store/actions/modalStorageActions';
+
 import UIkit from 'uikit';
 import ImageCard from './ImageCard';
 import { 
 	sortByDateNewOld, 
-	sortByDateOldNew 
+	sortByDateOldNew,
+	getStorageElemsMap
 } from './../../../modules/Tools';
 
 class StorageModal extends Component {
 	state = {
 		sortBy: 'По дате(от новых к старым)'
-	}
-
-	getStorageElemsMap = () => {
-		let arr = [];
-		for (let i = 0; i < localStorage.length; i++) {
-			let map = new Map();
-			let key = localStorage.key(i);
-			let item = localStorage.getItem(key);
-			map.set(key, item);
-			arr.push(map);
-		}
-		return arr;
 	}
 
 	clearHandle = () => {
@@ -44,10 +39,9 @@ class StorageModal extends Component {
 	}
 
 	handleChange = event => this.setState({ sortBy: event.target.value })
-	
 
 	render() {
-		let listMap = this.getStorageElemsMap();
+		let listMap = getStorageElemsMap();
 
 		if (this.state.sortBy === 'По дате(от новых к старым)') 
 			listMap = listMap.sort(sortByDateNewOld);
@@ -59,7 +53,7 @@ class StorageModal extends Component {
 				key={Math.floor(Math.random() * 100000000)}
 				stringKey={item.keys().next().value}
 				imgData={item.values().next().value}
-		  />
+			/>
 		));
 
 		return (
@@ -68,7 +62,7 @@ class StorageModal extends Component {
 					<h2 className="uk-heading-line uk-text-center">
 						<span>Сохранённые изображения</span>
 					</h2>
-					<h4>На данный момент сохранено {localStorage.length} {`${localStorage.length === 1? 'изображение' : 'изображений' }`}.</h4>
+					<h4>На данный момент сохранено {localStorage.length} {`${localStorage.length === 1 ? 'изображение' : 'изображений' }`}.</h4>
 				<div>
 					<form>
 						<fieldset class="uk-fieldset">
@@ -79,10 +73,10 @@ class StorageModal extends Component {
 									onChange={this.handleChange.bind(this)}
 									value={this.state.sortBy}
 								>
-            		    <option value="По дате(от новых к старым)">По дате(от новых к старым)</option>
-            		    <option value="По дате(от старых к новым)">По дате(от старых к новым)</option>
-            		</select>
-        			</div>
+									<option value="По дате(от новых к старым)">По дате(от новых к старым)</option>
+									<option value="По дате(от старых к новым)">По дате(от старых к новым)</option>
+								</select>
+							</div>
 						</fieldset>
 					</form>
 				</div>
@@ -119,6 +113,13 @@ const mapDispatchToProps = dispatch => {
 		enableModal: enableModal,
 		disableModal: disableModal
 	}, dispatch);
+}
+
+ImageCard.propTypes = {
+	isOpen: PropTypes.bool.isRequired, 
+	reRender: PropTypes.number.isRequired,
+	enableModal: PropTypes.func.isRequired,
+	disableModal: PropTypes.func.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(StorageModal);

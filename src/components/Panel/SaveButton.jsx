@@ -11,26 +11,27 @@ import UIkit from 'uikit';
 
 class SaveButton extends Component {
 	async saveCanvasAsImg(e) {
+		let { isSelecting } = this.props;
 		let link = this.refs.link;
-		if (!this.props.isSelecting) {
+		if (!isSelecting) 
 			link.href = document.querySelector('#draw').toDataURL('image/png');
-		} else if (this.props.isSelecting) {
+		else if (isSelecting) {
+			let { selectedObject } = this.props;
 			await this.props.resetCanvasActions(true);
 			let canvas = document.createElement('canvas');
 			let ctx = canvas.getContext('2d');
 
-			let size = Vector2.getBoxSize(this.props.selectedObject.startVector, this.props.selectedObject.endVector);
+			let size = Vector2.getBoxSize(selectedObject.startVector, selectedObject.endVector);
 			canvas.width = Math.abs(size.width);
 			canvas.height = Math.abs(size.height);
 			
 			let imageDate = await this.props.ctx.getImageData(
-				this.props.selectedObject.startVector.x,
-				this.props.selectedObject.startVector.y,
+				selectedObject.startVector.x,
+				selectedObject.startVector.y,
 				size.width,
 				size.height
 			);
 
-			let link = this.refs.link;
 			ctx.putImageData(imageDate, 0, 0);
 			link.href = canvas.toDataURL('image/png');
 			this.props.resetSelectedObject();
@@ -38,7 +39,7 @@ class SaveButton extends Component {
 		link.download = 'canvasImage.png';
 		UIkit.notification({
 			message: `${
-				this.props.isSelecting ? 
+				isSelecting ? 
 				"Фрагмент был сохранён на компьютер"
 				: "Холст был сохранён на компьютер"
 			}`,
@@ -56,7 +57,7 @@ class SaveButton extends Component {
 					id="saveButton" 
 					className="uk-icon-link uk-icon-button download"
 					onClick={this.saveCanvasAsImg.bind(this)}
-				></a>
+				> </a>
 			</div>
 		);
 	}

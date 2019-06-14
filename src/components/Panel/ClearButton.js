@@ -4,9 +4,10 @@ import PropTypes from 'prop-types'
 
 class ClearButton extends Component {
 	handleClick = () => {
-		this.props.ctx.rect(0, 0, this.props.ctx.canvas.width, this.props.ctx.canvas.height);
-		this.props.ctx.fillStyle = '#ffffff';
-		this.props.ctx.fill();
+		let { ctx } = this.props;
+		ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		ctx.fillStyle = '#ffffff';
+		ctx.fill();
 	};
 
 	render() {

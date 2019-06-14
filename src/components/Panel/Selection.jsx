@@ -7,7 +7,8 @@ import { changeIsSelecting, resetCanvasActions }  from './../../store/actions/ca
 class Selection extends Component {
 	handleClick = () => {
 		this.props.changeIsSelecting(true)
-		if (this.props.isSelecting) this.props.resetCanvasActions(true)
+		if (this.props.isSelecting) 
+			this.props.resetCanvasActions(true)
 	}
 	render() {
 		return (
@@ -36,7 +37,10 @@ const mapDispatchToProps = dispatch => {
 }
 
 Selection.propTypes = {
-	changeIsSelecting: PropTypes.func.isRequired
+	color: PropTypes.string.isRequired,
+	isSelecting: PropTypes.bool.isRequired,
+	changeIsSelecting: PropTypes.func.isRequired,
+	resetCanvasActions: PropTypes.func.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Selection);

@@ -5,10 +5,11 @@ import UIkit from 'uikit';
 
 class SaveToStorage extends Component {
 	handleClick = () => {
-		let saveImg = this.props.ctx.canvas.toDataURL('image/png');
+		let { ctx } = this.props;
+		let saveImg = ctx.canvas.toDataURL('image/png');
 		let name = `Name: Рисунок №${localStorage.length + 1}`;
 		let date = `Date: ${Date.now()}`;
-		let size = `Size: ${this.props.ctx.canvas.width} x ${this.props.ctx.canvas.height}`
+		let size = `Size: ${ctx.canvas.width} x ${ctx.canvas.height}`
 		let key = name + date + size;
 		try {
 			localStorage.setItem(`${key}`, saveImg);

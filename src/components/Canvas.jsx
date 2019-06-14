@@ -19,6 +19,8 @@ import {
 import { 
 	hexToRGB,
 	floodFillImageData,
+	chkObjForEmptiness,
+	chkObjForNonEmptiness,
 	/*loadWebAssembly*/ 
 } from './../modules/Tools';
 import { Vector2 } from './../modules/Vector2';
@@ -63,19 +65,26 @@ class Canvas extends Component {
 	cursor = e => {
 		const cursor = this.getCursor();
 
-		if (this.props.penType !== 'none') {
+		let { 
+			penType, 
+			thickness, 
+			pipetteColor, 
+			color 
+		} = this.props;
+
+		if (penType !== 'none') {
 			cursor.style.display = 'block';
-			cursor.style.width = `${this.props.thickness + 5}px`;
-			cursor.style.height = `${this.props.thickness + 5}px`;
+			cursor.style.width = `${thickness + 5}px`;
+			cursor.style.height = `${thickness + 5}px`;
 	
 			cursor.style.top = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
 			cursor.style.left = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
 	
-			if (this.props.penType === 'pencil' || this.props.penType === 'paint-bucket') {
-				cursor.style.backgroundColor  = `${this.props.color}`;
-			} else if (this.props.penType === 'pipette') {
-				cursor.style.backgroundColor  = `${this.props.pipetteColor}`;
-			} else if (this.props.penType === 'eraser') {
+			if (penType === 'pencil' || penType === 'paint-bucket') {
+				cursor.style.backgroundColor  = `${color}`;
+			} else if (penType === 'pipette') {
+				cursor.style.backgroundColor  = `${pipetteColor}`;
+			} else if (penType === 'eraser') {
 				cursor.style.backgroundColor = '#ffffff';
 			}
 		} else {
@@ -85,21 +94,27 @@ class Canvas extends Component {
 
 	draw = e => {
 		this.cursor(e);
-		this.props.ctx.lineWidth = this.props.thickness;
-		if (this.state.isDrawing && this.props.penType !== 'paint-bucket') {
-			this.props.ctx.beginPath();
-			this.props.ctx.setLineDash([0]);
+		let  {
+			ctx, penType, 
+			thickness, color,
+			pipetteColor 	
+		} =  this.props;
 
-			if (this.props.penType === 'pencil')
-				this.props.ctx.strokeStyle = this.props.color;
-			else if (this.props.penType === 'pipette')
-				this.props.ctx.strokeStyle = this.props.pipetteColor;
-			else if (this.props.penType === 'eraser')
-				this.props.ctx.strokeStyle = '#ffffff';
+		ctx.lineWidth = thickness;
+		if (this.state.isDrawing && penType !== 'paint-bucket') {
+			ctx.beginPath();
+			ctx.setLineDash([0]);
 
-			this.props.ctx.moveTo(this.state.lastX, this.state.lastY);
-			this.props.ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
-			this.props.ctx.stroke();
+			if (penType === 'pencil')
+				ctx.strokeStyle = color;
+			else if (penType === 'pipette')
+				ctx.strokeStyle = pipetteColor;
+			else if (penType === 'eraser')
+				ctx.strokeStyle = '#ffffff';
+
+			ctx.moveTo(this.state.lastX, this.state.lastY);
+			ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+			ctx.stroke();
 			
 			this.setState({
 				lastX: e.nativeEvent.offsetX,
@@ -139,29 +154,96 @@ class Canvas extends Component {
 
 	selectingDraw = e => {
 		this.cursor(e);
-		this.props.ctx.lineWidth = 1;
-		if (this.state.selectStart) {
+		let  { ctx } =  this.props;
+		let { 
+			lastX, lastY, 
+			selectStartX, selectStartY,
+			selectStart,
+			beforeImageData
+		} = this.state;
+
+		ctx.lineWidth = 1;
+		if (selectStart) {
 			this.setState({
 				lastX: e.nativeEvent.offsetX,
 				lastY: e.nativeEvent.offsetY
 			}, () => {
-				let width = this.state.lastX - this.state.selectStartX;
-				let height = this.state.lastY - this.state.selectStartY;
-				this.props.ctx.setLineDash([4, 4]);
-  			this.props.ctx.lineDashOffset = 0;
-				this.props.ctx.strokeRect(this.state.selectStartX, this.state.selectStartY, width, height);
+				let width = lastX - selectStartX;
+				let height = lastY - this.state.selectStartY;
+				ctx.setLineDash([4, 4]);
+			ctx.lineDashOffset = 0;
+				ctx.strokeRect(selectStartX, selectStartY, width, height);
 			});
-			this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
+			ctx.putImageData(beforeImageData, 0, 0);
 		}
 	}
 
+	onMouseMoveEvent = e => {
+		let canvas = this.getCanvas();
+		if (this.props.isSelecting) {
+			this.selectingDraw(e);
+			canvas.style.cursor = 'crosshair';
+		} else {
+			this.draw(e);
+			canvas.style.cursor = 'none';
+		}
+	}
+
+	onMouseDownEvent = e => {
+		if (this.props.isSelecting  && chkObjForEmptiness(this.props.selectedObject)) {
+			let canvas = this.getCanvas();
+			let imageData = this.props.ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+			this.setState({
+				selectStartX: this.state.selectStartX === undefined ? e.nativeEvent.offsetX : this.state.selectStartX,
+				selectStartY: this.state.selectStartY === undefined ? e.nativeEvent.offsetY : this.state.selectStartY,
+				beforeImageData: !this.state.selectStart ? imageData : this.state.beforeImageData,
+				selectStart: true
+			});
+		} else {
+			this.setState({
+				isDrawing: this.state.isSelecting ? false : true,
+				lastX: e.nativeEvent.offsetX,
+				lastY: e.nativeEvent.offsetY,
+			});
+		}
+	}
+
+	onMouseUpEvent = e => {
+		if (this.props.isSelecting) {
+			let width = this.state.lastX - this.state.selectStartX;
+			let height = this.state.lastY - this.state.selectStartY;
+			let selectObject = {
+				startVector: new Vector2(this.state.selectStartX, this.state.selectStartY),
+				endVector: new Vector2(this.state.lastX, this.state.lastY)
+			}
+			this.props.updateSelectedObject(selectObject);
+			this.props.ctx.setLineDash([4, 4]);
+			this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
+			this.props.ctx.strokeRect(this.state.selectStartX, this.state.selectStartY, width, height);
+
+			this.setState({
+				selectStartX: undefined,
+				selectStartY: undefined,
+				selectStart: false,
+			});
+		} else {
+			this.setState({
+				isDrawing: false
+			});
+		}
+	}
+
+	onMouseOutEvent = e => {
+		this.setState({
+			isDrawing: false
+		});
+	}
+
 	render() {
-		if (this.props.resetCanvas 
-			&& !(Object.entries(this.props.selectedObject).length === 0 
-			&& this.props.selectedObject.constructor === Object)) {
+		if (this.props.resetCanvas && chkObjForNonEmptiness(this.props.selectedObject)) {
 			this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
 			this.props.resetCanvasActions(false);
-		//	UIkit.notification({message: 'Notification message'});
 			//this.props.resetSelectedObject();
 		}
 
@@ -172,69 +254,10 @@ class Canvas extends Component {
 					id="draw"
 					ref="canvas" 
 					className="uk-width-1-1"
-
-					onMouseMove={e => {
-						let canvas = this.getCanvas();
-						if (this.props.isSelecting) {
-							this.selectingDraw(e);
-							canvas.style.cursor = 'crosshair';
-						} else {
-							this.draw(e);
-							canvas.style.cursor = 'none';
-						}
-					}}
-
-					onMouseDown={e => {
-						if (this.props.isSelecting) {
-							let canvas = this.getCanvas();
-							let imageData = this.props.ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-							this.setState({
-								selectStartX: this.state.selectStartX === undefined ? e.nativeEvent.offsetX : this.state.selectStartX,
-								selectStartY: this.state.selectStartY === undefined ? e.nativeEvent.offsetY : this.state.selectStartY,
-								beforeImageData: !this.state.selectStart ? imageData : this.state.beforeImageData,
-								selectStart: true
-							});
-						} else {
-							this.setState({
-								isDrawing: this.state.isSelecting ? false : true,
-								lastX: e.nativeEvent.offsetX,
-								lastY: e.nativeEvent.offsetY,
-							});
-						}
-					}}
-
-					onMouseUp={e => {
-						if (this.props.isSelecting) {
-							let width = this.state.lastX - this.state.selectStartX;
-							let height = this.state.lastY - this.state.selectStartY;
-							let selectObject = {
-								startVector: new Vector2(this.state.selectStartX, this.state.selectStartY),
-								endVector: new Vector2(this.state.lastX, this.state.lastY)
-							}
-							this.props.updateSelectedObject(selectObject);
-							this.props.ctx.setLineDash([4, 4]);
-							this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
-							this.props.ctx.strokeRect(this.state.selectStartX, this.state.selectStartY, width, height);
-
-							this.setState({
-								selectStartX: undefined,
-								selectStartY: undefined,
-								selectStart: false,
-							});
-						} else {
-							this.setState({
-								isDrawing: false
-							});
-						}
-					}}
-
-					onMouseOut={e => {
-						this.setState({
-							isDrawing: false
-						});
-					}}
-
+					onMouseMove={this.onMouseMoveEvent.bind(this)}
+					onMouseDown={this.onMouseDownEvent.bind(this)}
+					onMouseUp={this.onMouseUpEvent.bind(this)}
+					onMouseOut={this.onMouseOutEvent.bind(this)}
 					onClick={this.onClickHandle.bind(this)}
 					>
 				</canvas>

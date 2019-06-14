@@ -74,7 +74,8 @@ const mapStateToProps = state => {
 }
 
 Panel.propTypes = {
-	penType: PropTypes.string.isRequired
+	penType: PropTypes.string.isRequired,
+	isSelecting: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps)(Panel);
