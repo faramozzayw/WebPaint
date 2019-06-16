@@ -14,6 +14,7 @@ import FloodFill from './Panel/FloodFill';
 import Selection from './Panel/Selection';
 import Storage from './Panel/Storage';
 import SaveToStorage from'./Panel/Storage/SaveToStorage';
+import InfoBoxModal from './Panel/InfoBoxModal';
 
 const Panel = ({penType, isSelecting}) => (
 	<div>
@@ -55,6 +56,9 @@ const Panel = ({penType, isSelecting}) => (
 					</li>
 					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
 						<Storage />
+					</li>
+					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
+						<InfoBoxModal />
 					</li>
 				</ul>
 			</div>
