@@ -10,9 +10,10 @@ export default (state = canvasState, action) => {
 		case 'CHANGE_PEN_TYPE': 
 			return {
 				...state,
-				penType: action.payload,
+				resetCanvas: state.isSelecting && true,
 				isSelecting: false,
-				resetCanvas: state.isSelecting ? true : false
+				selectedObject: {},
+				penType: action.payload,
 			}
 		case 'CHANGE_IS_SELECTING': 
 			return {
@@ -24,7 +25,8 @@ export default (state = canvasState, action) => {
 			return {
 				...state,
 				resetCanvas: action.payload,
-				//selectedObject: {}
+				penType: 'pencil',
+				isSelecting: false
 			}
 		case 'RESET_SELECT_OBJECT':
 			return {

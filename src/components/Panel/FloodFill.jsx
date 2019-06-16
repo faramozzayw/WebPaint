@@ -3,14 +3,20 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
 import { changePenType }  from './../../store/actions/canvasActions';
+import { autosaveImg } from './../../modules/Tools';
 
 class FloodFill extends Component {
+	handleClick = () => {
+		this.props.changePenType('paint-bucket');
+		autosaveImg(this.props.ctx);
+	}
+
 	render() {
 		return (
 			<div className="uk-margin-small-top">
 				<span 
 					className="uk-icon uk-icon-button paint-bucket" 
-					onClick={() => this.props.changePenType('paint-bucket')}
+					onClick={this.handleClick.bind(this)}
 				></span>
 			</div>
 		);
@@ -19,7 +25,7 @@ class FloodFill extends Component {
 
 const mapStateToProps = state => {
 	return {
-		color: state.penProperty.color,
+		ctx: state.canvasState.ctx,
 	}
 }
 
@@ -30,7 +36,8 @@ const mapDispatchToProps = dispatch => {
 }
 
 FloodFill.propTypes = {
-	changePenType: PropTypes.func.isRequired
+	changePenType: PropTypes.func.isRequired,
+	ctx: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FloodFill);

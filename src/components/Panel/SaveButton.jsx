@@ -35,6 +35,7 @@ class SaveButton extends Component {
 			ctx.putImageData(imageDate, 0, 0);
 			link.href = canvas.toDataURL('image/png');
 			this.props.resetSelectedObject();
+			canvas.remove();
 		}
 		link.download = 'canvasImage.png';
 		UIkit.notification({

@@ -11,6 +11,14 @@ import {
 	resetSelectedObject
 } from './../store/actions/canvasActions';
 
+import {
+	pencil,
+	pipette,
+	eraser,
+	paintBucket,
+	none
+} from './../modules/PenTypeConsts';
+
 import { 
 	changeColor, 
 	changePipetteColor
@@ -19,10 +27,11 @@ import {
 import { 
 	hexToRGB,
 	floodFillImageData,
-	chkObjForEmptiness,
+	/*chkObjForEmptiness,*/
 	chkObjForNonEmptiness,
 	/*loadWebAssembly*/ 
 } from './../modules/Tools';
+
 import { Vector2 } from './../modules/Vector2';
 
 class Canvas extends Component {
@@ -72,7 +81,7 @@ class Canvas extends Component {
 			color 
 		} = this.props;
 
-		if (penType !== 'none') {
+		if (penType !== none) {
 			cursor.style.display = 'block';
 			cursor.style.width = `${thickness + 5}px`;
 			cursor.style.height = `${thickness + 5}px`;
@@ -80,13 +89,13 @@ class Canvas extends Component {
 			cursor.style.top = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
 			cursor.style.left = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
 	
-			if (penType === 'pencil' || penType === 'paint-bucket') {
+			if (penType === pencil || penType === paintBucket) 
 				cursor.style.backgroundColor  = `${color}`;
-			} else if (penType === 'pipette') {
+			else if (penType === pipette) 
 				cursor.style.backgroundColor  = `${pipetteColor}`;
-			} else if (penType === 'eraser') {
+			else if (penType === eraser) 
 				cursor.style.backgroundColor = '#ffffff';
-			}
+
 		} else {
 			cursor.style.display = 'none';
 		}
@@ -101,15 +110,15 @@ class Canvas extends Component {
 		} =  this.props;
 
 		ctx.lineWidth = thickness;
-		if (this.state.isDrawing && penType !== 'paint-bucket') {
+		if (this.state.isDrawing && penType !== paintBucket) {
 			ctx.beginPath();
 			ctx.setLineDash([0]);
 
-			if (penType === 'pencil')
+			if (penType === pencil)
 				ctx.strokeStyle = color;
-			else if (penType === 'pipette')
+			else if (penType === pipette)
 				ctx.strokeStyle = pipetteColor;
-			else if (penType === 'eraser')
+			else if (penType === eraser)
 				ctx.strokeStyle = '#ffffff';
 
 			ctx.moveTo(this.state.lastX, this.state.lastY);
@@ -148,8 +157,8 @@ class Canvas extends Component {
 	};
 
 	onClickHandle = e => {
-		if (this.props.penType === 'pipette') this.pickColor(e);
-		else if (this.props.penType === 'paint-bucket') this.floodFill(e);
+		if (this.props.penType === pipette) this.pickColor(e);
+		else if (this.props.penType === paintBucket) this.floodFill(e);
 	};
 
 	selectingDraw = e => {
@@ -171,9 +180,11 @@ class Canvas extends Component {
 				let width = lastX - selectStartX;
 				let height = lastY - this.state.selectStartY;
 				ctx.setLineDash([4, 4]);
-			ctx.lineDashOffset = 0;
-				ctx.strokeRect(selectStartX, selectStartY, width, height);
-			});
+
+				ctx.lineDashOffset = 0;
+					ctx.strokeRect(selectStartX, selectStartY, width, height);
+				});
+
 			ctx.putImageData(beforeImageData, 0, 0);
 		}
 	}
@@ -190,19 +201,28 @@ class Canvas extends Component {
 	}
 
 	onMouseDownEvent = e => {
-		if (this.props.isSelecting  && chkObjForEmptiness(this.props.selectedObject)) {
+		let  { ctx, isSelecting, selectedObject } =  this.props;
+		let {  
+			selectStartX, selectStartY,
+			selectStart, beforeImageData
+		} = this.state;
+
+		if (isSelecting) {
+			if (chkObjForNonEmptiness(selectedObject)) 
+				this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
+
 			let canvas = this.getCanvas();
-			let imageData = this.props.ctx.getImageData(0, 0, canvas.width, canvas.height);
+			let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
 			this.setState({
-				selectStartX: this.state.selectStartX === undefined ? e.nativeEvent.offsetX : this.state.selectStartX,
-				selectStartY: this.state.selectStartY === undefined ? e.nativeEvent.offsetY : this.state.selectStartY,
-				beforeImageData: !this.state.selectStart ? imageData : this.state.beforeImageData,
+				selectStartX: selectStartX === undefined ? e.nativeEvent.offsetX : selectStartX,
+				selectStartY: selectStartY === undefined ? e.nativeEvent.offsetY : selectStartY,
+				beforeImageData: !selectStart ? imageData : beforeImageData,
 				selectStart: true
 			});
 		} else {
 			this.setState({
-				isDrawing: this.state.isSelecting ? false : true,
+				isDrawing: isSelecting ? false : true,
 				lastX: e.nativeEvent.offsetX,
 				lastY: e.nativeEvent.offsetY,
 			});
@@ -241,10 +261,9 @@ class Canvas extends Component {
 	}
 
 	render() {
-		if (this.props.resetCanvas && chkObjForNonEmptiness(this.props.selectedObject)) {
+		if (this.props.resetCanvas) {
 			this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
 			this.props.resetCanvasActions(false);
-			//this.props.resetSelectedObject();
 		}
 
 		return (

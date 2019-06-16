@@ -3,14 +3,20 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
 import { changePenType }  from './../../store/actions/canvasActions';
+import { autosaveImg } from './../../modules/Tools';
 
 class Eraser extends Component {
+	handleClick = () => {
+		this.props.changePenType('eraser');
+		autosaveImg(this.props.ctx);
+	}
+
 	render() {
 		return (
 			<div className="uk-margin-small-top">
 				<span 
 					className="uk-icon uk-icon-button uk-icon-image eraser" 
-					onClick={() => this.props.changePenType('eraser')}
+					onClick={this.handleClick.bind(this)}
 				></span>
 			</div>
 		);
@@ -19,7 +25,7 @@ class Eraser extends Component {
 
 const mapStateToProps = state => {
 	return {
-		color: state.penProperty.color,
+		ctx: state.canvasState.ctx,
 	}
 }
 
@@ -30,7 +36,8 @@ const mapDispatchToProps = dispatch => {
 }
 
 Eraser.propTypes = {
-	changePenType: PropTypes.func.isRequired
+	changePenType: PropTypes.func.isRequired,
+	ctx: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Eraser);

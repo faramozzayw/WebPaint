@@ -56,14 +56,14 @@ export const floodFillImageData = (imageData, color, startPoint, backgroundColor
   return imageData;
 }
 
-export const loadWebAssembly = fileName => {
+/*export const loadWebAssembly = fileName => {
   return fetch(fileName)
     .then(response => response.arrayBuffer())
     .then(bits => {
     	return WebAssembly.compile(bits)
     })
     .then(module => new WebAssembly.Instance(module));
-};
+};*/
 
 export const sortByDateNewOld = (elem1, elem2) => {
 	let regexDate = /(?<=Date: )\d+/g;
@@ -119,6 +119,13 @@ export const getStorageElemsMap = () => {
 		arr.push(map);
 	}
 	return arr;
+}
+
+export const autosaveImg = ctx => {
+	let key = `autosave: ${sessionStorage.length}`;
+	let data = ctx.canvas.toDataURL('image/png');
+
+	sessionStorage.setItem(key, data);
 }
 
 export const chkObjForEmptiness = object => (Object.entries(object).length === 0 && object.constructor === Object) ? true : false;

@@ -42,10 +42,10 @@ class StorageModal extends Component {
 
 	render() {
 		let listMap = getStorageElemsMap();
-
-		if (this.state.sortBy === 'По дате(от новых к старым)') 
+		let { sortBy } = this.props;
+		if (sortBy === 'По дате(от новых к старым)') 
 			listMap = listMap.sort(sortByDateNewOld);
-		else if(this.state.sortBy === 'По дате(от старых к новым)')
+		else if(sortBy === 'По дате(от старых к новым)')
 			listMap = listMap.sort(sortByDateOldNew);
 
 		let list = listMap.map(item => (
@@ -65,11 +65,11 @@ class StorageModal extends Component {
 					<h4>На данный момент сохранено {localStorage.length} {`${localStorage.length === 1 ? 'изображение' : 'изображений' }`}.</h4>
 				<div>
 					<form>
-						<fieldset class="uk-fieldset">
-							<legend class="uk-legend">Сортировать: </legend>
-							<div class="uk-margin">
+						<fieldset className="uk-fieldset">
+							<legend className="uk-legend">Сортировать: </legend>
+							<div className="uk-margin">
 								<select
-									class="uk-select uk-width-medium"
+									className="uk-select uk-width-medium"
 									onChange={this.handleChange.bind(this)}
 									value={this.state.sortBy}
 								>
@@ -116,10 +116,10 @@ const mapDispatchToProps = dispatch => {
 }
 
 ImageCard.propTypes = {
-	isOpen: PropTypes.bool.isRequired, 
-	reRender: PropTypes.number.isRequired,
-	enableModal: PropTypes.func.isRequired,
-	disableModal: PropTypes.func.isRequired,
+	isOpen: PropTypes.bool, 
+	reRender: PropTypes.number,
+	enableModal: PropTypes.func,
+	disableModal: PropTypes.func,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(StorageModal);
