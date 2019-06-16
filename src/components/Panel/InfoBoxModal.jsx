@@ -6,9 +6,14 @@ import { enableInfoModal }  from './../../store/actions/infoModalActions';
 import Modal from 'react-modal';
 import InfoBox from './../InfoBox';
 
+Modal.setAppElement("#root");
+
 class InfoBoxModal extends Component {
+	getCursor = () => document.querySelector('.cursor');
+
 	clickHandle = () => {
-		this.props.enableInfoModal()
+		this.getCursor().style.display = 'none';
+		this.props.enableInfoModal();
 	} 
 	render() {
 		return (
