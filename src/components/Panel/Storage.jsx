@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { enableModal }  from './../../store/actions/modalStorageActions';
+
 import Modal from 'react-modal';
 import StorageModal from './Storage/StorageModal';
-import PropTypes from 'prop-types';
 
 Modal.setAppElement("#root");
 

@@ -16,6 +16,7 @@ body {
 }
 
 .cursor {
+	display: none;
 	margin: auto;
 	width: 16px;
 	height: 16px;

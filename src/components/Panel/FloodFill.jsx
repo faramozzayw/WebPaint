@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
 import { changePenType }  from './../../store/actions/canvasActions';
-import { autosaveImg } from './../../modules/Tools';
 
 class FloodFill extends Component {
 	handleClick = () => {
 		this.props.changePenType('paint-bucket');
-		autosaveImg(this.props.ctx);
 	}
 
 	render() {

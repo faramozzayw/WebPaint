@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import './../css/App.css';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import docCookies from 'doc-cookies';
 
 import Panel from './Panel';
 import Canvas from './Canvas';
@@ -11,20 +12,39 @@ import DisplayError from './DisplayError';
 import { enableInfoModal }  from './../store/actions/infoModalActions';
 
 class App extends Component {
-	componentDidMount() {
-		let regex = /(?<=firstLogin=).*/g;
+	onUnload = (e) => {
+		let  { ctx } = this.props;
+		let autosave = docCookies.getItem("autosaveEnable");
+		autosave = JSON.parse(autosave);
+		if (autosave) {
+			let saveImg = ctx.canvas.toDataURL('image/png');
+			let name = `Name: Несохраненный  рисунок`;
+			let date = `Date: ${Date.now()}`;
+			let imgSize = `Size: ${ctx.canvas.width} x ${ctx.canvas.height}`;
+			let key = name + date + imgSize;
+			localStorage.setItem(`${key}`, saveImg);
+		}
+	}
 
+	componentDidMount() {
 		try {
-			let exist = regex.test(document.cookie);
-			if (exist) 
-				document.cookie = document.cookie.replace(regex, 'false');
-			else {
-				document.cookie = "firstLogin=true";
+			let exist = docCookies.hasItem("firstLogin");
+			if (exist) {
+				docCookies.setItem("firstLogin", "false")
+			} else {
+				docCookies.setItem("firstLogin", "true");
+				docCookies.setItem("autosaveEnable", "false");
 				this.props.enableInfoModal();
 			}
 		} catch (e) {
 			console.log(`Failed with error: ${e}`);
 		}
+
+		window.addEventListener('beforeunload', this.onUnload);
+	}
+
+	componentDidUmmount() {
+		window.removeEventListener("beforeunload", this.onUnload)
 	}
 
 	render() {
@@ -46,7 +66,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
 	return {
-		isOpen: state.infoModal.isOpen
+		isOpen: state.infoModal.isOpen,
+		ctx: state.canvasState.ctx,
 	}
 }
 
@@ -57,8 +78,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 App.propTypes = {
-	isOpen: PropTypes.bool.isRequired, 
-	enableInfoModal: PropTypes.func.isRequired,
+	isOpen: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

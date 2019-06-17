@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+
 import { 
 	resetCanvasActions, 
 	resetSelectedObject 
 }  from './../../store/actions/canvasActions';
+
 import { Vector2 } from './../../modules/Vector2';
 import UIkit from 'uikit';
 

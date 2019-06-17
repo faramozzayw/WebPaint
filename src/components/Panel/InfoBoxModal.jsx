@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { enableInfoModal }  from './../../store/actions/infoModalActions';
+
 import Modal from 'react-modal';
 import InfoBox from './../InfoBox';
 

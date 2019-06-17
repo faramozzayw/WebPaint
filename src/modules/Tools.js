@@ -121,12 +121,12 @@ export const getStorageElemsMap = () => {
 	return arr;
 }
 
-export const autosaveImg = ctx => {
+/*export const autosaveImg = ctx => {
 	let key = `autosave: ${sessionStorage.length}`;
 	let data = ctx.canvas.toDataURL('image/png');
 
 	sessionStorage.setItem(key, data);
-}
+}*/
 
 export const chkObjForEmptiness = object => (Object.entries(object).length === 0 && object.constructor === Object) ? true : false;
 export const chkObjForNonEmptiness = object => !(Object.entries(object).length === 0 && object.constructor === Object) ? true : false;

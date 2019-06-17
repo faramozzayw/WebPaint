@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { autosaveImg } from './../../modules/Tools';
 
 class ClearButton extends Component {
 	handleClick = () => {
 		let { ctx } = this.props;
-		autosaveImg(ctx);
 		ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
 		ctx.fillStyle = '#ffffff';
 		ctx.fill();

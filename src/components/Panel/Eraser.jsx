@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux';
 import { changePenType }  from './../../store/actions/canvasActions';
-import { autosaveImg } from './../../modules/Tools';
 
 class Eraser extends Component {
 	handleClick = () => {
 		this.props.changePenType('eraser');
-		autosaveImg(this.props.ctx);
 	}
 
 	render() {

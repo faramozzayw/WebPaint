@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { disableInfoModal }  from './../store/actions/infoModalActions';
@@ -7,7 +8,7 @@ const InfoBox = ({disableInfoModal}) => (
 	<div>
 		<div className="uk-margin-medium-bottom">
 			<h1 className="uk-heading-divider uk-flex uk-flex-between uk-margin-small-left uk-margin-small-right">
-			Краткая информация:
+			Краткая справка:
 				<span 
 					className="uk-icon uk-margin-left uk-icon-button close uk-overlay" uk-overlay-icon="true" 
 					onClick={() => disableInfoModal()}
@@ -63,7 +64,16 @@ const InfoBox = ({disableInfoModal}) => (
 				<span className="uk-icon uk-icon-button uk-icon-image uk-text-middle storage"></span>
 				<span className="uk-margin-small-left uk-margin-small-top uk-text-middle">Хранилище. Открывает окно, где храняться сохранённые изображения</span>
 			</li>
-
+			<li className="uk-flex uk-flex-auto uk-margin-small-bottom">
+				<span className="uk-icon uk-icon-button uk-icon-image uk-text-middle info"></span>
+				<span className="uk-margin-small-left uk-margin-small-top uk-text-middle">Справка. Открывает окно с краткой справкой</span>
+			</li>
+			<li className="uk-flex uk-flex-auto uk-margin-small-bottom">
+				<h3>Хранилище</h3>
+			</li>
+			<li className="uk-flex uk-flex-auto uk-margin-small-bottom">
+				<span className="uk-margin-small-left uk-margin-small-top uk-text-middle">Хранилище - место, куда можно сохранить изображения без скачивания их на компьютер, а также место, куда сохраняются изображения при обновлени/закрытии вкладки. Можно удалить все изображения, скачать их, включить/выключить сохранение изображения при обновлени/закрытии вкладки. Имя изображения можно изменить кликнув на него</span>
+			</li>
 		</ul>
 	</div>
 );
@@ -78,6 +88,11 @@ const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
 		disableInfoModal: disableInfoModal
 	}, dispatch);
+}
+
+InfoBox.propTypes = {
+	isOpen: PropTypes.bool.isRequired,
+	disableInfoModal: PropTypes.func.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(InfoBox);
