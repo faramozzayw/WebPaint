@@ -13,7 +13,8 @@ class Selection extends Component {
 	render() {
 		return (
 			<div className="uk-margin-small-top">
-				<span 
+				<span
+					uk-tooltip="Выделение области"
 					className="uk-icon uk-icon-button uk-icon-image selection" 
 					onClick={this.handleClick.bind(this)}
 				></span>

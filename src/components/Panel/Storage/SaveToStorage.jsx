@@ -58,7 +58,8 @@ class SaveToStorage extends Component {
 	render() {
 		return (
 			<div className="uk-margin-small-top">
-				<span 
+				<span
+					uk-tooltip="Сохранить в хранилище"
 					className="uk-icon uk-icon-button cloud-upload" 
 					onClick={this.handleClick.bind(this)}
 				></span>

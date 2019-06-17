@@ -57,7 +57,8 @@ class UploadButton extends Component {
 	render() {
 		return (
 			<div className="uk-margin-small-top">
-				<label 
+				<label
+					uk-tooltip="Загрузить фото"
 					htmlFor="uploadButton"
 					className="uk-icon-link uk-icon-button upload"
 				></label>

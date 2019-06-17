@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 
 class ImageCard extends PureComponent {
 	state = {
-		edit: false
+		showEditForm: false
 	}
 
 	onCanvas = () => {
@@ -29,7 +29,7 @@ class ImageCard extends PureComponent {
 
 		localStorage.setItem(stringKey, date);
 		this.setState({
-			edit: false
+			showEditForm: false
 		}, this.props.reRenderModal());
 	}
 
@@ -38,16 +38,25 @@ class ImageCard extends PureComponent {
 		this.props.reRenderModal();
 	}
 
+	headerClick = e => {
+		this.setState((prevState, props) => {
+			return {
+				showEditForm: !prevState.showEditForm 
+			}
+		})
+	}
+
+	disableEditForm = () => this.setState({ showEditForm: false })
+
 	render() {
 		let { stringKey, imgData } = this.props;
-		let { edit } = this.state;
+		let { showEditForm } = this.state;
 		let info = parseKey(stringKey);
-		let hidden = !edit ? "uk-hidden" : "";
+		let hidden = !showEditForm ? "uk-hidden" : "";
 
 		return (
-			<div 
-				className="uk-margin-bottom uk-margin-left uk-card uk-width-1-2@s uk-width-1-3@m uk-width-1-4@l uk-flex-none uk-card-default uk-flex uk-flex-column uk-flex-between">
-				<div>
+			<div className="uk-margin-bottom uk-margin-left uk-card uk-width-medium uk-card-default uk-flex uk-flex-column uk-flex-between">
+				<div className="uk-flex uk-flex-column uk-flex-between uk-flex-1">
 					<div className="uk-card-media-top uk-card-header">
 					<img
 						className="image-border"
@@ -56,12 +65,12 @@ class ImageCard extends PureComponent {
 						ref="image"
 					/>
 					</div>
-					<div className="uk-card-body">
+					<div className="uk-card-body padding">
 						<h4 
-							className="uk-card-title"
-							onClick={() => this.setState({ edit: true })}
+							className="uk-card-title uk-heading-bullet"
+							onClick={this.headerClick.bind(this)}
 						>{info.name}</h4>
-						<div id="editBox" className={hidden}>
+						<div id="editBox" className={`${hidden} uk-margin-small-bottom`}>
 							<input 
 								className="uk-input uk-form-width-small uk-form-small" 
 								type="text" 
@@ -70,12 +79,12 @@ class ImageCard extends PureComponent {
 							/>
 							<div className="uk-button-group">
 							<span 
-								className="uk-icon uk-margin-left uk-icon-button check" 
+								className="uk-icon uk-margin-small-left uk-icon-button check" 
 								onClick={this.editName.bind(this)}
 							></span>
 							<span 
-								className="uk-icon uk-margin-left uk-icon-button close" 
-								onClick={() => this.setState({ edit: false })}
+								className="uk-icon uk-margin-small-left uk-icon-button close" 
+								onClick={this.disableEditForm.bind(this)}
 							></span>
 							</div>
 						</div>
@@ -84,7 +93,7 @@ class ImageCard extends PureComponent {
 						<span>Размеры: {info.size}</span>
 					</div>
 				</div>
-				<div className="uk-button-group uk-width-1-1 ">
+				<div className="uk-button-group uk-width-1-1">
 					<button 
 						className="uk-button uk-button-primary uk-width-1-2"
 						onClick={this.onCanvas.bind(this)}

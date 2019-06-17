@@ -12,7 +12,8 @@ class Pen extends Component {
 	render() {
 		return (
 			<div className="uk-margin-small-top">
-				<span 
+				<span
+					uk-tooltip="Ручка"
 					className="uk-icon uk-icon-button pencil" 
 					onClick={this.handleClick.bind(this)}
 				></span>

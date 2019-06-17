@@ -55,6 +55,7 @@ class SaveButton extends Component {
 		return (
 			<div className="uk-margin-small-top">
 				<a
+					uk-tooltip="Скачать холст"
 					href="canvasDownload"
 					ref="link"
 					id="saveButton" 

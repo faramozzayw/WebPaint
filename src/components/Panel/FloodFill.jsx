@@ -12,7 +12,8 @@ class FloodFill extends Component {
 	render() {
 		return (
 			<div className="uk-margin-small-top">
-				<span 
+				<span
+					uk-tooltip="Заливка цветом"
 					className="uk-icon uk-icon-button paint-bucket" 
 					onClick={this.handleClick.bind(this)}
 				></span>

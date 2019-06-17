@@ -20,7 +20,8 @@ class Storage extends Component {
 	render() {
 		return (
 			<div className="uk-margin-small-top">
-				<span 
+				<span
+					uk-tooltip="Открыть хранилище"
 					className="uk-icon uk-icon-button storage"
 					onClick={this.onClickHandle.bind(this)}
 				></span>

@@ -12,7 +12,8 @@ class Eraser extends Component {
 	render() {
 		return (
 			<div className="uk-margin-small-top">
-				<span 
+				<span
+					uk-tooltip="Ластик"
 					className="uk-icon uk-icon-button uk-icon-image eraser" 
 					onClick={this.handleClick.bind(this)}
 				></span>

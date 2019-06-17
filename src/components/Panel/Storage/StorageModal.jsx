@@ -118,7 +118,7 @@ class StorageModal extends Component {
 					</form>
 				</div>
 				</div>
-				<div className="uk-padding uk-flex uk-flex-around uk-flex-row uk-flex-wrap uk-flex-wrap-stretch">
+				<div className="uk-padding uk-flex uk-flex-around uk-flex-row uk-flex-wrap uk-flex-wrap-stretch uk-flex-top">
 					{list}
 				</div>
 				<div className="uk-flex uk-flex-around uk-button-group">
@@ -134,7 +134,7 @@ class StorageModal extends Component {
 
 						<button
 							onClick={this.clearHandle.bind(this)}
-							className="uk-button uk-margin-right uk-margin-bottom uk-button-danger"
+							className="uk-button uk-margin-left uk-margin-bottom uk-button-danger"
 						>Удалить всё</button>
 
 						<button

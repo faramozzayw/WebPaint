@@ -159,3 +159,7 @@ canvas {
 .active::after {
 	content: "\21d1"
 }
+
+.padding {
+	padding: 30px !important;
+}

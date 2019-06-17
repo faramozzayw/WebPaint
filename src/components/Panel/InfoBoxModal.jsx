@@ -19,7 +19,8 @@ class InfoBoxModal extends Component {
 	render() {
 		return (
 			<div className="uk-margin-small-top">
-				<span 
+				<span
+					uk-tooltip="Помощь"
 					className="uk-icon uk-icon-button info"
 					onClick={this.clickHandle.bind(this)}
 				></span>

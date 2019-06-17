@@ -12,7 +12,8 @@ class Pipette extends Component {
 	render() {
 		return (
 			<div className="uk-margin-small-top">
-				<span 
+				<span
+					uk-tooltip="Пипетка"
 					className="uk-icon uk-icon-button uk-icon-image pipette" 
 					onClick={this.handleClick.bind(this)}
 				></span>
