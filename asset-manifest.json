@@ -1,13 +1,13 @@
 {
   "main.css": "/WebPaint/static/css/main.a44e4901.chunk.css",
-  "main.js": "/WebPaint/static/js/main.5095cc6d.chunk.js",
-  "main.js.map": "/WebPaint/static/js/main.5095cc6d.chunk.js.map",
+  "main.js": "/WebPaint/static/js/main.ef64a94a.chunk.js",
+  "main.js.map": "/WebPaint/static/js/main.ef64a94a.chunk.js.map",
   "runtime~main.js": "/WebPaint/static/js/runtime~main.43cb48d4.js",
   "runtime~main.js.map": "/WebPaint/static/js/runtime~main.43cb48d4.js.map",
   "static/js/2.1e20af52.chunk.js": "/WebPaint/static/js/2.1e20af52.chunk.js",
   "static/js/2.1e20af52.chunk.js.map": "/WebPaint/static/js/2.1e20af52.chunk.js.map",
   "index.html": "/WebPaint/index.html",
-  "precache-manifest.68caf4ced01a1bdf4909345e42568c4d.js": "/WebPaint/precache-manifest.68caf4ced01a1bdf4909345e42568c4d.js",
+  "precache-manifest.44f3ce9959271f6bb35a23908a0b8e5d.js": "/WebPaint/precache-manifest.44f3ce9959271f6bb35a23908a0b8e5d.js",
   "service-worker.js": "/WebPaint/service-worker.js",
   "static/css/main.a44e4901.chunk.css.map": "/WebPaint/static/css/main.a44e4901.chunk.css.map",
   "static/media/App.css": "/WebPaint/static/media/upload.b64b9dd6.svg"
