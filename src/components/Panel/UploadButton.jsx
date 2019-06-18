@@ -17,10 +17,10 @@ class UploadButton extends Component {
 			ctx.fillStyle = '#ffffff';
 			await ctx.fill();
 
-			let [ file, reader ] = [ e.target.files[0], new FileReader() ];
+			let [file, reader] = [e.target.files[0], new FileReader()];
 			
 			reader.onload = e => {
-				let [ dataUri, image ] = [ e.target.result, new Image()];
+				let [dataUri, image] = [e.target.result, new Image()];
 
 				image.onload = () => {
 					if (image.height <= window.innerHeight && image.width <= window.innerWidth) 
@@ -31,7 +31,7 @@ class UploadButton extends Component {
 
 					else if (image.width > window.innerWidth) 
 						ctx.drawImage(image, 0, 0, window.innerWidth, image.height);
-					}
+				}
 
 				image.src = dataUri;
 				UIkit.notification({
@@ -64,7 +64,6 @@ class UploadButton extends Component {
 				></label>
 				<input
 					type="file"
-					ref="link"
 					id="uploadButton" 
 					className="uk-hidden"
 					onChange={this.uploadImgAsCanvas.bind(this)}

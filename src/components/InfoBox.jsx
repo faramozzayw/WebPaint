@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { disableInfoModal }  from './../store/actions/infoModalActions';
 
-const InfoBox = ({disableInfoModal}) => (
+const InfoBox = ({ disableInfoModal }) => (
 	<div>
 		<div className="uk-margin-medium-bottom">
 			<h1 className="uk-heading-divider uk-flex uk-flex-between uk-margin-small-left uk-margin-small-right">

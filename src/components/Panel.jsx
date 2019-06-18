@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 import Thickness from './Panel/Thickness';
 import ColorPicker from './Panel/ColorPicker';
 import ClearButton from './Panel/ClearButton';
-import SaveButton from './Panel/SaveButton';
+import DownloadButton from './Panel/DownloadButton';
 import Pipette from './Panel/Pipette';
 import Pen from './Panel/Pen';
 import Eraser from './Panel/Eraser';
@@ -24,7 +24,7 @@ const Panel = ({penType, isSelecting}) => (
 					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right uk-flex uk-flex-middle">
 						<ColorPicker />
 					</li>
-					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-right">
+					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-medium-right">
 						<Thickness />
 					</li>
 					<li className={`uk-active uk-margin-top uk-margin-bottom uk-margin-left ${penType === 'pencil' && 'active'}`}>
@@ -42,11 +42,11 @@ const Panel = ({penType, isSelecting}) => (
 					<li className={`uk-active uk-margin-top uk-margin-bottom uk-margin-left ${isSelecting && 'active'}`}>
 						<Selection />
 					</li>
-					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
+					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left uk-margin-medium-right">
 						<ClearButton />
 					</li>
 					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
-						<SaveButton />
+						<DownloadButton />
 					</li>
 					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
 						<UploadButton />
@@ -54,7 +54,7 @@ const Panel = ({penType, isSelecting}) => (
 					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
 						<SaveToStorage />
 					</li>
-					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">
+					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left  uk-margin-medium-right">
 						<Storage />
 					</li>
 					<li className="uk-active uk-margin-top uk-margin-bottom uk-margin-left">

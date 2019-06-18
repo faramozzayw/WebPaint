@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 
 import { 
@@ -32,7 +32,7 @@ import {
 	/*loadWebAssembly*/ 
 } from './../modules/Tools';
 
-import { Vector2 } from './../modules/Vector2';
+import Vector2 from './../modules/Vector2';
 
 class Canvas extends Component {
 	state = {
@@ -45,7 +45,9 @@ class Canvas extends Component {
 		selectStart: false
 	};
 
-	getCanvas = () => this.refs.canvas;
+	canvas = React.createRef();
+
+	getCanvas = () => this.canvas.current;
 	getCanvasContext = () => this.getCanvas().getContext('2d');
 	getCursor = () => document.querySelector('.cursor');
 
@@ -271,7 +273,7 @@ class Canvas extends Component {
 				<div className="cursor"></div>
 				<canvas
 					id="draw"
-					ref="canvas" 
+					ref={this.canvas} 
 					className="uk-width-1-1"
 					onMouseMove={this.onMouseMoveEvent.bind(this)}
 					onMouseDown={this.onMouseDownEvent.bind(this)}

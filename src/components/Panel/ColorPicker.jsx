@@ -1,25 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { changeColor }  from './../../store/actions/penActions';
 
-class ColorPicker extends Component {
-	handleChange = event => this.props.changeColor(event.target.value);
-
-	render() {
-		return (
-			<div className="uk-flex uk-flex-column">
-				<label htmlFor="colorPicker">Цвет:</label>
-				<input 
-					type="color" 
-					id="colorPicker" 
-					onChange={this.handleChange.bind(this)} 
-				/>
-			</div>
-		);
-	}
-}
+const ColorPicker = ({ changeColor }) => (
+	<div className="uk-flex uk-flex-column">
+		<label htmlFor="colorPicker">Цвет:</label>
+		<input 
+			type="color" 
+			id="colorPicker" 
+			onChange={e => this.props.changeColor(e.target.value)} 
+		/>
+	</div>
+);
 
 const mapStateToProps = state => {
 	return {

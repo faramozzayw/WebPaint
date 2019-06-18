@@ -1,26 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { changePenType }  from './../../store/actions/canvasActions';
 
-class Pipette extends Component {
-	handleClick = () => {
-		this.props.changePenType('pipette');
-	}
-	
-	render() {
-		return (
-			<div className="uk-margin-small-top">
-				<span
-					uk-tooltip="Пипетка"
-					className="uk-icon uk-icon-button uk-icon-image pipette" 
-					onClick={this.handleClick.bind(this)}
-				></span>
-			</div>
-		);
-	}
-}
+import { pipette } from './../../modules/PenTypeConsts';
+
+const Pipette = ({ changePenType }) => (
+	<div className="uk-margin-small-top">
+		<span
+			uk-tooltip="Пипетка"
+			className="uk-icon uk-icon-button uk-icon-image pipette" 
+			onClick={() => changePenType(pipette)}
+		></span>
+	</div>
+);
 
 const mapStateToProps = state => {
 	return {

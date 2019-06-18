@@ -1,26 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { changePenType }  from './../../store/actions/canvasActions';
 
-class Eraser extends Component {
-	handleClick = () => {
-		this.props.changePenType('eraser');
-	}
+import { eraser } from './../../modules/PenTypeConsts';
 
-	render() {
-		return (
-			<div className="uk-margin-small-top">
-				<span
-					uk-tooltip="Ластик"
-					className="uk-icon uk-icon-button uk-icon-image eraser" 
-					onClick={this.handleClick.bind(this)}
-				></span>
-			</div>
-		);
-	}
-}
+const Eraser = ({ changePenType }) => (
+	<div className="uk-margin-small-top">
+		<span
+			uk-tooltip="Ластик"
+			className="uk-icon uk-icon-button uk-icon-image eraser" 
+			onClick={() => changePenType(eraser)}
+		></span>
+	</div>
+);
 
 const mapStateToProps = state => {
 	return {

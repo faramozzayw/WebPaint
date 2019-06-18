@@ -12,7 +12,7 @@ import DisplayError from './DisplayError';
 import { enableInfoModal }  from './../store/actions/infoModalActions';
 
 class App extends Component {
-	onUnload = (e) => {
+	onUnload = e => {
 		let  { ctx } = this.props;
 		let autosave = docCookies.getItem("autosaveEnable");
 		autosave = JSON.parse(autosave);
@@ -37,10 +37,11 @@ class App extends Component {
 				this.props.enableInfoModal();
 			}
 		} catch (e) {
+			console.log("e", e);
 			console.log(`Failed with error: ${e}`);
+		} finally {
+			window.addEventListener('beforeunload', this.onUnload);
 		}
-
-		window.addEventListener('beforeunload', this.onUnload);
 	}
 
 	componentDidUmmount() {

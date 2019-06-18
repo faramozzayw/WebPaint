@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -9,31 +9,27 @@ import StorageModal from './Storage/StorageModal';
 
 Modal.setAppElement("#root");
 
-class Storage extends Component {
-	getCursor = () => document.querySelector('.cursor');
-
-	onClickHandle = () => {
-		this.getCursor().style.display = 'none';
-		this.props.enableModal();
+const ShowStorage = ({ isOpen, enableModal }) => {
+	const clickHandle = () => {
+		document.querySelector('.cursor').style.display = 'none';
+		enableModal();
 	}
 
-	render() {
-		return (
-			<div className="uk-margin-small-top">
-				<span
-					uk-tooltip="Открыть хранилище"
-					className="uk-icon uk-icon-button storage"
-					onClick={this.onClickHandle.bind(this)}
-				></span>
-				<Modal
-					isOpen={this.props.isOpen}
-					contentLabel="Storage Modal"
-				>
-					<StorageModal />
-				</Modal>
-			</div>
-		);
-	}
+	return (
+		<div className="uk-margin-small-top">
+			<span
+				uk-tooltip="Открыть хранилище"
+				className="uk-icon uk-icon-button storage"
+				onClick={() => clickHandle()}
+			></span>
+			<Modal
+				isOpen={isOpen}
+				contentLabel="Show storage Modal"
+			>
+				<StorageModal />
+			</Modal>
+		</div>
+	);
 }
 
 const mapStateToProps = state => {
@@ -48,9 +44,9 @@ const mapDispatchToProps = dispatch => {
 	}, dispatch);
 }
 
-Storage.propTypes = {
+ShowStorage.propTypes = {
 	isOpen: PropTypes.bool.isRequired, 
 	enableModal: PropTypes.func.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Storage);
+export default connect(mapStateToProps, mapDispatchToProps)(ShowStorage);

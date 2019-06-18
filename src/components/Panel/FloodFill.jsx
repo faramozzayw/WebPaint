@@ -1,26 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { changePenType }  from './../../store/actions/canvasActions';
 
-class FloodFill extends Component {
-	handleClick = () => {
-		this.props.changePenType('paint-bucket');
-	}
+import { paintBucket } from './../../modules/PenTypeConsts';
 
-	render() {
-		return (
-			<div className="uk-margin-small-top">
-				<span
-					uk-tooltip="Заливка цветом"
-					className="uk-icon uk-icon-button paint-bucket" 
-					onClick={this.handleClick.bind(this)}
-				></span>
-			</div>
-		);
-	}
-}
+const FloodFill  = ({ changePenType }) => (
+	<div className="uk-margin-small-top">
+		<span
+			uk-tooltip="Заливка цветом"
+			className="uk-icon uk-icon-button paint-bucket" 
+			onClick={() => changePenType(paintBucket)}
+		></span>
+	</div>
+);
 
 const mapStateToProps = state => {
 	return {

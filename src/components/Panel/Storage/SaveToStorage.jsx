@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import UIkit from 'uikit';
 import { bindActionCreators } from 'redux';
 import { resetCanvasActions }  from './../../../store/actions/canvasActions';
-import { Vector2 } from './../../../modules/Vector2';
+import Vector2 from './../../../modules/Vector2';
 
 class SaveToStorage extends Component {
 	async handleClick() {
@@ -40,19 +40,20 @@ class SaveToStorage extends Component {
 		}
 
 		key = name + date + imgSize;
+		
 		try {
-				localStorage.setItem(`${key}`, saveImg);
-				UIkit.notification({
-					message: `${isSelecting ? 
-						'Фрагмент был сохранён в хранилище.' 
-						: 'Холст был сохранён в хранилище.'
-					}`,
-					pos: 'bottom-right',
-					timeout: 2500
-				});
-			} catch(e) {
-				console.log("Storage failed: " + e);
-			}
+			localStorage.setItem(`${key}`, saveImg);
+			UIkit.notification({
+				message: `${isSelecting ? 
+					'Фрагмент был сохранён в хранилище.' 
+					: 'Холст был сохранён в хранилище.'
+				}`,
+				pos: 'bottom-right',
+				timeout: 2500
+			});
+		} catch(e) {
+			console.log("Storage failed: " + e);
+		}
 	}
 
 	render() {

@@ -1,31 +1,35 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 import { 
 	reRenderModal, 
 	disableModal 
 }  from './../../../store/actions/modalStorageActions';
+
 import { parseKey } from './../../../modules/Tools';
-import PropTypes from 'prop-types'
 
 class ImageCard extends PureComponent {
 	state = {
 		showEditForm: false
 	}
 
+	editInput = React.createRef()
+	image = React.createRef()
+
 	onCanvas = () => {
-		this.props.ctx.drawImage(this.refs.image, 0, 0);
+		this.props.ctx.drawImage(this.image.current, 0, 0);
 		this.props.disableModal();
 	}
 
-	editName = e => {
+	finishEditName = e => {
 		let { stringKey } = this.props;
 		let date = localStorage.getItem(stringKey);
 
 		localStorage.removeItem(stringKey);
 
 		let regexName = /(?<=Name: ).*(?=Date)/g;
-		stringKey = stringKey.replace(regexName, this.refs.editInput.value);
+		stringKey = stringKey.replace(regexName, this.editInput.current.value);
 
 		localStorage.setItem(stringKey, date);
 		this.setState({
@@ -62,7 +66,7 @@ class ImageCard extends PureComponent {
 						className="image-border"
 						src={imgData}
 						alt=""
-						ref="image"
+						ref={this.image}
 					/>
 					</div>
 					<div className="uk-card-body padding">
@@ -75,12 +79,12 @@ class ImageCard extends PureComponent {
 								className="uk-input uk-form-width-small uk-form-small" 
 								type="text" 
 								defaultValue={info.name} 
-								ref="editInput"
+								ref={this.editInput}
 							/>
 							<div className="uk-button-group">
 							<span 
 								className="uk-icon uk-margin-small-left uk-icon-button check" 
-								onClick={this.editName.bind(this)}
+								onClick={this.finishEditName.bind(this)}
 							></span>
 							<span 
 								className="uk-icon uk-margin-small-left uk-icon-button close" 

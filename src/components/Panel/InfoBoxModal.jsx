@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -9,30 +9,27 @@ import InfoBox from './../InfoBox';
 
 Modal.setAppElement("#root");
 
-class InfoBoxModal extends Component {
-	getCursor = () => document.querySelector('.cursor');
-
-	clickHandle = () => {
-		this.getCursor().style.display = 'none';
-		this.props.enableInfoModal();
-	} 
-	render() {
-		return (
-			<div className="uk-margin-small-top">
-				<span
-					uk-tooltip="Помощь"
-					className="uk-icon uk-icon-button info"
-					onClick={this.clickHandle.bind(this)}
-				></span>
-				<Modal
-					isOpen={this.props.isOpen}
-					contentLabel="Storage Modal"
-				>
-					<InfoBox />
-				</Modal>
-			</div>
-		);
+const InfoBoxModal = ({ isOpen, enableInfoModal }) => {
+	const clickHandle = () => {
+		document.querySelector('.cursor').style.display = 'none';
+		enableInfoModal();
 	}
+	
+	return (
+		<div className="uk-margin-small-top">
+			<span
+				uk-tooltip="Помощь"
+				className="uk-icon uk-icon-button info"
+				onClick={() => clickHandle()}
+			></span>
+			<Modal
+				isOpen={isOpen}
+				contentLabel="Storage Modal"
+			>
+				<InfoBox />
+			</Modal>
+		</div>
+	);
 }
 
 const mapStateToProps = state => {

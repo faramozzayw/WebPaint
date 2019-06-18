@@ -1,4 +1,4 @@
-export class Vector2 {
+export default class Vector2 {
 	constructor(x, y) {
 		if (Array.isArray(x) || Array.isArray(y)) {
 			console.log(new TypeError('Bad args, x or y is array, x: ' + x + ' y: ' + y));
@@ -21,10 +21,5 @@ export class Vector2 {
 				width: VectorEnd.x - VectorStart.x,
 				height: VectorEnd.y - VectorStart.y
 			}
-	}
-
-	updateVector2(x = this.x, y = this.y) {
-		this.x = x;
-		this.y = y;
 	}
 }

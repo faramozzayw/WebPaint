@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { changeIsSelecting, resetCanvasActions }  from './../../store/actions/canvasActions';
 
@@ -10,6 +10,7 @@ class Selection extends Component {
 		if (this.props.isSelecting) 
 			this.props.resetCanvasActions(true)
 	}
+
 	render() {
 		return (
 			<div className="uk-margin-small-top">
