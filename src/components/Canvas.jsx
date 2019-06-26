@@ -54,8 +54,12 @@ class Canvas extends Component {
 	componentDidMount() {
 		const canvas = this.getCanvas();
 		const ctx = this.getCanvasContext();
-
-		this.props.setContext(ctx);
+		let { 
+			setContext,
+			color,
+			thickness
+		} = this.props;
+		setContext(ctx);
 
 		canvas.width = window.innerWidth;
 		canvas.height = window.innerHeight - document.querySelector('.uk-navbar-container').clientHeight;
@@ -64,10 +68,10 @@ class Canvas extends Component {
 			beforeImageData: ctx.getImageData(0, 0, canvas.width, canvas.height)
 		});
 
-		ctx.strokeStyle = this.props.color;
+		ctx.strokeStyle = color;
 		ctx.lineJoin = "round";
 		ctx.lineCap = "round";
-		ctx.lineWidth = this.props.thickness;
+		ctx.lineWidth = thickness;
 		ctx.rect(0, 0, canvas.width, canvas.height);
 		ctx.fillStyle = '#ffffff';
 		ctx.fill();
@@ -91,16 +95,21 @@ class Canvas extends Component {
 			cursor.style.top = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
 			cursor.style.left = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
 	
-			if (penType === pencil || penType === paintBucket) 
+			if (penType === pencil) 
 				cursor.style.backgroundColor  = `${color}`;
-			else if (penType === pipette) 
+			else if(penType === paintBucket){
+				cursor.style.backgroundColor  = `${color}`;
+				cursor.style.width = `16px`;
+				cursor.style.height = `16px`;
+			} else if (penType === pipette) {
 				cursor.style.backgroundColor  = `${pipetteColor}`;
-			else if (penType === eraser) 
+				cursor.style.width = `8px`;
+				cursor.style.height = `8px`;
+			} else if (penType === eraser) 
 				cursor.style.backgroundColor = '#ffffff';
 
-		} else {
+		} else 
 			cursor.style.display = 'none';
-		}
 	};
 
 	draw = e => {

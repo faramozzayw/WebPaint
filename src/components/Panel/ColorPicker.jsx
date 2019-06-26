@@ -10,7 +10,7 @@ const ColorPicker = ({ changeColor }) => (
 		<input 
 			type="color" 
 			id="colorPicker" 
-			onChange={e => this.props.changeColor(e.target.value)} 
+			onChange={e => changeColor(e.target.value)} 
 		/>
 	</div>
 );
