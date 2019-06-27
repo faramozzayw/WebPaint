@@ -19,7 +19,7 @@ const InfoBoxModal = ({ isOpen, enableInfoModal }) => {
 		<div className="uk-margin-small-top">
 			<span
 				uk-tooltip="Помощь"
-				className="uk-icon uk-icon-button info"
+				className="uk-icon uk-icon-button info icon"
 				onClick={() => clickHandle()}
 			></span>
 			<Modal

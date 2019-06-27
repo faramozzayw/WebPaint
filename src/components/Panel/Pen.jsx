@@ -10,7 +10,7 @@ const Pen = ({ changePenType }) => (
 	<div className="uk-margin-small-top">
 		<span
 			uk-tooltip="Ручка"
-			className="uk-icon uk-icon-button pencil" 
+			className="uk-icon uk-icon-button pencil icon" 
 			onClick={() => changePenType(pencil)}
 		></span>
 	</div>

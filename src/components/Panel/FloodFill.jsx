@@ -10,7 +10,7 @@ const FloodFill  = ({ changePenType }) => (
 	<div className="uk-margin-small-top">
 		<span
 			uk-tooltip="Заливка цветом"
-			className="uk-icon uk-icon-button paint-bucket" 
+			className="uk-icon uk-icon-button paint-bucket icon" 
 			onClick={() => changePenType(paintBucket)}
 		></span>
 	</div>

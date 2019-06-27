@@ -60,7 +60,7 @@ class UploadButton extends Component {
 				<label
 					uk-tooltip="Загрузить фото"
 					htmlFor="uploadButton"
-					className="uk-icon-link uk-icon-button upload"
+					className="uk-icon-link uk-icon-button upload icon"
 				></label>
 				<input
 					type="file"

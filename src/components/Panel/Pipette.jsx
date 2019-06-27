@@ -10,7 +10,7 @@ const Pipette = ({ changePenType }) => (
 	<div className="uk-margin-small-top">
 		<span
 			uk-tooltip="Пипетка"
-			className="uk-icon uk-icon-button uk-icon-image pipette" 
+			className="uk-icon uk-icon-button uk-icon-image pipette icon" 
 			onClick={() => changePenType(pipette)}
 		></span>
 	</div>

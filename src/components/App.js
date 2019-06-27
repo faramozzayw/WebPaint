@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import docCookies from 'doc-cookies';
 
 import Panel from './Panel';
+import PanelMobile from './PanelMobile';
 import Canvas from './Canvas';
 import DisplayError from './DisplayError';
 
@@ -55,7 +56,12 @@ class App extends Component {
 				<Panel />
 				<Canvas /> 
 			</div>
-		) : <DisplayError />;
+		) : (
+			<div className="App">
+				<PanelMobile />
+				<Canvas /> 
+			</div>
+		)
 
 		return (
 			<div>

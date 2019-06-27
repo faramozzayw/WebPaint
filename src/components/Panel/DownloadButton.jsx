@@ -66,7 +66,7 @@ class DownloadButton extends Component {
 					href="canvasDownload"
 					ref={this.link}
 					id="saveButton" 
-					className="uk-icon-link uk-icon-button download"
+					className="uk-icon-link uk-icon-button download icon"
 					onClick={this.downloadCanvasAsImg.bind(this)}
 				> </a>
 			</div>

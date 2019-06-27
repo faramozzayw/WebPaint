@@ -62,7 +62,9 @@ class Canvas extends Component {
 		setContext(ctx);
 
 		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight - document.querySelector('.uk-navbar-container').clientHeight;
+		canvas.height = window.innerWidth > 800 
+		? window.innerHeight - document.querySelector('.uk-navbar-container').clientHeight 
+		: window.innerHeight;
 
 		this.setState({
 			beforeImageData: ctx.getImageData(0, 0, canvas.width, canvas.height)
@@ -241,17 +243,27 @@ class Canvas extends Component {
 	}
 
 	onMouseUpEvent = e => {
-		if (this.props.isSelecting) {
-			let width = this.state.lastX - this.state.selectStartX;
-			let height = this.state.lastY - this.state.selectStartY;
+		let {
+			selectStartX, selectStartY,
+			lastX, lastY,
+			beforeImageData
+		} = this.state;
+		let {
+			ctx, updateSelectedObject,
+			isSelecting
+		} =  this.props;
+
+		if (isSelecting) {
+			let width = lastX - selectStartX;
+			let height = lastY - selectStartY;
 			let selectObject = {
-				startVector: new Vector2(this.state.selectStartX, this.state.selectStartY),
-				endVector: new Vector2(this.state.lastX, this.state.lastY)
+				startVector: new Vector2(selectStartX, selectStartY),
+				endVector: new Vector2(lastX, lastY)
 			}
-			this.props.updateSelectedObject(selectObject);
-			this.props.ctx.setLineDash([4, 4]);
-			this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
-			this.props.ctx.strokeRect(this.state.selectStartX, this.state.selectStartY, width, height);
+			updateSelectedObject(selectObject);
+			ctx.setLineDash([4, 4]);
+			ctx.putImageData(beforeImageData, 0, 0);
+			ctx.strokeRect(selectStartX, selectStartY, width, height);
 
 			this.setState({
 				selectStartX: undefined,
@@ -285,9 +297,19 @@ class Canvas extends Component {
 					ref={this.canvas} 
 					className="uk-width-1-1"
 					onMouseMove={this.onMouseMoveEvent.bind(this)}
+					//onTouchMove={e => {
+					//	console.log(e.touches[0]);
+					//}}
+
 					onMouseDown={this.onMouseDownEvent.bind(this)}
+					//onTouchStart={this.onMouseDownEvent.bind(this)}
+
 					onMouseUp={this.onMouseUpEvent.bind(this)}
 					onMouseOut={this.onMouseOutEvent.bind(this)}
+					//onTouchEnd={this.onMouseUpEvent.bind(this)}
+					//onTouchCancel={this.onMouseOutEvent.bind(this)}
+
+
 					onClick={this.onClickHandle.bind(this)}
 					>
 				</canvas>

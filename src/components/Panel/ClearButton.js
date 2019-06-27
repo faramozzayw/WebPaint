@@ -16,7 +16,7 @@ class ClearButton extends Component {
 				<span
 					uk-tooltip="Очистить холст"
 					id="clearButton" 
-					className="uk-icon-link uk-icon-button trash" 
+					className="uk-icon-link uk-icon-button trash icon" 
 					onClick={this.handleClick.bind(this)}
 				></span>
 			</div>

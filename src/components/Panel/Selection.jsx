@@ -16,7 +16,7 @@ class Selection extends Component {
 			<div className="uk-margin-small-top">
 				<span
 					uk-tooltip="Выделение области"
-					className="uk-icon uk-icon-button uk-icon-image selection" 
+					className="uk-icon uk-icon-button uk-icon-image selection icon" 
 					onClick={this.handleClick.bind(this)}
 				></span>
 			</div>

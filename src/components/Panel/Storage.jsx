@@ -19,7 +19,7 @@ const ShowStorage = ({ isOpen, enableModal }) => {
 		<div className="uk-margin-small-top">
 			<span
 				uk-tooltip="Открыть хранилище"
-				className="uk-icon uk-icon-button storage"
+				className="uk-icon uk-icon-button storage icon"
 				onClick={() => clickHandle()}
 			></span>
 			<Modal

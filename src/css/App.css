@@ -1,18 +1,25 @@
 .App {
-  text-align: center;
+	text-align: center;
 }
 
 input[type=color] {
-  border: none;
+	border: none;
 }
 
+@media screen and (max-width: 800px) {
+	input[type=color]{
+		margin-top: 10px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
 html {
 	height: 100%;
 }
 
 body {
 	overflow: hidden;
- 	height: inherit;
+	height: inherit;
 }
 
 .cursor {
@@ -33,109 +40,72 @@ canvas {
 	cursor: none;
 }
 
-.pipette {
-	background-image: url(../img/pipette.png);
+
+.icon {
+	background-color: #e6e6e6 !important;
 	background-position: center; 
 	background-size: 20px 20px;
 	background-repeat: no-repeat;
+}
+
+.pipette {
+	background-image: url(../img/pipette.png);
 }
 
 .eraser {
 	background-image: url(../img/eraser.png);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .selection {
 	background-image: url(../img/selection.png);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .pencil {
 	background-image: url(../img/pencil.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .upload {
 	background-image: url(../img/upload.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .trash {
 	background-image: url(../img/trash.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .paint-bucket {
 	background-image: url(../img/paint-bucket.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .download {
 	background-image: url(../img/download.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .storage {
 	background-image: url(../img/database.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .cloud-upload {
 	background-image: url(../img/cloud-upload.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .close {
 	background-image: url(../img/close.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .check {
 	background-image: url(../img/check.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .forward {
 	background-image: url(../img/forward.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .reply {
 	background-image: url(../img/reply.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .info {
 	background-image: url(../img/info.svg);
-	background-position: center; 
-	background-size: 20px 20px;
-	background-repeat: no-repeat;
 }
 
 .storageModal {
@@ -160,6 +130,20 @@ canvas {
 	content: "\21d1"
 }
 
+.mobile-active > div {
+	list-style-type: none;
+}
+
+.mobile-active > div::before {
+	padding-right: 15px;
+	content: "\21d2";
+}
+
 .padding {
 	padding: 30px !important;
 }
+
+.uk-nav-default {
+	font-size: 1.25rem;
+}
+

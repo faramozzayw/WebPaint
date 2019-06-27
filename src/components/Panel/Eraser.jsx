@@ -10,7 +10,7 @@ const Eraser = ({ changePenType }) => (
 	<div className="uk-margin-small-top">
 		<span
 			uk-tooltip="Ластик"
-			className="uk-icon uk-icon-button uk-icon-image eraser" 
+			className="uk-icon uk-icon-button uk-icon-image eraser icon" 
 			onClick={() => changePenType(eraser)}
 		></span>
 	</div>
