@@ -30,16 +30,17 @@ class App extends Component {
 	componentDidMount() {
 		try {
 			let exist = docCookies.hasItem("firstLogin");
-			if (exist) {
+			if (exist)
 				docCookies.setItem("firstLogin", "false")
-			} else {
+			else {
 				docCookies.setItem("firstLogin", "true");
 				docCookies.setItem("autosaveEnable", "false");
 				this.props.enableInfoModal();
 			}
 		} catch (e) {
-			console.log("e", e);
-			console.log(`Failed with error: ${e}`);
+			console.log("Failed with error: ");
+			console.log(e);
+			
 		} finally {
 			window.addEventListener('beforeunload', this.onUnload);
 		}
@@ -50,7 +51,7 @@ class App extends Component {
 	}
 
 	render() {
-		const app = !(window.innerWidth < 800) ? 
+		const app = !(window.innerWidth < 1025) ? 
 		(
 			<div className="App">
 				<Panel />

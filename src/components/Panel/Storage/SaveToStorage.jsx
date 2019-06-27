@@ -52,7 +52,8 @@ class SaveToStorage extends Component {
 				timeout: 2500
 			});
 		} catch(e) {
-			console.log("Storage failed: " + e);
+			console.log("Storage failed: ");
+			console.log(e);
 		}
 	}
 

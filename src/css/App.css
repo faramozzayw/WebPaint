@@ -1,3 +1,13 @@
+html {
+	height: 100%;
+	line-height: 1;
+}
+
+body {
+	overflow: hidden;
+	height: inherit;
+}
+
 .App {
 	text-align: center;
 }
@@ -8,18 +18,14 @@ input[type=color] {
 
 @media screen and (max-width: 800px) {
 	input[type=color]{
-		margin-top: 10px;
+		margin-top: 5%;
 		margin-left: auto;
 		margin-right: auto;
 	}
-}
-html {
-	height: 100%;
-}
 
-body {
-	overflow: hidden;
-	height: inherit;
+	.thickness > select {
+		margin-top: 5%;
+	}
 }
 
 .cursor {
@@ -40,6 +46,10 @@ canvas {
 	cursor: none;
 }
 
+.border-x-none {
+	border-top: 0;
+	border-bottom: 0;
+}
 
 .icon {
 	background-color: #e6e6e6 !important;
@@ -116,7 +126,6 @@ canvas {
 	border: 1px solid #c2c7ce;
 }
 
-
 #draw {
 	z-index: 1;
 }
@@ -146,4 +155,3 @@ canvas {
 .uk-nav-default {
 	font-size: 1.25rem;
 }
-

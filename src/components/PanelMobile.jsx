@@ -11,18 +11,18 @@ import Pen from './Panel/Pen';
 import Eraser from './Panel/Eraser';
 import UploadButton from './Panel/UploadButton'
 import FloodFill from './Panel/FloodFill';
-import Selection from './Panel/Selection';
+//import Selection from './Panel/Selection';
 import Storage from './Panel/Storage';
 import SaveToStorage from'./Panel/Storage/SaveToStorage';
 import InfoBoxModal from './Panel/InfoBoxModal';
 
-const PanelMobile = ({ penType, isSelecting }) => (
-	<div className="panel-mobile">
-		<button className="uk-button uk-button-primary uk-width-1-1" type="button" uk-toggle="target: #offcanvas-nav-default">Меню</button>
-		<div id="offcanvas-nav-default" uk-offcanvas="overlay: true">
+const PanelMobile = ({ penType, infoModal, modalStorage }) => (
+	<div>
+		<button className="uk-button uk-button-primary uk-width-1-1 panel-mobile border-x-none" type="button" uk-toggle="target: #offcanvas-nav-default">Меню</button>
+		<div id="offcanvas-nav-default" uk-offcanvas={`${(infoModal || modalStorage) ? "overlay: false" : "overlay: true"}`}>
 			<div className="uk-offcanvas-bar uk-flex uk-flex-column">
 
-				<ul className="uk-nav uk-nav-default uk-nav-center uk-margin-auto-vertical">
+				<ul className="uk-nav uk-nav-default uk-nav-center">
 					<li className="uk-active uk-margin-top uk-margin-bottom">
 						<ColorPicker />
 					</li>
@@ -40,9 +40,6 @@ const PanelMobile = ({ penType, isSelecting }) => (
 					</li>
 					<li className={`uk-active uk-margin-top uk-margin-bottom ${penType === 'paint-bucket' && 'mobile-active'}`}>
 						<FloodFill />
-					</li>
-					<li className={`uk-active uk-margin-top uk-margin-bottom ${isSelecting && 'mobile-active'}`}>
-						<Selection />
 					</li>
 					<li className="uk-active uk-margin-top uk-margin-bottom">
 						<ClearButton />
@@ -72,13 +69,15 @@ const PanelMobile = ({ penType, isSelecting }) => (
 const mapStateToProps = state => {
 	return {
 		penType: state.canvasState.penType,
-		isSelecting: state.canvasState.isSelecting
+		infoModal: state.infoModal.isOpen,
+		modalStorage: state.modalStorage.isOpen,
 	}
 }
 
 PanelMobile.propTypes = {
 	penType: PropTypes.string.isRequired,
-	isSelecting: PropTypes.bool.isRequired
+	infoModal: PropTypes.bool.isRequired,
+	modalStorage: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps)(PanelMobile);

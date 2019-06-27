@@ -59,20 +59,20 @@ class StorageModal extends Component {
 				pos: 'bottom-right',
 				timeout: 2500
 			});
-			return;
-		}
-		let link = document.createElement('a');
-		let regexName = /(?<=Name: ).*(?=Date)/g;
+		} else {
+			let link = document.createElement('a');
+			let regexName = /(?<=Name: ).*(?=Date)/g;
 
-		for(let elem of list) {
-			
-			let key = elem.keys().next().value
-			let name = key.match(regexName)[0];
-			link.download = `${name}.png`;
-			link.href = elem.values().next().value;
-			link.click();
+			for(let elem of list) {
+				let key = elem.keys().next().value
+				let name = key.match(regexName)[0];
+				link.download = `${name}.png`;
+				link.href = elem.values().next().value;
+				link.click();
+			}
+
+			link.remove();
 		}
-		link.remove();
 	}
 
 	render() {

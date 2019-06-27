@@ -9,6 +9,7 @@ import {
 }  from './../../store/actions/canvasActions';
 
 import Vector2 from './../../modules/Vector2';
+import { chkObjForNonEmptiness } from './../../modules/Tools' 
 import UIkit from 'uikit';
 
 class DownloadButton extends Component {
@@ -18,30 +19,32 @@ class DownloadButton extends Component {
 		let { 
 			isSelecting, 
 			resetSelectedObject,
-			resetCanvasActions
+			resetCanvasActions,
+			selectedObject
 		} = this.props;
 
 		let link = this.link.current;
 		if (!isSelecting)
 			link.href = document.querySelector('#draw').toDataURL('image/png');
-		else if (isSelecting) {
-			let { selectedObject } = this.props;
+		else if (isSelecting && chkObjForNonEmptiness(selectedObject)) {
+			let { ctx } = this.props;
+
 			await resetCanvasActions(true);
 			let canvas = document.createElement('canvas');
-			let ctx = canvas.getContext('2d');
+			let localCtx = canvas.getContext('2d');
 
 			let size = Vector2.getBoxSize(selectedObject.startVector, selectedObject.endVector);
 			canvas.width = Math.abs(size.width);
 			canvas.height = Math.abs(size.height);
 			
-			let imageDate = await this.props.ctx.getImageData(
+			let imageDate = await ctx.getImageData(
 				selectedObject.startVector.x,
 				selectedObject.startVector.y,
 				size.width,
 				size.height
 			);
 
-			ctx.putImageData(imageDate, 0, 0);
+			localCtx.putImageData(imageDate, 0, 0);
 			link.href = canvas.toDataURL('image/png');
 			resetSelectedObject();
 			canvas.remove();

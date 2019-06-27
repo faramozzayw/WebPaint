@@ -6,7 +6,7 @@ import { changeThickness }  from './../../store/actions/penActions';
 
 const Thickness = ({changeThickness}) =>  (
 	<div>
-		<label>Толщина шрифта:
+		<label className="thickness">Толщина шрифта:
 			<select 
 					className="uk-select" 
 					onChange={e => changeThickness(e.target.value)}

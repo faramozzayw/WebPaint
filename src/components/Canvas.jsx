@@ -62,9 +62,9 @@ class Canvas extends Component {
 		setContext(ctx);
 
 		canvas.width = window.innerWidth;
-		canvas.height = window.innerWidth > 800 
+		canvas.height = window.innerWidth > 1025 
 		? window.innerHeight - document.querySelector('.uk-navbar-container').clientHeight 
-		: window.innerHeight;
+		: window.innerHeight - document.querySelector('.panel-mobile').clientHeight;
 
 		this.setState({
 			beforeImageData: ctx.getImageData(0, 0, canvas.width, canvas.height)
@@ -116,14 +116,15 @@ class Canvas extends Component {
 
 	draw = e => {
 		this.cursor(e);
-		let  {
+		let {
 			ctx, penType, 
 			thickness, color,
 			pipetteColor 	
 		} =  this.props;
+		let { lastX, lastY, isDrawing } = this.state;
 
 		ctx.lineWidth = thickness;
-		if (this.state.isDrawing && penType !== paintBucket) {
+		if (isDrawing && penType !== paintBucket) {
 			ctx.beginPath();
 			ctx.setLineDash([0]);
 
@@ -134,18 +135,67 @@ class Canvas extends Component {
 			else if (penType === eraser)
 				ctx.strokeStyle = '#ffffff';
 
-			ctx.moveTo(this.state.lastX, this.state.lastY);
+			ctx.moveTo(lastX, lastY);
 			ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
 			ctx.stroke();
-			
+				
 			this.setState({
 				lastX: e.nativeEvent.offsetX,
 				lastY: e.nativeEvent.offsetY
-			})
+			});
 		}
 	};
 
+	touchStartEventLister = e => {
+		let {
+			ctx, penType, 
+			thickness, color,
+			pipetteColor 	
+		} =  this.props;
+		let { lastX, lastY, isDrawing } = this.state;
+
+		ctx.lineWidth = thickness;
+		if (isDrawing && penType !== paintBucket) {
+			ctx.beginPath();
+			ctx.setLineDash([0]);
+
+			if (penType === pencil)
+				ctx.strokeStyle = color;
+			else if (penType === pipette)
+				ctx.strokeStyle = pipetteColor;
+			else if (penType === eraser)
+				ctx.strokeStyle = '#ffffff';
+
+			let x = e.touches[0].clientX;
+			let y = Math.floor(e.touches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
+			if(y >= 0) {
+				ctx.moveTo(lastX, lastY);
+				ctx.lineTo(x, y);
+				ctx.stroke();
+				
+				this.setState({
+					lastX: x,
+					lastY: y
+				});
+			}
+		} else {
+			if (penType === pipette) this.pickColor(e);
+			else if (penType === paintBucket) {
+				console.log('paintBucket');
+				this.floodFill(e);
+			}
+		}
+	}
+
 	pickColor = e => {
+		let mobile = false;
+
+		try {
+			mobile = e.touches && true;
+		} catch(e) {
+			mobile = false;
+		}
+
 		const [x, y] = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
 		const imgData = this.props.ctx.getImageData(x, y, 1, 1);
 		const pixel = imgData.data;
@@ -155,10 +205,31 @@ class Canvas extends Component {
 	floodFill = e => {
 		let color = hexToRGB(this.props.color);
 		let imageData = this.props.ctx.getImageData(0, 0, this.getCanvas().width, this.getCanvas().height);
-		let startPoint = {
-			x: e.nativeEvent.offsetX,
-			y: e.nativeEvent.offsetY
+		let startPoint = {};
+
+		let mobile = false;
+		try {
+			mobile = e.touches && true;
+		} catch(e) {
+			mobile = false;
 		}
+
+		if(!mobile) {
+			startPoint = {
+				x: e.nativeEvent.offsetX,
+				y: e.nativeEvent.offsetY
+			}
+		} else {
+			let x = e.touches[0].clientX;
+			let y = Math.floor(e.touches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
+			if(y >= 0) {
+				startPoint = {
+					x: x,
+					y: y
+				}
+			}
+		}
+
 		const imgData = this.props.ctx.getImageData(startPoint.x, startPoint.y, 1, 1)
 		const backgroundColor = {
 			r: imgData.data[0],
@@ -196,7 +267,7 @@ class Canvas extends Component {
 
 				ctx.lineDashOffset = 0;
 					ctx.strokeRect(selectStartX, selectStartY, width, height);
-				});
+			});
 
 			ctx.putImageData(beforeImageData, 0, 0);
 		}
@@ -204,6 +275,7 @@ class Canvas extends Component {
 
 	onMouseMoveEvent = e => {
 		let canvas = this.getCanvas();
+
 		if (this.props.isSelecting) {
 			this.selectingDraw(e);
 			canvas.style.cursor = 'crosshair';
@@ -234,10 +306,20 @@ class Canvas extends Component {
 				selectStart: true
 			});
 		} else {
+			let x, y;
+			if(e.touches) {
+				x = e.touches[0].clientX;
+				y = Math.floor(e.touches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
+				if(y < 0) return;
+			} else {
+				x = e.nativeEvent.offsetX;
+				y = e.nativeEvent.offsetY;
+			}
+
 			this.setState({
 				isDrawing: isSelecting ? false : true,
-				lastX: e.nativeEvent.offsetX,
-				lastY: e.nativeEvent.offsetY,
+				lastX: x,
+				lastY: y,
 			});
 		}
 	}
@@ -297,12 +379,10 @@ class Canvas extends Component {
 					ref={this.canvas} 
 					className="uk-width-1-1"
 					onMouseMove={this.onMouseMoveEvent.bind(this)}
-					//onTouchMove={e => {
-					//	console.log(e.touches[0]);
-					//}}
+					onTouchMove={this.touchStartEventLister.bind(this)}
 
 					onMouseDown={this.onMouseDownEvent.bind(this)}
-					//onTouchStart={this.onMouseDownEvent.bind(this)}
+					onTouchStart={this.onMouseDownEvent.bind(this)}
 
 					onMouseUp={this.onMouseUpEvent.bind(this)}
 					onMouseOut={this.onMouseOutEvent.bind(this)}
@@ -310,7 +390,7 @@ class Canvas extends Component {
 					//onTouchCancel={this.onMouseOutEvent.bind(this)}
 
 
-					onClick={this.onClickHandle.bind(this)}
+					onClick={e => this.onClickHandle.bind(this)}
 					>
 				</canvas>
 			</div>
