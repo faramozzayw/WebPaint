@@ -71,15 +71,15 @@ class Canvas extends Component {
 			canvas.height = !this.state.mobile
 			? window.innerHeight - document.querySelector('.uk-navbar-container').clientHeight 
 			: window.innerHeight - document.querySelector('.panel-mobile').clientHeight;
+			
+			ctx.strokeStyle = color;
+			ctx.lineJoin = "round";
+			ctx.lineCap = "round";
+			ctx.lineWidth = thickness;
+			ctx.rect(0, 0, canvas.width, canvas.height);
+			ctx.fillStyle = '#ffffff';
+			ctx.fill();
 		});
-
-		ctx.strokeStyle = color;
-		ctx.lineJoin = "round";
-		ctx.lineCap = "round";
-		ctx.lineWidth = thickness;
-		ctx.rect(0, 0, canvas.width, canvas.height);
-		ctx.fillStyle = '#ffffff';
-		ctx.fill();
 	}
 
 	cursor = e => {
