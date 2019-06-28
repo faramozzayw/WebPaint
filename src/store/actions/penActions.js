@@ -11,10 +11,3 @@ export const changeThickness = value => {
 		payload: value
 	}
 }
-
-export const changePipetteColor = value => {
-	return {
-		type: 'CHANGE_PIPETTE_COLOR',
-		payload: value
-	}
-}

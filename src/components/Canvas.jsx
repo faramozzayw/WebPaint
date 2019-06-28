@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-//import UIkit from 'uikit';
 
 import { 
 	setContext, 
 	changeIsSelecting, 
 	updateSelectedObject, 
 	resetCanvasActions,
-	resetSelectedObject
+	resetSelectedObject,
+	changePenType
 } from './../store/actions/canvasActions';
 
 import {
@@ -20,17 +20,12 @@ import {
 	none
 } from './../modules/PenTypeConsts';
 
-import { 
-	changeColor, 
-	changePipetteColor
-} from './../store/actions/penActions';
+import { changeColor } from './../store/actions/penActions';
 
 import { 
 	hexToRGB,
 	floodFillImageData,
-	/*chkObjForEmptiness,*/
 	chkObjForNonEmptiness,
-	/*loadWebAssembly*/ 
 } from './../modules/Tools';
 
 import Vector2 from './../modules/Vector2';
@@ -88,7 +83,6 @@ class Canvas extends Component {
 		let { 
 			penType, 
 			thickness, 
-			pipetteColor, 
 			color 
 		} = this.props;
 
@@ -109,7 +103,7 @@ class Canvas extends Component {
 				cursor.style.height = `16px`;
 
 			} else if (penType === pipette) {
-				cursor.style.backgroundColor  = `${pipetteColor}`;
+				cursor.style.backgroundColor  = `${color}`;
 				cursor.style.width = `8px`;
 				cursor.style.height = `8px`;
 
@@ -122,6 +116,7 @@ class Canvas extends Component {
 
 	pickColor = e => {
 		let { mobile } = this.state;
+		let { changeColor, changePenType, ctx } = this.props;
 
 		let x, y;
 		if (!mobile)
@@ -132,9 +127,10 @@ class Canvas extends Component {
 			if(py >= 0)
 				y = py;
 		}
-		const imgData = this.props.ctx.getImageData(x, y, 1, 1);
+		const imgData = ctx.getImageData(x, y, 1, 1);
 		const pixel = imgData.data;
-		this.props.changePipetteColor(`rgba(${pixel.join(',')})`);
+		changeColor(`rgba(${pixel.join(',')})`);
+		changePenType(pencil);
 	};
 
 	floodFill = e => {
@@ -176,8 +172,7 @@ class Canvas extends Component {
 		
 		let {
 			ctx, penType, 
-			thickness, color,
-			pipetteColor 	
+			thickness, color 	
 		} =  this.props;
 		let { lastX, lastY, isDrawing } = this.state;
 		let { offsetX, offsetY } = e.nativeEvent;
@@ -187,10 +182,8 @@ class Canvas extends Component {
 			ctx.beginPath();
 			ctx.setLineDash([0]);
 
-			if (penType === pencil)
+			if (penType === pencil || penType === pipette)
 				ctx.strokeStyle = color;
-			else if (penType === pipette)
-				ctx.strokeStyle = pipetteColor;
 			else if (penType === eraser)
 				ctx.strokeStyle = '#ffffff';
 
@@ -208,8 +201,7 @@ class Canvas extends Component {
 	touchMoveEventLister = e => {
 		let {
 			ctx, penType, 
-			thickness, color,
-			pipetteColor 	
+			thickness, color 	
 		} =  this.props;
 		let { lastX, lastY, isDrawing } = this.state;
 
@@ -218,10 +210,8 @@ class Canvas extends Component {
 			ctx.beginPath();
 			ctx.setLineDash([0]);
 
-			if (penType === pencil)
+			if (penType === pencil || penType === pipette)
 				ctx.strokeStyle = color;
-			else if (penType === pipette)
-				ctx.strokeStyle = pipetteColor;
 			else if (penType === eraser)
 				ctx.strokeStyle = '#ffffff';
 
@@ -245,7 +235,7 @@ class Canvas extends Component {
 		let	x = e.changedTouches[0].clientX;
 		let	y = Math.floor(e.changedTouches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
 
-		if(penType === pencil || penType === pipette || penType === eraser) {
+		if(penType === pencil || penType === eraser) {
 			if(y >= 0) {
 				this.setState({
 					isDrawing: true,
@@ -310,9 +300,8 @@ class Canvas extends Component {
 		} else if (this.state.isDrawing) {
 			this.draw(e);
 			canvas.style.cursor = 'none';
-		} else {
+		} else
 			this.cursor(e);
-		}
 	}
 
 	onMouseDownEvent = e => {
@@ -325,7 +314,7 @@ class Canvas extends Component {
 
 		if (isSelecting) {
 			if (chkObjForNonEmptiness(selectedObject)) 
-				this.props.ctx.putImageData(this.state.beforeImageData, 0, 0);
+				ctx.putImageData(beforeImageData, 0, 0);
 
 			let canvas = this.getCanvas();
 			let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -337,7 +326,6 @@ class Canvas extends Component {
 				selectStart: true
 			});
 		} else {
-
 			this.setState({
 				isDrawing: isSelecting ? false : true,
 				lastX: offsetX,
@@ -364,6 +352,7 @@ class Canvas extends Component {
 				startVector: new Vector2(selectStartX, selectStartY),
 				endVector: new Vector2(lastX, lastY)
 			}
+
 			updateSelectedObject(selectObject);
 			ctx.setLineDash([4, 4]);
 			ctx.putImageData(beforeImageData, 0, 0);
@@ -393,7 +382,6 @@ class Canvas extends Component {
 			this.props.resetCanvasActions(false);
 		}
 
-
 		return (
 			<div id="draw-container">
 				<div className="cursor"></div>
@@ -404,13 +392,11 @@ class Canvas extends Component {
 					className="uk-width-1-1"
 
 					onMouseMove={this.onMouseMoveEvent.bind(this)}
-
 					onMouseDown={this.onMouseDownEvent.bind(this)}
-
 					onMouseUp={this.onMouseUpEvent.bind(this)}
 					onMouseOut={this.onMouseOutEvent.bind(this)}
-
 					onClick={this.onClickHandle.bind(this)}
+
 				></canvas>) 
 				: (<canvas
 					id="draw"
@@ -418,13 +404,11 @@ class Canvas extends Component {
 					className="uk-width-1-1"
 
 					onTouchMove={this.touchMoveEventLister.bind(this)}
-
 					onTouchStart={this.touchStartEventLister.bind(this)}
-
 					onMouseOut={this.onMouseOutEvent.bind(this)}
-
 					onTouchEnd={this.touchEndEventLister.bind(this)}
 					onTouchCancel={this.onMouseOutEvent.bind(this)}
+
 				></canvas>)}
 			</div>
 		);
@@ -436,7 +420,6 @@ const mapStateToProps = state => {
 		color: state.penProperty.color,
 		thickness: state.penProperty.thickness,
 		ctx: state.canvasState.ctx,
-		pipetteColor: state.penProperty.pipetteColor,
 		penType: state.canvasState.penType,
 		isSelecting: state.canvasState.isSelecting,
 		resetCanvas: state.canvasState.resetCanvas,
@@ -447,12 +430,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
 		setContext: setContext,
-		changeColor: changeColor,
-		changePipetteColor: changePipetteColor,
 		changeIsSelecting: changeIsSelecting,
 		updateSelectedObject: updateSelectedObject,
 		resetCanvasActions: resetCanvasActions,
-		resetSelectedObject: resetSelectedObject
+		resetSelectedObject: resetSelectedObject,
+		changePenType: changePenType,
+		changeColor: changeColor
 	}, dispatch);
 }
 
@@ -462,7 +445,6 @@ Canvas.propTypes = {
 	setContext: PropTypes.func.isRequired,
 	ctx: PropTypes.object.isRequired,
 	changeColor: PropTypes.func.isRequired,
-	changePipetteColor: PropTypes.func.isRequired,
 	isSelecting: PropTypes.bool.isRequired
 }
 
