@@ -122,7 +122,7 @@ class Canvas extends Component {
 		if (!mobile)
 			[x, y] = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
 		else if(mobile) {
-			x = e.changedTouches[0].clientX;
+			x = Math.floor(e.changedTouches[0].clientX);
 			let py = Math.floor(e.changedTouches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
 			if(py >= 0)
 				y = py;
@@ -134,6 +134,8 @@ class Canvas extends Component {
 	};
 
 	floodFill = e => {
+		console.log(e);
+		console.log("started floodFill");
 		let { color, ctx } = this.props;
 		let rgbColor = hexToRGB(color);
 		let imageData = ctx.getImageData(0, 0, this.getCanvas().width, this.getCanvas().height);
@@ -147,7 +149,7 @@ class Canvas extends Component {
 				y: e.nativeEvent.offsetY
 			}
 		} else if(mobile) {
-			let x = e.changedTouches[0].clientX;
+			let x = Math.floor(e.changedTouches[0].clientX);
 			let y = Math.floor(e.changedTouches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
 			if(y >= 0) {
 				startPoint = {
@@ -157,6 +159,7 @@ class Canvas extends Component {
 			}
 		}
 
+		console.log(startPoint);
 		const imgData = ctx.getImageData(startPoint.x, startPoint.y, 1, 1)
 		const backgroundColor = {
 			r: imgData.data[0],
@@ -165,6 +168,7 @@ class Canvas extends Component {
 		}
 		
 		ctx.putImageData(floodFillImageData(imageData, rgbColor, startPoint, backgroundColor), 0, 0);
+		console.log("finished floodFill");
 	};
 
 	draw = e => {
