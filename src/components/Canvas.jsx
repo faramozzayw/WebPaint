@@ -244,7 +244,7 @@ class Canvas extends Component {
 		let	x = e.changedTouches[0].clientX;
 		let	y = Math.floor(e.changedTouches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
 
-		if(penType === pencil || penType === pipette) {
+		if(penType === pencil || penType === pipette || penType === eraser) {
 			if(y >= 0) {
 				this.setState({
 					isDrawing: true,
