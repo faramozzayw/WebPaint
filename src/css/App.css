@@ -1,14 +1,14 @@
 html {
 	height: 100%;
-	line-height: 1;
+
 }
 
 body {
 	overflow: hidden;
 	height: inherit;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
 }
 
 .App {
@@ -28,6 +28,30 @@ input[type=color] {
 
 	.thickness > select {
 		margin-top: 5%;
+	}
+
+	#info-box > ul {
+		margin: 0;
+		padding: 0;
+	}
+
+	.info-li {
+		display: flex;
+		flex-wrap: wrap;
+		flex-flow: column;
+		justify-content: center;
+		margin-bottom: 3vh !important;
+		padding-bottom: 5px;
+		border-bottom: 1px solid #666;
+	}
+
+	.info-li > .icon {
+		margin: auto !important;
+	}
+
+	.info-li > .info-text {
+		margin: 0;
+		text-align: center;
 	}
 }
 

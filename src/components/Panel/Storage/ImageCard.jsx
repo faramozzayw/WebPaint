@@ -23,18 +23,19 @@ class ImageCard extends PureComponent {
 	}
 
 	finishEditName = e => {
-		let { stringKey } = this.props;
+		let { stringKey, reRenderModal } = this.props;
 		let date = localStorage.getItem(stringKey);
 
 		localStorage.removeItem(stringKey);
 
-		let regexName = /(?<=Name: ).*(?=Date)/g;
-		stringKey = stringKey.replace(regexName, this.editInput.current.value);
-
+		//let regexName = /(?<=Name: ).*(?=Date)/g;
+		let regexName = /Name: .*?(?=Date)/g;
+		stringKey = stringKey.replace(regexName, `Name: ${this.editInput.current.value}`);
+		
 		localStorage.setItem(stringKey, date);
 		this.setState({
 			showEditForm: false
-		}, this.props.reRenderModal());
+		}, reRenderModal);
 	}
 
 	deleteImg = e => {
@@ -83,11 +84,11 @@ class ImageCard extends PureComponent {
 							/>
 							<div className="uk-button-group">
 							<span 
-								className="uk-icon uk-margin-small-left uk-icon-button check" 
+								className="uk-icon uk-margin-small-left uk-icon-button icon check" 
 								onClick={this.finishEditName.bind(this)}
 							></span>
 							<span 
-								className="uk-icon uk-margin-small-left uk-icon-button close" 
+								className="uk-icon uk-margin-small-left uk-icon-button icon close" 
 								onClick={this.disableEditForm.bind(this)}
 							></span>
 							</div>

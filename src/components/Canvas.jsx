@@ -63,14 +63,14 @@ class Canvas extends Component {
 		} = this.props;
 		setContext(ctx);
 
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerWidth > 1025 
-		? window.innerHeight - document.querySelector('.uk-navbar-container').clientHeight 
-		: window.innerHeight - document.querySelector('.panel-mobile').clientHeight;
-
 		this.setState({
 			beforeImageData: ctx.getImageData(0, 0, canvas.width, canvas.height),
 			mobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+		}, () => {
+			canvas.width = window.innerWidth;
+			canvas.height = !this.state.mobile
+			? window.innerHeight - document.querySelector('.uk-navbar-container').clientHeight 
+			: window.innerHeight - document.querySelector('.panel-mobile').clientHeight;
 		});
 
 		ctx.strokeStyle = color;
@@ -138,8 +138,9 @@ class Canvas extends Component {
 	};
 
 	floodFill = e => {
-		let color = hexToRGB(this.props.color);
-		let imageData = this.props.ctx.getImageData(0, 0, this.getCanvas().width, this.getCanvas().height);
+		let { color, ctx } = this.props;
+		let rgbColor = hexToRGB(color);
+		let imageData = ctx.getImageData(0, 0, this.getCanvas().width, this.getCanvas().height);
 		let startPoint = {};
 
 		let { mobile } = this.state;
@@ -160,14 +161,14 @@ class Canvas extends Component {
 			}
 		}
 
-		const imgData = this.props.ctx.getImageData(startPoint.x, startPoint.y, 1, 1)
+		const imgData = ctx.getImageData(startPoint.x, startPoint.y, 1, 1)
 		const backgroundColor = {
 			r: imgData.data[0],
 			g: imgData.data[1],
 			b: imgData.data[2]
 		}
 		
-		this.props.ctx.putImageData(floodFillImageData(imageData, color, startPoint, backgroundColor), 0, 0);
+		ctx.putImageData(floodFillImageData(imageData, rgbColor, startPoint, backgroundColor), 0, 0);
 	};
 
 	draw = e => {

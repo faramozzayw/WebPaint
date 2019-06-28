@@ -51,7 +51,8 @@ class App extends Component {
 	}
 
 	render() {
-		const app = !(window.innerWidth < 1025) ? 
+		const mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+		const app = !mobile ? 
 		(
 			<div className="App">
 				<Panel />
