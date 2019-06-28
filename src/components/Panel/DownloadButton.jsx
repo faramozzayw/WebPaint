@@ -53,8 +53,8 @@ class DownloadButton extends Component {
 		UIkit.notification({
 			message: `${
 				isSelecting ? 
-				"Фрагмент был сохранён на компьютер"
-				: "Холст был сохранён на компьютер"
+				"Фрагмент был сохранён на устройство"
+				: "Холст был сохранён на устройство"
 			}`,
 			pos: 'bottom-right',
 			timeout: 2500

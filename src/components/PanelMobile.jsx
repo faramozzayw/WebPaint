@@ -12,8 +12,8 @@ import Eraser from './Panel/Eraser';
 import UploadButton from './Panel/UploadButton'
 import FloodFill from './Panel/FloodFill';
 //import Selection from './Panel/Selection';
-import Storage from './Panel/Storage';
-import SaveToStorage from'./Panel/Storage/SaveToStorage';
+//import Storage from './Panel/Storage';
+//import SaveToStorage from'./Panel/Storage/SaveToStorage';
 import InfoBoxModal from './Panel/InfoBoxModal';
 
 const PanelMobile = ({ penType, infoModal, modalStorage }) => (
@@ -50,12 +50,12 @@ const PanelMobile = ({ penType, infoModal, modalStorage }) => (
 					<li className="uk-active uk-margin-top uk-margin-bottom">
 						<UploadButton />
 					</li>
-					<li className="uk-active uk-margin-top uk-margin-bottom">
+					{/*<li className="uk-active uk-margin-top uk-margin-bottom">
 						<SaveToStorage />
 					</li>
 					<li className="uk-active uk-margin-top uk-margin-bottom">
 						<Storage />
-					</li>
+					</li>*/}
 					<li className="uk-active uk-margin-top uk-margin-bottom">
 						<InfoBoxModal />
 					</li>

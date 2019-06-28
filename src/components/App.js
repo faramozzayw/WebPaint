@@ -8,7 +8,7 @@ import docCookies from 'doc-cookies';
 import Panel from './Panel';
 import PanelMobile from './PanelMobile';
 import Canvas from './Canvas';
-import DisplayError from './DisplayError';
+//import DisplayError from './DisplayError';
 
 import { enableInfoModal }  from './../store/actions/infoModalActions';
 

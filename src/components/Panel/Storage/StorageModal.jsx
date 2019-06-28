@@ -121,25 +121,25 @@ class StorageModal extends Component {
 				<div className="uk-padding uk-flex uk-flex-around uk-flex-row uk-flex-wrap uk-flex-wrap-stretch uk-flex-top">
 					{list}
 				</div>
-				<div className="uk-flex uk-flex-around uk-button-group">
+				<div className="uk-flex uk-flex-around uk-button-group uk-flex-wrap">
 						<button
 							onClick={this.downloadAllImg.bind(this)}
-							className="uk-button uk-margin-right uk-margin-bottom uk-button-default"
+							className="uk-button uk-margin-auto uk-margin-bottom uk-button-default uk-width-1-1@s uk-width-1-4@m"
 						>Скачать всё</button>
 
 						<button
 							onClick={this.autosaveControlClick.bind(this)}
-							className="uk-button uk-margin-left uk-margin-bottom uk-button-secondary"
+							className="uk-button uk-margin-auto uk-margin-bottom uk-button-secondary uk-width-1-1@s uk-width-1-4@m"
 						>{`${autosave ? "Выключить" : "Включить"} автосохранение`}</button>
 
 						<button
 							onClick={this.clearHandle.bind(this)}
-							className="uk-button uk-margin-left uk-margin-bottom uk-button-danger"
+							className="uk-button uk-margin-auto uk-margin-bottom uk-button-danger uk-width-1-1@s uk-width-1-4@m"
 						>Удалить всё</button>
 
 						<button
 							onClick={() => this.props.disableModal()}
-							className="uk-button uk-margin-left uk-margin-bottom uk-button-primary"
+							className="uk-button uk-margin-auto uk-margin-bottom uk-button-primary uk-width-1-1@s uk-width-1-4@m"
 						>Закрыть</button>
 
 					

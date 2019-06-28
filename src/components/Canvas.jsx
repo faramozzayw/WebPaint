@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+//import UIkit from 'uikit';
 
 import { 
 	setContext, 
@@ -36,6 +37,7 @@ import Vector2 from './../modules/Vector2';
 
 class Canvas extends Component {
 	state = {
+		mobile: false,
 		isDrawing: false,
 		lastX: 0,
 		lastY: 0,
@@ -67,7 +69,8 @@ class Canvas extends Component {
 		: window.innerHeight - document.querySelector('.panel-mobile').clientHeight;
 
 		this.setState({
-			beforeImageData: ctx.getImageData(0, 0, canvas.width, canvas.height)
+			beforeImageData: ctx.getImageData(0, 0, canvas.width, canvas.height),
+			mobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 		});
 
 		ctx.strokeStyle = color;
@@ -99,14 +102,17 @@ class Canvas extends Component {
 	
 			if (penType === pencil) 
 				cursor.style.backgroundColor  = `${color}`;
-			else if(penType === paintBucket){
+
+			else if(penType === paintBucket) {
 				cursor.style.backgroundColor  = `${color}`;
 				cursor.style.width = `16px`;
 				cursor.style.height = `16px`;
+
 			} else if (penType === pipette) {
 				cursor.style.backgroundColor  = `${pipetteColor}`;
 				cursor.style.width = `8px`;
 				cursor.style.height = `8px`;
+
 			} else if (penType === eraser) 
 				cursor.style.backgroundColor = '#ffffff';
 
@@ -114,14 +120,66 @@ class Canvas extends Component {
 			cursor.style.display = 'none';
 	};
 
+	pickColor = e => {
+		let { mobile } = this.state;
+
+		let x, y;
+		if (!mobile)
+			[x, y] = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
+		else if(mobile) {
+			x = e.changedTouches[0].clientX;
+			let py = Math.floor(e.changedTouches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
+			if(py >= 0)
+				y = py;
+		}
+		const imgData = this.props.ctx.getImageData(x, y, 1, 1);
+		const pixel = imgData.data;
+		this.props.changePipetteColor(`rgba(${pixel.join(',')})`);
+	};
+
+	floodFill = e => {
+		let color = hexToRGB(this.props.color);
+		let imageData = this.props.ctx.getImageData(0, 0, this.getCanvas().width, this.getCanvas().height);
+		let startPoint = {};
+
+		let { mobile } = this.state;
+
+		if(!mobile) {
+			startPoint = {
+				x: e.nativeEvent.offsetX,
+				y: e.nativeEvent.offsetY
+			}
+		} else if(mobile) {
+			let x = e.changedTouches[0].clientX;
+			let y = Math.floor(e.changedTouches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
+			if(y >= 0) {
+				startPoint = {
+					x: x,
+					y: y
+				}
+			}
+		}
+
+		const imgData = this.props.ctx.getImageData(startPoint.x, startPoint.y, 1, 1)
+		const backgroundColor = {
+			r: imgData.data[0],
+			g: imgData.data[1],
+			b: imgData.data[2]
+		}
+		
+		this.props.ctx.putImageData(floodFillImageData(imageData, color, startPoint, backgroundColor), 0, 0);
+	};
+
 	draw = e => {
 		this.cursor(e);
+		
 		let {
 			ctx, penType, 
 			thickness, color,
 			pipetteColor 	
 		} =  this.props;
 		let { lastX, lastY, isDrawing } = this.state;
+		let { offsetX, offsetY } = e.nativeEvent;
 
 		ctx.lineWidth = thickness;
 		if (isDrawing && penType !== paintBucket) {
@@ -136,17 +194,17 @@ class Canvas extends Component {
 				ctx.strokeStyle = '#ffffff';
 
 			ctx.moveTo(lastX, lastY);
-			ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+			ctx.lineTo(offsetX, offsetY);
 			ctx.stroke();
 				
 			this.setState({
-				lastX: e.nativeEvent.offsetX,
-				lastY: e.nativeEvent.offsetY
+				lastX: offsetX,
+				lastY: offsetY
 			});
 		}
 	};
 
-	touchStartEventLister = e => {
+	touchMoveEventLister = e => {
 		let {
 			ctx, penType, 
 			thickness, color,
@@ -178,75 +236,44 @@ class Canvas extends Component {
 					lastY: y
 				});
 			}
-		} else {
-			if (penType === pipette) this.pickColor(e);
-			else if (penType === paintBucket) {
-				console.log('paintBucket');
-				this.floodFill(e);
-			}
 		}
-	}
-
-	pickColor = e => {
-		let mobile = false;
-
-		try {
-			mobile = e.touches && true;
-		} catch(e) {
-			mobile = false;
-		}
-
-		const [x, y] = [e.nativeEvent.offsetX, e.nativeEvent.offsetY];
-		const imgData = this.props.ctx.getImageData(x, y, 1, 1);
-		const pixel = imgData.data;
-		this.props.changePipetteColor(`rgba(${pixel.join(',')})`);
 	};
 
-	floodFill = e => {
-		let color = hexToRGB(this.props.color);
-		let imageData = this.props.ctx.getImageData(0, 0, this.getCanvas().width, this.getCanvas().height);
-		let startPoint = {};
+	touchStartEventLister = e => {
+		let { penType } = this.props;
+		let	x = e.changedTouches[0].clientX;
+		let	y = Math.floor(e.changedTouches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
 
-		let mobile = false;
-		try {
-			mobile = e.touches && true;
-		} catch(e) {
-			mobile = false;
-		}
-
-		if(!mobile) {
-			startPoint = {
-				x: e.nativeEvent.offsetX,
-				y: e.nativeEvent.offsetY
-			}
-		} else {
-			let x = e.touches[0].clientX;
-			let y = Math.floor(e.touches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
+		if(penType === pencil || penType === pipette) {
 			if(y >= 0) {
-				startPoint = {
-					x: x,
-					y: y
-				}
+				this.setState({
+					isDrawing: true,
+					lastX: x,
+					lastY: y,
+				});
 			}
 		}
+	};
 
-		const imgData = this.props.ctx.getImageData(startPoint.x, startPoint.y, 1, 1)
-		const backgroundColor = {
-			r: imgData.data[0],
-			g: imgData.data[1],
-			b: imgData.data[2]
-		}
-		
-		this.props.ctx.putImageData(floodFillImageData(imageData, color, startPoint, backgroundColor), 0, 0);
+	touchEndEventLister = e => {
+		let { penType } = this.props;
+		if (penType === pipette) 
+			this.pickColor(e);
+		else if (penType === paintBucket)
+			this.floodFill(e);
 	};
 
 	onClickHandle = e => {
-		if (this.props.penType === pipette) this.pickColor(e);
-		else if (this.props.penType === paintBucket) this.floodFill(e);
+		let { penType } = this.props;
+		if (penType === pipette) 
+			this.pickColor(e);
+		else if (penType === paintBucket) 
+			this.floodFill(e);
 	};
 
 	selectingDraw = e => {
 		this.cursor(e);
+		
 		let  { ctx } =  this.props;
 		let { 
 			lastX, lastY, 
@@ -262,7 +289,7 @@ class Canvas extends Component {
 				lastY: e.nativeEvent.offsetY
 			}, () => {
 				let width = lastX - selectStartX;
-				let height = lastY - this.state.selectStartY;
+				let height = lastY - selectStartY;
 				ctx.setLineDash([4, 4]);
 
 				ctx.lineDashOffset = 0;
@@ -279,9 +306,11 @@ class Canvas extends Component {
 		if (this.props.isSelecting) {
 			this.selectingDraw(e);
 			canvas.style.cursor = 'crosshair';
-		} else {
+		} else if (this.state.isDrawing) {
 			this.draw(e);
 			canvas.style.cursor = 'none';
+		} else {
+			this.cursor(e);
 		}
 	}
 
@@ -291,6 +320,7 @@ class Canvas extends Component {
 			selectStartX, selectStartY,
 			selectStart, beforeImageData
 		} = this.state;
+		let { offsetX, offsetY } = e.nativeEvent;
 
 		if (isSelecting) {
 			if (chkObjForNonEmptiness(selectedObject)) 
@@ -300,26 +330,17 @@ class Canvas extends Component {
 			let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
 			this.setState({
-				selectStartX: selectStartX === undefined ? e.nativeEvent.offsetX : selectStartX,
-				selectStartY: selectStartY === undefined ? e.nativeEvent.offsetY : selectStartY,
+				selectStartX: selectStartX === undefined ? offsetX : selectStartX,
+				selectStartY: selectStartY === undefined ? offsetY : selectStartY,
 				beforeImageData: !selectStart ? imageData : beforeImageData,
 				selectStart: true
 			});
 		} else {
-			let x, y;
-			if(e.touches) {
-				x = e.touches[0].clientX;
-				y = Math.floor(e.touches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
-				if(y < 0) return;
-			} else {
-				x = e.nativeEvent.offsetX;
-				y = e.nativeEvent.offsetY;
-			}
 
 			this.setState({
 				isDrawing: isSelecting ? false : true,
-				lastX: x,
-				lastY: y,
+				lastX: offsetX,
+				lastY: offsetY,
 			});
 		}
 	}
@@ -371,28 +392,39 @@ class Canvas extends Component {
 			this.props.resetCanvasActions(false);
 		}
 
+
 		return (
 			<div id="draw-container">
 				<div className="cursor"></div>
-				<canvas
+				{ !this.state.mobile ? (
+					<canvas
 					id="draw"
 					ref={this.canvas} 
 					className="uk-width-1-1"
+
 					onMouseMove={this.onMouseMoveEvent.bind(this)}
-					onTouchMove={this.touchStartEventLister.bind(this)}
 
 					onMouseDown={this.onMouseDownEvent.bind(this)}
-					onTouchStart={this.onMouseDownEvent.bind(this)}
 
 					onMouseUp={this.onMouseUpEvent.bind(this)}
 					onMouseOut={this.onMouseOutEvent.bind(this)}
-					//onTouchEnd={this.onMouseUpEvent.bind(this)}
-					//onTouchCancel={this.onMouseOutEvent.bind(this)}
 
+					onClick={this.onClickHandle.bind(this)}
+				></canvas>) 
+				: (<canvas
+					id="draw"
+					ref={this.canvas} 
+					className="uk-width-1-1"
 
-					onClick={e => this.onClickHandle.bind(this)}
-					>
-				</canvas>
+					onTouchMove={this.touchMoveEventLister.bind(this)}
+
+					onTouchStart={this.touchStartEventLister.bind(this)}
+
+					onMouseOut={this.onMouseOutEvent.bind(this)}
+
+					onTouchEnd={this.touchEndEventLister.bind(this)}
+					onTouchCancel={this.onMouseOutEvent.bind(this)}
+				></canvas>)}
 			</div>
 		);
 	}
