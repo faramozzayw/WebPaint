@@ -6,6 +6,16 @@ export const hexToRGB = hex => {
 	}
 }
 
+export const rgbaToHex = rgba => {
+	let match = rgba.match(/(\d+)/g);
+	match = match.filter((e, i) => i !== 3);
+	match = match.map(elem => {
+		let a = Number.parseInt(elem, 10).toString(16);
+		return a.length !== 1 ? a : "0" + a;
+	});
+	return "#"+match.join("");
+}
+
 export const floodFillImageData = (imageData, color, startPoint, backgroundColor) => {
 	let [width, height] = [imageData.width, imageData.height];
 	let pixel;
@@ -37,23 +47,23 @@ export const floodFillImageData = (imageData, color, startPoint, backgroundColor
 			stack.push([
 				pixel[0] - 1,
 				pixel[1]
-			  ]);
+				]);
 			stack.push([
 				pixel[0] + 1,
 				pixel[1]
-			  ]);
+				]);
 			stack.push([
 				pixel[0],
 				pixel[1] - 1
-			  ]);
+				]);
 			stack.push([
 				pixel[0],
 				pixel[1] + 1
 			]);
 		}
-  }
+	}
 
-  return imageData;
+	return imageData;
 }
 
 export const sortByDateNewOld = (elem1, elem2) => {

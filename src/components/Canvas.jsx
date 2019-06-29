@@ -24,6 +24,7 @@ import { changeColor } from './../store/actions/penActions';
 
 import { 
 	hexToRGB,
+	rgbaToHex,
 	floodFillImageData,
 	chkObjForNonEmptiness,
 } from './../modules/Tools';
@@ -129,13 +130,12 @@ class Canvas extends Component {
 		}
 		const imgData = ctx.getImageData(x, y, 1, 1);
 		const pixel = imgData.data;
-		changeColor(`rgba(${pixel.join(',')})`);
+		const color = `rgba(${pixel.join(',')})`;
+		changeColor(rgbaToHex(color));
 		changePenType(pencil);
 	};
 
 	floodFill = e => {
-		console.log(e);
-		console.log("started floodFill");
 		let { color, ctx } = this.props;
 		let rgbColor = hexToRGB(color);
 		let imageData = ctx.getImageData(0, 0, this.getCanvas().width, this.getCanvas().height);
@@ -159,7 +159,6 @@ class Canvas extends Component {
 			}
 		}
 
-		console.log(startPoint);
 		const imgData = ctx.getImageData(startPoint.x, startPoint.y, 1, 1)
 		const backgroundColor = {
 			r: imgData.data[0],
@@ -168,7 +167,6 @@ class Canvas extends Component {
 		}
 		
 		ctx.putImageData(floodFillImageData(imageData, rgbColor, startPoint, backgroundColor), 0, 0);
-		console.log("finished floodFill");
 	};
 
 	draw = e => {
