@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+
 import { 
 	reRenderModal, 
 	disableModal 
@@ -28,7 +29,6 @@ class ImageCard extends PureComponent {
 
 		localStorage.removeItem(stringKey);
 
-		//let regexName = /(?<=Name: ).*(?=Date)/g;
 		let regexName = /Name: .*?(?=Date)/g;
 		stringKey = stringKey.replace(regexName, `Name: ${this.editInput.current.value}`);
 		
@@ -73,7 +73,7 @@ class ImageCard extends PureComponent {
 					<div className="uk-card-body padding">
 						<h4 
 							className="uk-card-title uk-heading-bullet"
-							onClick={this.headerClick.bind(this)}
+							onClick={this.headerClick}
 						>{info.name}</h4>
 						<div id="editBox" className={`${hidden} uk-margin-small-bottom`}>
 							<input 
@@ -85,11 +85,11 @@ class ImageCard extends PureComponent {
 							<div className="uk-button-group">
 							<span 
 								className="uk-icon uk-margin-small-left uk-icon-button icon check" 
-								onClick={this.finishEditName.bind(this)}
+								onClick={this.finishEditName}
 							></span>
 							<span 
 								className="uk-icon uk-margin-small-left uk-icon-button icon close" 
-								onClick={this.disableEditForm.bind(this)}
+								onClick={this.disableEditForm}
 							></span>
 							</div>
 						</div>
@@ -101,11 +101,11 @@ class ImageCard extends PureComponent {
 				<div className="uk-button-group uk-width-1-1">
 					<button 
 						className="uk-button uk-button-primary uk-width-1-2"
-						onClick={this.onCanvas.bind(this)}
+						onClick={this.onCanvas}
 					>На холст</button>
 					<button 
 						className="uk-button uk-button-danger uk-width-1-2"
-						onClick={this.deleteImg.bind(this)}
+						onClick={this.deleteImg}
 					>Удалить</button>
 				</div>
 			</div> 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { changeThickness }  from './../../store/actions/penActions';
 
-const Thickness = ({changeThickness}) =>  (
+const Thickness = ({ changeThickness }) =>  (
 	<div>
 		<label className="thickness">Толщина шрифта:
 			<select 

@@ -17,7 +17,7 @@ class ClearButton extends Component {
 					uk-tooltip="Очистить холст"
 					id="clearButton" 
 					className="uk-icon-link uk-icon-button trash icon" 
-					onClick={this.handleClick.bind(this)}
+					onClick={this.handleClick}
 				></span>
 			</div>
 		);
@@ -34,4 +34,4 @@ ClearButton.propTypes = {
 	ctx: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps)(ClearButton);
+export default connect(mapStateToProps, null)(ClearButton);

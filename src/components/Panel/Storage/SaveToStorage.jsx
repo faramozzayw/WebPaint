@@ -62,7 +62,7 @@ class SaveToStorage extends Component {
 				<span
 					uk-tooltip="Сохранить в хранилище"
 					className="uk-icon uk-icon-button cloud-upload icon" 
-					onClick={this.handleClick.bind(this)}
+					onClick={this.handleClick}
 				></span>
 			</div>
 		);

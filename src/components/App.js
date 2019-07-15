@@ -32,9 +32,10 @@ class App extends Component {
 			if (exist)
 				docCookies.setItem("firstLogin", "false")
 			else {
+				let { enableInfoModal } = this.props;
 				docCookies.setItem("firstLogin", "true");
 				docCookies.setItem("autosaveEnable", "false");
-				this.props.enableInfoModal();
+				enableInfoModal();
 			}
 		} catch (e) {
 			console.log("Failed with error: ");
@@ -86,7 +87,9 @@ const mapDispatchToProps = dispatch => {
 }
 
 App.propTypes = {
-	isOpen: PropTypes.bool.isRequired
+	isOpen: PropTypes.bool.isRequired,
+	ctx: PropTypes.object.isRequired,
+	enableInfoModal: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

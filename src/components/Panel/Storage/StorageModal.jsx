@@ -80,6 +80,8 @@ class StorageModal extends Component {
 	render() {
 		let listMap = getStorageElemsMap();
 		let { sortBy } = this.state;
+		let { disableModal } = this.props;
+		
 		if (sortBy === 'По дате(от новых к старым)') 
 			listMap = listMap.sort(sortByDateNewOld);
 		else if(sortBy === 'По дате(от старых к новым)')
@@ -109,7 +111,7 @@ class StorageModal extends Component {
 							<div className="uk-margin">
 								<select
 									className="uk-select uk-width-medium"
-									onChange={this.handleChange.bind(this)}
+									onChange={this.handleChange}
 									value={this.state.sortBy}
 								>
 									<option value="По дате(от новых к старым)">По дате(от новых к старым)</option>
@@ -125,22 +127,22 @@ class StorageModal extends Component {
 				</div>
 				<div className="uk-flex uk-flex-around uk-button-group uk-flex-wrap">
 						<button
-							onClick={this.downloadAllImg.bind(this)}
+							onClick={this.downloadAllImg}
 							className="uk-button uk-margin-auto uk-margin-bottom uk-button-default uk-width-1-1@s uk-width-1-4@m"
 						>Скачать всё</button>
 
 						<button
-							onClick={this.autosaveControlClick.bind(this)}
+							onClick={this.autosaveControlClick}
 							className="uk-button uk-margin-auto uk-margin-bottom uk-button-secondary uk-width-1-1@s uk-width-1-4@m"
 						>{`${autosave ? "Выключить" : "Включить"} автосохранение`}</button>
 
 						<button
-							onClick={this.clearHandle.bind(this)}
+							onClick={this.clearHandle}
 							className="uk-button uk-margin-auto uk-margin-bottom uk-button-danger uk-width-1-1@s uk-width-1-4@m"
 						>Удалить всё</button>
 
 						<button
-							onClick={() => this.props.disableModal()}
+							onClick={() => disableModal()}
 							className="uk-button uk-margin-auto uk-margin-bottom uk-button-primary uk-width-1-1@s uk-width-1-4@m"
 						>Закрыть</button>
 

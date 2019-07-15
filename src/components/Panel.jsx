@@ -78,4 +78,4 @@ Panel.propTypes = {
 	isSelecting: PropTypes.bool.isRequired
 }
 
-export default connect(mapStateToProps)(Panel);
+export default connect(mapStateToProps, null)(Panel);

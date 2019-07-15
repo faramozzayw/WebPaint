@@ -24,8 +24,10 @@ class DownloadButton extends Component {
 		} = this.props;
 
 		let link = this.link.current;
+		
 		if (!isSelecting)
 			link.href = document.querySelector('#draw').toDataURL('image/png');
+		
 		else if (isSelecting && chkObjForNonEmptiness(selectedObject)) {
 			let { ctx } = this.props;
 
@@ -49,6 +51,7 @@ class DownloadButton extends Component {
 			resetSelectedObject();
 			canvas.remove();
 		}
+
 		link.download = 'canvasImage.png';
 		UIkit.notification({
 			message: `${
@@ -95,7 +98,9 @@ const mapDispatchToProps = dispatch => {
 DownloadButton.propTypes = {
 	ctx: PropTypes.object.isRequired,
 	isSelecting: PropTypes.bool.isRequired,
-	selectedObject: PropTypes.object.isRequired
+	selectedObject: PropTypes.object.isRequired,
+	resetCanvasActions: PropTypes.func.isRequired,
+	resetSelectedObject: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DownloadButton);

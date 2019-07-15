@@ -6,9 +6,15 @@ import { changeIsSelecting, resetCanvasActions }  from './../../store/actions/ca
 
 class Selection extends Component {
 	handleClick = () => {
-		this.props.changeIsSelecting(true)
-		if (this.props.isSelecting) 
-			this.props.resetCanvasActions(true)
+		let { 
+			changeIsSelecting, 
+			isSelecting, 
+			resetCanvasActions
+		} = this.props;
+
+		changeIsSelecting(true);
+		if (isSelecting) 
+			resetCanvasActions(true);
 	}
 
 	render() {
@@ -17,7 +23,7 @@ class Selection extends Component {
 				<span
 					uk-tooltip="Выделение области"
 					className="uk-icon uk-icon-button uk-icon-image selection icon" 
-					onClick={this.handleClick.bind(this)}
+					onClick={this.handleClick}
 				></span>
 			</div>
 		);

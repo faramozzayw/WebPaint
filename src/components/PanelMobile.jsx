@@ -11,7 +11,6 @@ import Pen from './Panel/Pen';
 import Eraser from './Panel/Eraser';
 import UploadButton from './Panel/UploadButton'
 import FloodFill from './Panel/FloodFill';
-//import Selection from './Panel/Selection';
 //import Storage from './Panel/Storage';
 //import SaveToStorage from'./Panel/Storage/SaveToStorage';
 import InfoBoxModal from './Panel/InfoBoxModal';
@@ -80,4 +79,4 @@ PanelMobile.propTypes = {
 	modalStorage: PropTypes.bool.isRequired
 }
 
-export default connect(mapStateToProps)(PanelMobile);
+export default connect(mapStateToProps, null)(PanelMobile);

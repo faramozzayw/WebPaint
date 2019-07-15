@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import StorageModal from './Storage/StorageModal';
 
 const ShowStorage = ({ isOpen, enableModal }) => {
-	const clickHandle = () => {
+	const enableHandle = () => {
 		document.querySelector('.cursor').style.display = 'none';
 		enableModal();
 	}
@@ -18,7 +18,7 @@ const ShowStorage = ({ isOpen, enableModal }) => {
 			<span
 				uk-tooltip="Открыть хранилище"
 				className="uk-icon uk-icon-button storage icon"
-				onClick={() => clickHandle()}
+				onClick={() =>enableHandle()}
 			></span>
 			<Modal
 				isOpen={isOpen}

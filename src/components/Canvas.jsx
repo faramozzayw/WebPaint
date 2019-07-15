@@ -90,32 +90,34 @@ class Canvas extends Component {
 			color 
 		} = this.props;
 
+		let { style } = cursor;
+
 		if (penType !== none) {
-			cursor.style.display = 'block';
-			cursor.style.width = `${thickness + 5}px`;
-			cursor.style.height = `${thickness + 5}px`;
+			style.display = 'block';
+			style.width = `${thickness + 5}px`;
+			style.height = `${thickness + 5}px`;
 	
-			cursor.style.top = `${e.pageY - Number.parseInt(cursor.style.height)/2}px`;
-			cursor.style.left = `${e.pageX - Number.parseInt(cursor.style.width)/2}px`;
+			style.top = `${e.pageY - Number.parseInt(style.height)/2}px`;
+			style.left = `${e.pageX - Number.parseInt(style.width)/2}px`;
 	
 			if (penType === pencil) 
-				cursor.style.backgroundColor  = `${color}`;
+				style.backgroundColor  = `${color}`;
 
 			else if(penType === paintBucket) {
-				cursor.style.backgroundColor  = `${color}`;
-				cursor.style.width = `16px`;
-				cursor.style.height = `16px`;
+				style.backgroundColor  = `${color}`;
+				style.width = `16px`;
+				style.height = `16px`;
 
 			} else if (penType === pipette) {
-				cursor.style.backgroundColor  = `${color}`;
-				cursor.style.width = `8px`;
-				cursor.style.height = `8px`;
+				style.backgroundColor  = `${color}`;
+				style.width = `8px`;
+				style.height = `8px`;
 
 			} else if (penType === eraser) 
-				cursor.style.backgroundColor = '#ffffff';
+				style.backgroundColor = '#ffffff';
 
 		} else 
-			cursor.style.display = 'none';
+			style.display = 'none';
 	};
 
 	pickColor = e => {
@@ -220,7 +222,7 @@ class Canvas extends Component {
 			else if (penType === eraser)
 				ctx.strokeStyle = '#ffffff';
 
-			let x = e.touches[0].clientX;
+			let x = Math.floor(e.touches[0].clientX);
 			let y = Math.floor(e.touches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
 			if(y >= 0) {
 				ctx.moveTo(lastX, lastY);
@@ -237,7 +239,7 @@ class Canvas extends Component {
 
 	touchStartEventLister = e => {
 		let { penType } = this.props;
-		let	x = e.changedTouches[0].clientX;
+		let	x = Math.floor(e.changedTouches[0].clientX);
 		let	y = Math.floor(e.changedTouches[0].clientY) - document.querySelector('.panel-mobile').clientHeight;
 
 		if(penType === pencil || penType === eraser) {
@@ -396,11 +398,11 @@ class Canvas extends Component {
 					ref={this.canvas} 
 					className="uk-width-1-1"
 
-					onMouseMove={this.onMouseMoveEvent.bind(this)}
-					onMouseDown={this.onMouseDownEvent.bind(this)}
-					onMouseUp={this.onMouseUpEvent.bind(this)}
-					onMouseOut={this.onMouseOutEvent.bind(this)}
-					onClick={this.onClickHandle.bind(this)}
+					onMouseMove={this.onMouseMoveEvent}
+					onMouseDown={this.onMouseDownEvent}
+					onMouseUp={this.onMouseUpEvent}
+					onMouseOut={this.onMouseOutEvent}
+					onClick={this.onClickHandle}
 
 				></canvas>) 
 				: (<canvas
@@ -447,10 +449,18 @@ const mapDispatchToProps = dispatch => {
 Canvas.propTypes = {
 	color: PropTypes.string.isRequired,
 	thickness: PropTypes.number.isRequired,
-	setContext: PropTypes.func.isRequired,
 	ctx: PropTypes.object.isRequired,
-	changeColor: PropTypes.func.isRequired,
-	isSelecting: PropTypes.bool.isRequired
+	penType: PropTypes.string.isRequired,
+	isSelecting: PropTypes.bool.isRequired,
+	resetCanvas: PropTypes.bool.isRequired,
+	selectedObject: PropTypes.object.isRequired,
+	setContext: PropTypes.func.isRequired,
+	changeIsSelecting: PropTypes.func.isRequired,
+	updateSelectedObject: PropTypes.func.isRequired,
+	resetCanvasActions: PropTypes.func.isRequired,
+	resetSelectedObject: PropTypes.func.isRequired,
+	changePenType: PropTypes.func.isRequired,
+	changeColor: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Canvas);

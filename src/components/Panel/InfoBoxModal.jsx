@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import InfoBox from './../InfoBox';
 
 const InfoBoxModal = ({ isOpen, enableInfoModal }) => {
-	const clickHandle = () => {
+	const enableHandle = () => {
 		document.querySelector('.cursor').style.display = 'none';
 		enableInfoModal();
 	}
@@ -18,7 +18,7 @@ const InfoBoxModal = ({ isOpen, enableInfoModal }) => {
 			<span
 				uk-tooltip="Помощь"
 				className="uk-icon uk-icon-button info icon"
-				onClick={() => clickHandle()}
+				onClick={() => enableHandle()}
 			></span>
 			<Modal
 				isOpen={isOpen}

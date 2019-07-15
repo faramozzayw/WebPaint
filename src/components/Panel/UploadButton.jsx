@@ -6,52 +6,50 @@ import UIkit from 'uikit';
 class UploadButton extends Component {
 	async uploadImgAsCanvas(e) {
 		e.persist()
-		if(!window.File || !window.FileReader || !window.FileList || !window.Blob){
-			alert("Ваш браузер не поддерживает эту функцию :(");
-			return;
-		}
+		if(window.File || window.FileReader || window.FileList || window.Blob){
+			if (window.confirm("При загрузке фото холст будет очищен, вы уверены?")) {
+				let { ctx } = this.props;
+				ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+				ctx.fillStyle = '#ffffff';
+				await ctx.fill();
 
-		if (window.confirm("При загрузке фото холст будет очищен, вы уверены?")) {
-			let { ctx } = this.props;
-			ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
-			ctx.fillStyle = '#ffffff';
-			await ctx.fill();
-
-			let [file, reader] = [e.target.files[0], new FileReader()];
+				let [file, reader] = [e.target.files[0], new FileReader()];
 			
-			reader.onload = e => {
-				let [dataUri, image] = [e.target.result, new Image()];
+				reader.onload = event => {
+					let [dataUri, image] = [event.target.result, new Image()];
 
-				image.onload = () => {
-					if (image.height <= window.innerHeight && image.width <= window.innerWidth) 
-						ctx.drawImage(image, 0, 0);
+					image.onload = () => {
+						if (image.height <= window.innerHeight && image.width <= window.innerWidth) 
+							ctx.drawImage(image, 0, 0);
 
-					else if (image.height > window.innerHeight) 
-						ctx.drawImage(image, 0, 0, image.width, window.innerHeight);
+						else if (image.height > window.innerHeight) 
+							ctx.drawImage(image, 0, 0, image.width, window.innerHeight);
 
-					else if (image.width > window.innerWidth) 
-						ctx.drawImage(image, 0, 0, window.innerWidth, image.height);
+						else if (image.width > window.innerWidth) 
+							ctx.drawImage(image, 0, 0, window.innerWidth, image.height);
+					}
+
+					image.src = dataUri;
+					UIkit.notification({
+						message: `Файл был удачно загружен`,
+						pos: 'bottom-right',
+						timeout: 2000
+					});
 				}
 
-				image.src = dataUri;
-				UIkit.notification({
-					message: `Файл был удачно загружен`,
-					pos: 'bottom-right',
-					timeout: 2000
-				});
-			}
+				reader.onerror = err => {
+					console.log(`Error loading file. Code: ${err.target.error.code}`);
+					UIkit.notification({
+						message: `При загрузке файла произошла ошибка, попробуйте снова.`,
+						pos: 'bottom-right',
+						timeout: 2000
+					});
+				}
 
-			reader.onerror = e => {
-				console.log(`Error loading file. Code: ${e.target.error.code}`);
-				UIkit.notification({
-					message: `При загрузке файла произошла ошибка, попробуйте снова.`,
-					pos: 'bottom-right',
-					timeout: 2000
-				});
+				reader.readAsDataURL(file);
 			}
-
-			reader.readAsDataURL(file);
-		}
+		} else
+			alert("Ваш браузер не поддерживает эту функцию :(");
 	};
 
 	render() {
@@ -83,4 +81,4 @@ UploadButton.propTypes = {
 	ctx: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps)(UploadButton);
+export default connect(mapStateToProps, null)(UploadButton);
