@@ -18,8 +18,8 @@ class SaveToStorage extends Component {
 			imgSize = `Size: ${ctx.canvas.width} x ${ctx.canvas.height}`;
 			saveImg = ctx.canvas.toDataURL('image/png');
 		} else {
-			let { selectedObject } = this.props;
-			await this.props.resetCanvasActions(true);
+			let { selectedObject, resetCanvasActions } = this.props;
+			await resetCanvasActions(true);
 			let canvas = document.createElement('canvas');
 			let context = canvas.getContext('2d');
 
@@ -52,8 +52,7 @@ class SaveToStorage extends Component {
 				timeout: 2500
 			});
 		} catch(e) {
-			console.log("Storage failed: ");
-			console.log(e);
+			console.log("Storage failed:", e);
 		}
 	}
 
@@ -81,7 +80,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return bindActionCreators({
 		resetCanvasActions: resetCanvasActions,
-		//resetSelectedObject: resetSelectedObject
 	}, dispatch);
 }
 

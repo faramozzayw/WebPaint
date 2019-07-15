@@ -16,7 +16,7 @@ import {
 	sortByDateNewOld, 
 	sortByDateOldNew,
 	getStorageElemsMap
-} from './../../../modules/Tools';
+} from './../../../modules/StorageTools';
 
 class StorageModal extends Component {
 	state = {

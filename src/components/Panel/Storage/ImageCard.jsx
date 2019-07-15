@@ -7,7 +7,7 @@ import {
 	disableModal 
 }  from './../../../store/actions/modalStorageActions';
 
-import { parseKey } from './../../../modules/Tools';
+import { parseKey } from './../../../modules/StorageTools';
 
 class ImageCard extends PureComponent {
 	state = {

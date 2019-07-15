@@ -7,8 +7,6 @@ import { enableModal }  from './../../store/actions/modalStorageActions';
 import Modal from 'react-modal';
 import StorageModal from './Storage/StorageModal';
 
-Modal.setAppElement("#root");
-
 const ShowStorage = ({ isOpen, enableModal }) => {
 	const clickHandle = () => {
 		document.querySelector('.cursor').style.display = 'none';
@@ -24,6 +22,7 @@ const ShowStorage = ({ isOpen, enableModal }) => {
 			></span>
 			<Modal
 				isOpen={isOpen}
+				ariaHideApp={false}
 				contentLabel="Show storage Modal"
 			>
 				<StorageModal />

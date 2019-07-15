@@ -7,8 +7,6 @@ import { enableInfoModal }  from './../../store/actions/infoModalActions';
 import Modal from 'react-modal';
 import InfoBox from './../InfoBox';
 
-Modal.setAppElement("#root");
-
 const InfoBoxModal = ({ isOpen, enableInfoModal }) => {
 	const clickHandle = () => {
 		document.querySelector('.cursor').style.display = 'none';
@@ -24,6 +22,7 @@ const InfoBoxModal = ({ isOpen, enableInfoModal }) => {
 			></span>
 			<Modal
 				isOpen={isOpen}
+				ariaHideApp={false}
 				contentLabel="Storage Modal"
 			>
 				<InfoBox />

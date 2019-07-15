@@ -23,11 +23,14 @@ import {
 import { changeColor } from './../store/actions/penActions';
 
 import { 
-	hexToRGB,
-	rgbaToHex,
 	floodFillImageData,
 	chkObjForNonEmptiness,
 } from './../modules/Tools';
+
+import { 
+	hexToRGB,
+	rgbaToHex
+} from './../modules/ColorTools';
 
 import Vector2 from './../modules/Vector2';
 
