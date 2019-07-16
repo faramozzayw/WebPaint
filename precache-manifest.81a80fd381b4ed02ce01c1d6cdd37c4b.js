@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "583a3ad49e3910afefea9c277ba92e46",
-    "url": "/WebPaint/static/media/close.583a3ad4.svg"
+    "revision": "31fb67d3704d5abbaa65eeb20041a4d3",
+    "url": "/WebPaint/static/media/cloud-upload.31fb67d3.svg"
   },
   {
     "revision": "ddb4e449fd890182c952",
@@ -16,10 +16,6 @@ self.__precacheManifest = [
     "url": "/WebPaint/static/js/2.7baaf38e.chunk.js"
   },
   {
-    "revision": "42275990f613fefca317b734cf8d5842",
-    "url": "/WebPaint/static/media/trash.42275990.svg"
-  },
-  {
     "revision": "4bf9902f02cb49f2d32862264a54ff3d",
     "url": "/WebPaint/static/media/pencil.4bf9902f.svg"
   },
@@ -28,8 +24,8 @@ self.__precacheManifest = [
     "url": "/WebPaint/static/media/upload.b64b9dd6.svg"
   },
   {
-    "revision": "31fb67d3704d5abbaa65eeb20041a4d3",
-    "url": "/WebPaint/static/media/cloud-upload.31fb67d3.svg"
+    "revision": "42275990f613fefca317b734cf8d5842",
+    "url": "/WebPaint/static/media/trash.42275990.svg"
   },
   {
     "revision": "64b8acb730aaf21124cf8128a27c732d",
@@ -40,12 +36,28 @@ self.__precacheManifest = [
     "url": "/WebPaint/static/media/download.99cf5f29.svg"
   },
   {
+    "revision": "9a119c347a52b6831b389c2f1c8d8d40",
+    "url": "/WebPaint/static/media/database.9a119c34.svg"
+  },
+  {
     "revision": "ddb4e449fd890182c952",
     "url": "/WebPaint/static/js/main.a7a82d74.chunk.js"
   },
   {
+    "revision": "583a3ad49e3910afefea9c277ba92e46",
+    "url": "/WebPaint/static/media/close.583a3ad4.svg"
+  },
+  {
     "revision": "bb1934712778031b2dcc62e5e6f0c835",
     "url": "/WebPaint/static/media/check.bb193471.svg"
+  },
+  {
+    "revision": "12edc81d4eb2a3974e81d2c8a6a25846",
+    "url": "/WebPaint/static/media/forward.12edc81d.svg"
+  },
+  {
+    "revision": "569df7fa71a04237c8c14a96f5e30e84",
+    "url": "/WebPaint/static/media/reply.569df7fa.svg"
   },
   {
     "revision": "b44836c048384e934e9616f39ef5b7a2",
@@ -56,24 +68,12 @@ self.__precacheManifest = [
     "url": "/WebPaint/static/media/selection.33b8977b.png"
   },
   {
-    "revision": "569df7fa71a04237c8c14a96f5e30e84",
-    "url": "/WebPaint/static/media/reply.569df7fa.svg"
-  },
-  {
-    "revision": "12edc81d4eb2a3974e81d2c8a6a25846",
-    "url": "/WebPaint/static/media/forward.12edc81d.svg"
-  },
-  {
-    "revision": "9a119c347a52b6831b389c2f1c8d8d40",
-    "url": "/WebPaint/static/media/database.9a119c34.svg"
+    "revision": "18863c6d327044a4ed1b52fbc83bd432",
+    "url": "/WebPaint/static/media/pipette.18863c6d.png"
   },
   {
     "revision": "831227480636fa9a0f18fe51c1aae206",
     "url": "/WebPaint/static/media/eraser.83122748.png"
-  },
-  {
-    "revision": "18863c6d327044a4ed1b52fbc83bd432",
-    "url": "/WebPaint/static/media/pipette.18863c6d.png"
   },
   {
     "revision": "707edc5724862a27db4923d065aea945",
