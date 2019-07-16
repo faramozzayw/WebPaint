@@ -11,48 +11,21 @@ body {
 	text-rendering: optimizeLegibility;
 }
 
+#draw {
+	z-index: 1;
+}
+
+#pseudoCanvas {
+	z-index: 3;
+	position: fixed;
+}
+
 .App {
 	text-align: center;
 }
 
 input[type=color] {
 	border: none;
-}
-
-@media screen and (max-width: 800px) {
-	input[type=color]{
-		margin-top: 5%;
-		margin-left: auto;
-		margin-right: auto;
-	}
-
-	.thickness > select {
-		margin-top: 5%;
-	}
-
-	#info-box > ul {
-		margin: 0;
-		padding: 0;
-	}
-
-	.info-li {
-		display: flex;
-		flex-wrap: wrap;
-		flex-flow: column;
-		justify-content: center;
-		margin-bottom: 3vh !important;
-		padding-bottom: 5px;
-		border-bottom: 1px solid #666;
-	}
-
-	.info-li > .icon {
-		margin: auto !important;
-	}
-
-	.info-li > .info-text {
-		margin: 0;
-		text-align: center;
-	}
 }
 
 .cursor {
@@ -153,15 +126,6 @@ canvas {
 	border: 1px solid #c2c7ce;
 }
 
-#draw {
-	z-index: 1;
-}
-
-#pseudoCanvas {
-	z-index: 3;
-	position: fixed;
-}
-
 .active::after {
 	content: "\21d1"
 }
@@ -181,4 +145,57 @@ canvas {
 
 .uk-nav-default {
 	font-size: 1.25rem;
+}
+
+@media screen and (max-width: 800px) {
+	input[type=color]{
+		margin-top: 5%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.thickness > select {
+		margin-top: 5%;
+	}
+
+	#info-box > ul {
+		margin: 0;
+		padding: 0;
+	}
+
+	.info-li {
+		display: flex;
+		flex-wrap: wrap;
+		flex-flow: column;
+		justify-content: center;
+		margin-bottom: 3vh !important;
+		padding-bottom: 5px;
+		border-bottom: 1px solid #666;
+	}
+
+	.info-li > .icon {
+		margin: auto !important;
+	}
+
+	.info-li > .info-text {
+		margin: 0;
+		text-align: center;
+	}
+
+	.image-button-group {
+		display: flex;
+		flex-flow: column;
+	}
+
+	.image-button-group .uk-button {
+		margin: 0 !important;
+	}
+
+	.ReactModal__Content.ReactModal__Content--after-open {
+		top: 0px !important;
+		left: 0px !important;
+		right: 0px !important;
+		bottom: 0px !important;
+		border-radius: 0 !important;
+	}
 }

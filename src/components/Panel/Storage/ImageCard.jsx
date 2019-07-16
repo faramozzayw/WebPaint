@@ -19,8 +19,9 @@ class ImageCard extends PureComponent {
 	image = React.createRef()
 
 	onCanvas = () => {
-		this.props.ctx.drawImage(this.image.current, 0, 0);
-		this.props.disableModal();
+		let { ctx, disableModal } = this.props;
+		ctx.drawImage(this.image.current, 0, 0);
+		disableModal();
 	}
 
 	finishEditName = e => {
@@ -39,12 +40,13 @@ class ImageCard extends PureComponent {
 	}
 
 	deleteImg = e => {
-		localStorage.removeItem(this.props.stringKey);
-		this.props.reRenderModal();
+		let { stringKey, reRenderModal } = this.props;
+		localStorage.removeItem(stringKey);
+		reRenderModal();
 	}
 
 	headerClick = e => {
-		this.setState((prevState, props) => {
+		this.setState(prevState => {
 			return {
 				showEditForm: !prevState.showEditForm 
 			}
@@ -98,13 +100,13 @@ class ImageCard extends PureComponent {
 						<span>Размеры: {info.size}</span>
 					</div>
 				</div>
-				<div className="uk-button-group uk-width-1-1">
+				<div className="uk-button-group image-button-group uk-width-1-1 uk-child-width-1-2@m uk-child-width-1-1">
 					<button 
-						className="uk-button uk-button-primary uk-width-1-2"
+						className="uk-button uk-button-primary"
 						onClick={this.onCanvas}
 					>На холст</button>
 					<button 
-						className="uk-button uk-button-danger uk-width-1-2"
+						className="uk-button uk-button-danger"
 						onClick={this.deleteImg}
 					>Удалить</button>
 				</div>

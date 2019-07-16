@@ -24,20 +24,22 @@ class StorageModal extends Component {
 	}
 
 	clearHandle = () => {
-		if (localStorage.length !== 0) {
-			localStorage.clear();
-			UIkit.notification({
-				message: 'Хранилище было очищено.',
-				pos: 'bottom-right',
-				timeout: 2500
-			});
-			this.forceUpdate();
-		} else 
-			UIkit.notification({
-				message: 'Хранилище пустое!',
-				pos: 'bottom-right',
-				timeout: 2500
-			});
+		if(window.confirm('Вы уверены, что хотите удалить ВСЕ изображения?')) {
+			if (localStorage.length !== 0) {
+				localStorage.clear();
+				UIkit.notification({
+					message: 'Хранилище было очищено.',
+					pos: 'bottom-right',
+					timeout: 2500
+				});
+				this.forceUpdate();
+			} else 
+				UIkit.notification({
+					message: 'Хранилище пустое!',
+					pos: 'bottom-right',
+					timeout: 2500
+				});
+		}
 	}
 
 	handleChange = event => this.setState({ sortBy: event.target.value })
