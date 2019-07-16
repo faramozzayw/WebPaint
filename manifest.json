@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "lang": "ru",
+  "short_name": "WebPaint",
+  "name": "WebPaint",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,7 +9,7 @@
       "type": "image/x-icon"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
